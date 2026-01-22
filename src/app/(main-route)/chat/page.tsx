@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { io, Socket } from 'socket.io-client';
 import { MessageCircle, UploadCloud } from 'lucide-react';
@@ -198,7 +198,7 @@ async function ensureSocket(): Promise<Socket | null> {
   return socketInstance;
 }
 
-export default function ChatPage() {
+function ChatContent() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [myId, setMyId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -707,5 +707,17 @@ export default function ChatPage() {
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex h-full min-h-[70vh] items-center justify-center text-muted-foreground">
+        Loading chat...
+      </div>
+    }>
+      <ChatContent />
+    </Suspense>
   );
 }
