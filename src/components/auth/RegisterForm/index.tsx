@@ -89,6 +89,7 @@ const registerSchema = z
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const RegisterForm = () => {
+  const [isPending, setIsPending] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [tradeLicencePreview, setTradeLicencePreview] = useState<string | null>(
     null
@@ -137,6 +138,7 @@ const RegisterForm = () => {
         : { ...basePayload, role: 'BUYER' };
 
     try {
+      setIsPending(true);
       const formData = new FormData();
 
       // Object.entries(payload).forEach(([key, value]) => {
@@ -161,6 +163,7 @@ const RegisterForm = () => {
         SuccessToast(
           res?.message || 'Registration successful. Please verify your email.'
         );
+        setIsPending(false);
         router.push(
           '/auth/verify-otp?email=' +
             encodeURIComponent(data.email) +
@@ -650,7 +653,7 @@ const RegisterForm = () => {
                   </TabsContent>
                 </Tabs>
 
-                <Button type="submit" className="w-full">
+                <Button loading={isPending} type="submit" className="w-full">
                   {role === 'VENDOR'
                     ? 'Create vendor account'
                     : 'Create buyer account'}
