@@ -6,7 +6,7 @@ export function proxy(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value
 
   // Define protected routes
-  const protectedRoutes = ['/profile', '/chat', '/ads/create', '/success']
+  const protectedRoutes = ['/profile', '/chat', '/ads/create', '/success', '/lottery']
   // Define auth routes
   const authRoutes = ['/auth']
 
