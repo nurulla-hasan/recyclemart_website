@@ -25,10 +25,12 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser } from '@/context/UserContext';
+import { useUserRole } from '@/hooks/useUserRole';
 import { Category } from '@/types/category.type';
 
 const NavMiddle = ({ categories }: { categories: Category[] }) => {
   const { user } = useUser();
+  const { isBuyer } = useUserRole();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   return (
@@ -56,7 +58,7 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
                 <span>Categories</span>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-[800px] border-white/20 bg-primary/95 dark:bg-teal-950 p-6 text-white rounded-3xl backdrop-blur-md z-50">
+            <PopoverContent align="start" className="w-200 border-white/20 bg-primary/95 dark:bg-teal-950 p-6 text-white rounded-3xl backdrop-blur-md z-50">
               <ScrollArea className="h-fit max-h-[70vh]">
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((category) => (
@@ -111,15 +113,17 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
             </Button>
           </Link>
 
-          <Link href={user ? '/ads/create' : '/auth/login'}>
-            <Button
-              size="sm"
-              className="flex items-center gap-2 rounded-full bg-linear-to-r from-pink-400 to-orange-500 px-6 py-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-lg shadow-orange-500/20"
-            >
-              <PlusCircle className="h-4 w-4" />
-              Post Free Ad
-            </Button>
-          </Link>
+          {!isBuyer && (
+            <Link href={user ? '/ads/create' : '/auth/login'}>
+              <Button
+                size="sm"
+                className="flex items-center gap-2 rounded-full bg-linear-to-r from-pink-400 to-orange-500 px-6 py-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-lg shadow-orange-500/20"
+              >
+                <PlusCircle className="h-4 w-4" />
+                Post Free Ad
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* Mobile & Tablet View */}
@@ -233,14 +237,16 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
                     </div>
                   </div>
                 </div>
-                <div className="px-6 py-6 pb-10">
-                  <Link href={user ? '/ads/create' : '/auth/login'}>
-                    <Button className="w-full gap-2 rounded-xl bg-linear-to-r from-pink-400 to-orange-500 text-base font-semibold text-white shadow-lg hover:from-pink-300 hover:to-orange-400 py-6">
-                      <PlusCircle className="h-5 w-5" />
-                      Post Free Ad
-                    </Button>
-                  </Link>
-                </div>
+                {!isBuyer && (
+                  <div className="px-6 py-6 pb-10">
+                    <Link href={user ? '/ads/create' : '/auth/login'}>
+                      <Button className="w-full gap-2 rounded-xl bg-linear-to-r from-pink-400 to-orange-500 text-base font-semibold text-white shadow-lg hover:from-pink-300 hover:to-orange-400 py-6">
+                        <PlusCircle className="h-5 w-5" />
+                        Post Free Ad
+                      </Button>
+                    </Link>
+                  </div>
+                )}
               </ScrollArea>
             </SheetContent>
           </Sheet>

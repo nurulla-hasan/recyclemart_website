@@ -71,7 +71,7 @@ const Hero = () => {
 
   return (
     <section className="relative">
-      <div className="h-[500px] lg:h-[calc(100vh-131px)]">
+      <div className="h-125 lg:h-[calc(100vh-131px)]">
         {/* Main Carousel */}
         <div className="relative overflow-hidden">
           <Carousel
@@ -85,13 +85,14 @@ const Hero = () => {
             <CarouselContent className="ml-0">
               {heroSlides.map((slide) => (
                 <CarouselItem key={slide.id} className="pl-0 h-full relative group">
-                  <Link href={slide.href} className="block h-[500px] lg:h-[calc(100vh-131px)] w-full relative">
+                  <Link href={slide.href} className="block h-125 lg:h-[calc(100vh-131px)] w-full relative">
                     <Image
                       src={slide.imageSrc}
-                      alt={slide.href}
+                      alt={`Hero slide ${slide.id}`}
                       fill
                       className="object-cover"
                       priority={slide.id === 1}
+                      unoptimized
                     />
                   </Link>
                 </CarouselItem>

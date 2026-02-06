@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { useUserRole } from "@/hooks/useUserRole";
 import {
   Sheet,
   SheetContent,
@@ -93,6 +94,7 @@ function SidebarContent({
   LinkWrapper,
 }: SidebarContentProps) {
   const pathname = usePathname();
+  const { isBuyer } = useUserRole();
 
   const isActive = (href: string) => {
     if (href === "/profile") {
@@ -135,9 +137,11 @@ function SidebarContent({
         </div>
       </div>
 
-      <Button variant="default" className="w-full rounded-full">
-        <Link href="/ads/create">Post an ad</Link>
-      </Button>
+      {!isBuyer && (
+        <Button variant="default" className="w-full rounded-full">
+          <Link href="/ads/create">Post an ad</Link>
+        </Button>
+      )}
 
       <Separator className="bg-border/70" />
 
@@ -149,6 +153,11 @@ function SidebarContent({
             </p>
             <div className="space-y-1.5">
               {section.items.map(({ label, icon: Icon, href, badge }) => {
+                // Hide "My Ads" and "My Subscription" for BUYER role
+                if (isBuyer && (href === "/profile/my-ads" || href === "/profile/subscription")) {
+                  return null;
+                }
+
                 const active = isActive(href);
 
                 const LinkComponent = (
