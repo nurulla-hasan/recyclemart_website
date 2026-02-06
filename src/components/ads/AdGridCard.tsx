@@ -8,7 +8,8 @@ import { Ad } from '@/types/ad.type';
 import { cn, timeAgo } from '@/lib/utils';
 import { useState } from 'react';
 import { addFavorite, removeFavorite } from '@/services/favorite';
-import { SuccessToast, ErrorToast } from '@/lib/utils';
+import { SuccessToast, ErrorToast, WarningToast } from '@/lib/utils';
+import { useUser } from '@/context/UserContext';
 
 interface AdGridCardProps {
   ad: Ad;
@@ -16,12 +17,18 @@ interface AdGridCardProps {
 }
 
 export const AdGridCard = ({ ad, isFavoriteInitial = false }: AdGridCardProps) => {
+  const { user } = useUser();
   const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
   const [loading, setLoading] = useState(false);
 
   const handleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!user) {
+      WarningToast("Please login to add to favorites");
+      return;
+    }
     
     if (loading) return;
     setLoading(true);

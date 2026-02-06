@@ -8,7 +8,8 @@ import { Ad } from '@/types/ad.type';
 import { cn, timeAgo } from '@/lib/utils';
 import { useState } from 'react';
 import { addFavorite, removeFavorite } from '@/services/favorite';
-import { SuccessToast, ErrorToast } from '@/lib/utils';
+import { SuccessToast, ErrorToast, WarningToast } from '@/lib/utils';
+import { useUser } from '@/context/UserContext';
 
 interface AdListCardProps {
   ad: Ad;
@@ -16,6 +17,7 @@ interface AdListCardProps {
 }
 
 export const AdListCard = ({ ad, isFavoriteInitial = false }: AdListCardProps) => { 
+  const { user } = useUser();
   const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
   const [loading, setLoading] = useState(false);
 
@@ -23,6 +25,11 @@ export const AdListCard = ({ ad, isFavoriteInitial = false }: AdListCardProps) =
     e.preventDefault();
     e.stopPropagation(); // Prevent Link navigation
     
+    if (!user) {
+      WarningToast("Please login to add to favorites");
+      return;
+    }
+
     if (loading) return;
     setLoading(true);
 

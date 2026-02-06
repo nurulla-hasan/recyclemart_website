@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { Heart, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ErrorToast, SuccessToast } from "@/lib/utils";
+import { ErrorToast, SuccessToast, WarningToast } from "@/lib/utils";
 import { addFavorite, removeFavorite } from "@/services/favorite";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/context/UserContext";
 
 interface AdActionsProps {
   adId: string;
@@ -14,10 +15,16 @@ interface AdActionsProps {
 }
 
 export default function AdActions({ adId, title, initialIsFavorite = false }: AdActionsProps) {
+  const { user } = useUser();
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
   const [loading, setLoading] = useState(false);
 
   const handleFavorite = async () => {
+    if (!user) {
+      WarningToast("Please login to add to favorites");
+      return;
+    }
+
     if (loading) return;
     setLoading(true);
 
