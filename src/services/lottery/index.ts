@@ -2,6 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getValidAccessTokenForServerActions } from "@/lib/getValidAccessToken";
+import { updateTag } from "next/cache";
 
 /**
  * 1. List Lotteries
@@ -102,8 +103,11 @@ export const verifyLotteryPayment = async (tran_id: string): Promise<any> => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     const result = await res.json();
+    if (result.success) {
+      updateTag("lottery-summary");
+      updateTag("lottery-tokens");
+    };
     return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to verify lottery payment" };
@@ -122,7 +126,7 @@ export const fetchMyLotteryTokens = async (lotteryId: string): Promise<any> => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      next: { tags: [`lottery-tokens-${lotteryId}`] },
+      next: { tags: ["lottery-tokens", `lottery-tokens-${lotteryId}`] },
     });
 
     const result = await res.json();
