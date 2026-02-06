@@ -194,11 +194,11 @@ export default function LotteryPage() {
       {/* Lotteries Section */}
       <section className="container mx-auto mt-16 px-4">
         <Tabs defaultValue="ACTIVE" className="w-full">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold tracking-tight">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
               Featured Lotteries
             </h2>
-            <TabsList>
+            <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:flex">
               <TabsTrigger value="ACTIVE">Active Draws</TabsTrigger>
               <TabsTrigger value="COMPLETED">Past Winners</TabsTrigger>
             </TabsList>

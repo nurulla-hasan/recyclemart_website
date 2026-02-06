@@ -283,7 +283,8 @@ export default function ProfileSidebar({
   }
 
   return (
-    <aside
+   <div>
+     <aside
       className={cn(
         "hidden rounded-xl border bg-card/95 p-5 shadow-sm lg:flex flex-col gap-4 sticky top-24",
         className
@@ -291,5 +292,6 @@ export default function ProfileSidebar({
     >
       <SidebarContent user={user} onNavigate={onNavigate} />
     </aside>
+   </div>
   );
 }
