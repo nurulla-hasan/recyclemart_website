@@ -11,8 +11,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Dialog,
@@ -24,9 +22,10 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Trophy, Users, Ticket, Gift, Timer, CheckCircle2 } from 'lucide-react';
-import { fetchLotteries } from '@/services/lottery';
+import { Trophy, Users, Ticket, Gift, Timer, CheckCircle2, Loader2, Plus, Minus } from 'lucide-react';
+import { fetchLotteries, joinLottery } from '@/services/lottery';
 import { ILottery } from '@/types';
+import { toast } from 'sonner';
 
 const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
   const [timeLeft, setTimeLeft] = useState({
@@ -79,6 +78,26 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
 export default function LotteryPage() {
   const [lotteries, setLotteries] = useState<ILottery[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isJoining, setIsJoining] = useState<string | null>(null);
+  const [ticketQuantity, setTicketQuantity] = useState<number>(1);
+
+  const handleJoinLottery = async (lotteryId: string) => {
+    try {
+      setIsJoining(lotteryId);
+      const res = await joinLottery(lotteryId, ticketQuantity);
+      
+      if (res?.success && res?.data?.gatewayUrl) {
+        toast.success('Redirecting to payment gateway...');
+        window.location.href = res.data.gatewayUrl;
+      } else {
+        toast.error(res?.message || 'Failed to join lottery. Please try again.');
+      }
+    } catch  {
+      toast.error('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsJoining(null);
+    }
+  };
 
   useEffect(() => {
     const getLotteries = async () => {
@@ -222,21 +241,13 @@ export default function LotteryPage() {
                     <CardContent className="space-y-3">
                       <div className="flex justify-between text-[11px] text-muted-foreground">
                         <span className="flex items-center gap-1">
-                          <Users className="h-3 w-3" /> {lottery.participantsCount}
+                          <Users className="h-3 w-3" /> {lottery.participantsCount} Participants
                         </span>
                         <span className="flex items-center gap-1 font-medium text-primary/80">
                           <Ticket className="h-3 w-3" />{' '}
-                          {Math.max(0, lottery.totalTickets - lottery.participantsCount)} Left
+                          {lottery.totalTickets} Sold
                         </span>
                       </div>
-                      <Progress
-                        value={
-                          lottery.totalTickets > 0 
-                            ? (lottery.participantsCount / lottery.totalTickets) * 100 
-                            : 0
-                        }
-                        className="h-1.5"
-                      />
 
                       <div className="rounded-lg bg-muted/40 p-2">
                         <div className="flex justify-center scale-90 origin-center">
@@ -258,54 +269,71 @@ export default function LotteryPage() {
                           <DialogHeader>
                             <DialogTitle>Join {lottery.title}</DialogTitle>
                             <DialogDescription>
-                              Enter your details to purchase a ticket for ৳
-                              {lottery.ticketPrice}.
+                              Select how many tickets you want to purchase.
                             </DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 py-4">
-                            <div className="grid gap-2">
-                              <Label htmlFor="name">Full Name</Label>
-                              <Input id="name" placeholder="Enter your name" />
+                            <div className="grid gap-3">
+                              <Label htmlFor="quantity" className="text-center text-sm font-medium">Select Ticket Quantity</Label>
+                              <div className="flex items-center justify-center gap-4">
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-10 w-10 rounded-full border-primary/20 hover:bg-primary/10 hover:text-primary"
+                                  onClick={() => setTicketQuantity(Math.max(1, ticketQuantity - 1))}
+                                  disabled={ticketQuantity <= 1}
+                                >
+                                  <Minus className="h-4 w-4" />
+                                </Button>
+                                
+                                <div className="w-12 text-center">
+                                  <span className="text-2xl font-bold">{ticketQuantity}</span>
+                                </div>
+
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-10 w-10 rounded-full border-primary/20 hover:bg-primary/10 hover:text-primary"
+                                  onClick={() => setTicketQuantity(ticketQuantity + 1)}
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </div>
-                            <div className="grid gap-2">
-                              <Label htmlFor="email">Email</Label>
-                              <Input
-                                id="email"
-                                type="email"
-                                placeholder="Enter your email"
-                              />
-                            </div>
-                            <div className="grid gap-2">
-                              <Label htmlFor="phone">Phone Number</Label>
-                              <Input
-                                id="phone"
-                                type="tel"
-                                placeholder="017..."
-                              />
-                            </div>
-                            <div className="rounded-lg border p-3 bg-muted/30">
+                            <div className="rounded-2xl border border-primary/10 p-4 bg-primary/5 space-y-2">
                               <div className="flex justify-between text-sm mb-1">
-                                <span>Ticket Price</span>
+                                <span>Price per Ticket</span>
                                 <span className="font-semibold">
                                   ৳{lottery.ticketPrice}
                                 </span>
                               </div>
                               <div className="flex justify-between text-sm mb-1">
-                                <span>Platform Fee</span>
-                                <span className="font-semibold">৳0</span>
+                                <span>Quantity</span>
+                                <span className="font-semibold">x {ticketQuantity}</span>
                               </div>
                               <div className="border-t my-2"></div>
                               <div className="flex justify-between font-bold">
-                                <span>Total</span>
+                                <span>Total Amount</span>
                                 <span className="text-primary">
-                                  ৳{lottery.ticketPrice}
+                                  ৳{lottery.ticketPrice * ticketQuantity}
                                 </span>
                               </div>
                             </div>
                           </div>
                           <DialogFooter>
-                            <Button type="submit" className="w-full">
-                              Pay & Join
+                            <Button 
+                              onClick={() => handleJoinLottery(lottery._id)} 
+                              className="w-full"
+                              disabled={isJoining === lottery._id}
+                            >
+                              {isJoining === lottery._id ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Processing...
+                                </>
+                              ) : (
+                                'Pay & Join'
+                              )}
                             </Button>
                           </DialogFooter>
                         </DialogContent>

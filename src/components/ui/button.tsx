@@ -66,8 +66,12 @@ function Button({
         }
         : { disabled: isDisabled })}
     >
-      {loading && <Loader className="size-4 animate-spin" aria-hidden="true" />}
-      {children}
+      {asChild ? children : (
+        <>
+          {loading && <Loader className="size-4 animate-spin" aria-hidden="true" />}
+          {children}
+        </>
+      )}
     </Comp>
   );
 }
