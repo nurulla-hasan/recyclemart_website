@@ -5,18 +5,21 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const accessToken = request.cookies.get('accessToken')?.value
 
-  // Define public paths that don't require authentication
-  const isPublicPath = pathname.startsWith('/auth')
+  // Define protected routes
+  const protectedRoutes = ['/profile', '/chat', '/ads/create', '/success']
+  // Define auth routes
+  const authRoutes = ['/auth']
 
-  // If user is authenticated and tries to access auth pages, redirect to dashboard
-  if (isPublicPath && accessToken) {
+  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
+  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route))
+
+  // If user is authenticated and tries to access auth pages, redirect to home
+  if (isAuthRoute && accessToken) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
   // If user is NOT authenticated and tries to access protected pages, redirect to login
-  // We explicitly exclude static files and API routes in the matcher config, 
-  // but it's good practice to be careful here too if matcher changes.
-  if (!isPublicPath && !accessToken) {
+  if (isProtectedRoute && !accessToken) {
     return NextResponse.redirect(new URL('/auth/login', request.url))
   }
 
