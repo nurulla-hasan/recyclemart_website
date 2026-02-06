@@ -25,59 +25,8 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trophy, Users, Ticket, Gift, Timer, CheckCircle2 } from 'lucide-react';
-
-// Mock Data
-const lotteries = [
-  {
-    id: '1',
-    title: 'Weekly Mega Jackpot',
-    drawDate: '2025-12-10T20:00:00',
-    participants: 1250,
-    status: 'active',
-    prize: 'iPhone 15 Pro Max',
-    image:
-      'https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=1000&auto=format&fit=crop',
-    ticketPrice: 20,
-    totalTickets: 5000,
-  },
-  {
-    id: '2',
-    title: 'Dream Bike Bonanza',
-    drawDate: '2025-12-15T18:00:00',
-    participants: 850,
-    status: 'active',
-    prize: 'Yamaha R15 V4',
-    image:
-      'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1000&auto=format&fit=crop',
-    ticketPrice: 50,
-    totalTickets: 2000,
-  },
-  {
-    id: '3',
-    title: 'Tech Bundle Giveaway',
-    drawDate: '2025-12-05T12:00:00',
-    participants: 2800,
-    status: 'active',
-    prize: 'MacBook Air + iPad',
-    image:
-      'https://www.startech.com.bd/image/cache/catalog/laptop/apple/macbook-air-m2-chip/macbook-air-m2-chip-01-500x500.webp',
-    ticketPrice: 30,
-    totalTickets: 3000,
-  },
-  {
-    id: '4',
-    title: 'November Grand Prize',
-    drawDate: '2025-11-30T20:00:00',
-    participants: 5000,
-    status: 'completed',
-    prize: 'Toyota Aqua 2018',
-    winner: 'Karim Ahmed',
-    image:
-      'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=1000&auto=format&fit=crop',
-    ticketPrice: 100,
-    totalTickets: 5000,
-  },
-];
+import { fetchLotteries } from '@/services/lottery';
+import { ILottery } from '@/types';
 
 const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
   const [timeLeft, setTimeLeft] = useState({
@@ -111,14 +60,14 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
   }, [targetDate]);
 
   return (
-    <div className="flex gap-2 text-center">
+    <div className="flex gap-1.5 text-center">
       {Object.entries(timeLeft).map(([unit, value]) => (
         <div
           key={unit}
-          className="flex flex-col rounded-md bg-primary/10 p-2 min-w-[50px]"
+          className="flex flex-col rounded bg-primary/10 px-1.5 py-1 min-w-9.5"
         >
-          <span className="text-lg font-bold text-primary">{value}</span>
-          <span className="text-[10px] uppercase text-muted-foreground">
+          <span className="text-sm font-bold text-primary leading-tight">{value}</span>
+          <span className="text-[8px] uppercase text-muted-foreground leading-none">
             {unit.charAt(0)}
           </span>
         </div>
@@ -128,9 +77,28 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
 };
 
 export default function LotteryPage() {
-  const [selectedLottery, setSelectedLottery] = useState<
-    (typeof lotteries)[0] | null
-  >(null);
+  const [lotteries, setLotteries] = useState<ILottery[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getLotteries = async () => {
+      setIsLoading(true);
+      const res = await fetchLotteries();
+      if (res?.success) {
+        setLotteries(res.data);
+      }
+      setIsLoading(false);
+    };
+    getLotteries();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-muted/20 pb-20">
@@ -169,7 +137,7 @@ export default function LotteryPage() {
       <div className="container mx-auto -mt-10 px-4 relative z-20">
         <div className="grid gap-6 md:grid-cols-3">
           <Card className="border-none shadow-lg">
-            <CardContent className="flex flex-col items-center p-6 text-center">
+            <CardContent className="flex flex-col items-center text-center">
               <div className="mb-4 rounded-full bg-blue-100 p-4 text-blue-600">
                 <Ticket className="h-8 w-8" />
               </div>
@@ -180,7 +148,7 @@ export default function LotteryPage() {
             </CardContent>
           </Card>
           <Card className="border-none shadow-lg">
-            <CardContent className="flex flex-col items-center p-6 text-center">
+            <CardContent className="flex flex-col items-center text-center">
               <div className="mb-4 rounded-full bg-purple-100 p-4 text-purple-600">
                 <Timer className="h-8 w-8" />
               </div>
@@ -191,7 +159,7 @@ export default function LotteryPage() {
             </CardContent>
           </Card>
           <Card className="border-none shadow-lg">
-            <CardContent className="flex flex-col items-center p-6 text-center">
+            <CardContent className="flex flex-col items-center text-center">
               <div className="mb-4 rounded-full bg-green-100 p-4 text-green-600">
                 <Gift className="h-8 w-8" />
               </div>
@@ -206,74 +174,72 @@ export default function LotteryPage() {
 
       {/* Lotteries Section */}
       <section className="container mx-auto mt-16 px-4">
-        <Tabs defaultValue="active" className="w-full">
+        <Tabs defaultValue="ACTIVE" className="w-full">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold tracking-tight">
               Featured Lotteries
             </h2>
             <TabsList>
-              <TabsTrigger value="active">Active Draws</TabsTrigger>
-              <TabsTrigger value="completed">Past Winners</TabsTrigger>
+              <TabsTrigger value="ACTIVE">Active Draws</TabsTrigger>
+              <TabsTrigger value="COMPLETED">Past Winners</TabsTrigger>
             </TabsList>
           </div>
 
-          <TabsContent value="active" className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <TabsContent value="ACTIVE" className="space-y-6">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {lotteries
-                .filter(l => l.status === 'active')
-                .map(lottery => (
+                .filter((l: ILottery) => l.status === 'ACTIVE')
+                .map((lottery: ILottery) => (
                   <Card
-                    key={lottery.id}
-                    className="group overflow-hidden border-border/50 transition-all hover:shadow-xl hover:border-primary/50"
+                    key={lottery._id}
+                    className="pt-0 group overflow-hidden border-border/50 transition-all hover:shadow-lg hover:border-primary/50"
                   >
-                    <div className="relative h-48 w-full overflow-hidden">
+                    <div className="relative h-40 w-full overflow-hidden">
                       <Image
                         src={lottery.image}
                         alt={lottery.prize}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
-                      <div className="absolute top-3 right-3">
-                        <Badge className="bg-primary text-white shadow-lg">
-                          ৳{lottery.ticketPrice} / Ticket
+                      <div className="absolute top-2 right-2">
+                        <Badge className="bg-primary/90 text-[10px] px-2 py-0 h-5 text-white shadow-lg backdrop-blur-sm">
+                          ৳{lottery.ticketPrice}
                         </Badge>
                       </div>
                     </div>
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <div>
-                          <CardTitle className="text-xl">
+                          <CardTitle className="text-base line-clamp-1">
                             {lottery.title}
                           </CardTitle>
-                          <p className="text-sm font-medium text-primary mt-1">
+                          <p className="text-xs font-semibold text-primary mt-0.5 line-clamp-1">
                             Win: {lottery.prize}
                           </p>
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="flex justify-between text-sm text-muted-foreground">
+                    <CardContent className="space-y-3">
+                      <div className="flex justify-between text-[11px] text-muted-foreground">
                         <span className="flex items-center gap-1">
-                          <Users className="h-4 w-4" /> {lottery.participants}{' '}
-                          Joined
+                          <Users className="h-3 w-3" /> {lottery.participantsCount}
                         </span>
-                        <span className="flex items-center gap-1">
-                          <Ticket className="h-4 w-4" />{' '}
-                          {lottery.totalTickets - lottery.participants} Left
+                        <span className="flex items-center gap-1 font-medium text-primary/80">
+                          <Ticket className="h-3 w-3" />{' '}
+                          {Math.max(0, lottery.totalTickets - lottery.participantsCount)} Left
                         </span>
                       </div>
                       <Progress
                         value={
-                          (lottery.participants / lottery.totalTickets) * 100
+                          lottery.totalTickets > 0 
+                            ? (lottery.participantsCount / lottery.totalTickets) * 100 
+                            : 0
                         }
-                        className="h-2"
+                        className="h-1.5"
                       />
 
-                      <div className="rounded-lg bg-muted/50 p-3">
-                        <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground text-center">
-                          Draw Starts In
-                        </p>
-                        <div className="flex justify-center">
+                      <div className="rounded-lg bg-muted/40 p-2">
+                        <div className="flex justify-center scale-90 origin-center">
                           <CountdownTimer targetDate={lottery.drawDate} />
                         </div>
                       </div>
@@ -282,13 +248,13 @@ export default function LotteryPage() {
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button
-                            className="w-full gap-2 text-lg font-semibold py-6 rounded-xl shadow-lg shadow-primary/20"
-                            onClick={() => setSelectedLottery(lottery)}
+                            size="sm"
+                            className="w-full gap-2 text-sm font-bold py-5 rounded-lg shadow-md shadow-primary/10"
                           >
-                            <Ticket className="h-5 w-5" /> Buy Ticket Now
+                            <Ticket className="h-4 w-4" /> Buy Ticket
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                        <DialogContent className="sm:max-w-106.25">
                           <DialogHeader>
                             <DialogTitle>Join {lottery.title}</DialogTitle>
                             <DialogDescription>
@@ -350,13 +316,13 @@ export default function LotteryPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="completed">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <TabsContent value="COMPLETED">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {lotteries
-                .filter(l => l.status === 'completed')
-                .map(lottery => (
-                  <Card key={lottery.id} className="opacity-90">
-                    <div className="relative h-48 w-full overflow-hidden grayscale">
+                .filter((l: ILottery) => l.status === 'COMPLETED')
+                .map((lottery: ILottery) => (
+                  <Card key={lottery._id} className="pt-0 opacity-90 overflow-hidden border-border/50">
+                    <div className="relative h-32 w-full overflow-hidden grayscale">
                       <Image
                         src={lottery.image}
                         alt={lottery.prize}
@@ -366,36 +332,35 @@ export default function LotteryPage() {
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                         <Badge
                           variant="secondary"
-                          className="text-lg px-4 py-1"
+                          className="text-xs px-2 py-0 h-5"
                         >
                           Ended
                         </Badge>
                       </div>
                     </div>
                     <CardHeader>
-                      <CardTitle>{lottery.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">
+                      <CardTitle className="text-base line-clamp-1">{lottery.title}</CardTitle>
+                      <p className="text-xs text-muted-foreground line-clamp-1">
                         Prize: {lottery.prize}
                       </p>
                     </CardHeader>
                     <CardContent>
-                      <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/20 p-4 flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
-                          <Trophy className="h-5 w-5" />
+                      <div className="rounded-lg bg-yellow-500/5 border border-yellow-500/10 p-2.5 flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 shrink-0">
+                          <Trophy className="h-4 w-4" />
                         </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground uppercase font-semibold">
-                            Winner
+                        <div className="min-w-0">
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold leading-none mb-1">
+                            Winner Token
                           </p>
-                          <p className="font-bold text-foreground">
-                            {lottery.winner}
+                          <p className="font-bold text-sm text-foreground truncate">
+                            {lottery.winnerToken || 'N/A'}
                           </p>
                         </div>
                       </div>
-                      <div className="mt-4 flex items-center gap-2 text-sm text-green-600">
-                        <CheckCircle2 className="h-4 w-4" />
+                      <div className="mt-3 flex items-center gap-1.5 text-[10px] text-green-600 font-medium">
+                        <CheckCircle2 className="h-3 w-3" />
                         <span>
-                          Draw completed on{' '}
                           {new Date(lottery.drawDate).toLocaleDateString()}
                         </span>
                       </div>
