@@ -13,6 +13,10 @@ import {
   Globe,
   PlusCircle,
   Heart,
+  Mail,
+  ShieldCheck,
+  HelpCircle,
+  Info,
 } from 'lucide-react';
 
 import {
@@ -89,6 +93,38 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
           >
             <ListTree className="h-4 w-4 text-white/80" />
             <span>Browse listings</span>
+          </Link>
+
+          <Link
+            href="/about"
+            className="group flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/20"
+          >
+            <Info className="h-4 w-4 text-white/80" />
+            <span>About</span>
+          </Link>
+
+          <Link
+            href="/safety"
+            className="group flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/20"
+          >
+            <ShieldCheck className="h-4 w-4 text-white/80" />
+            <span>Safety</span>
+          </Link>
+
+          <Link
+            href="/contact"
+            className="group flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/20"
+          >
+            <Mail className="h-4 w-4 text-white/80" />
+            <span>Contact</span>
+          </Link>
+
+          <Link
+            href="/faq"
+            className="group flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/20"
+          >
+            <HelpCircle className="h-4 w-4 text-white/80" />
+            <span>FAQ</span>
           </Link>
 
           <Link
@@ -182,6 +218,34 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
                     >
                       <ListTree className="h-5 w-5 text-white/80" />
                       Browse Ads
+                    </Link>
+                    <Link
+                      href="/about"
+                      className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base font-semibold transition hover:bg-white/15"
+                    >
+                      <Info className="h-5 w-5 text-white/80" />
+                      About Us
+                    </Link>
+                    <Link
+                      href="/safety"
+                      className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base font-semibold transition hover:bg-white/15"
+                    >
+                      <ShieldCheck className="h-5 w-5 text-white/80" />
+                      Safety
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base font-semibold transition hover:bg-white/15"
+                    >
+                      <Mail className="h-5 w-5 text-white/80" />
+                      Contact Us
+                    </Link>
+                    <Link
+                      href="/faq"
+                      className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base font-semibold transition hover:bg-white/15"
+                    >
+                      <HelpCircle className="h-5 w-5 text-white/80" />
+                      FAQ
                     </Link>
 
                     {/* Categories Trigger inside Main Menu */}

@@ -1,100 +1,131 @@
-import PageLayout from "@/tools/PageLayout";
-import CustomBreadcrumb from "@/tools/CustomBreadcrumb";
-import { Badge } from "@/components/ui/badge";
-import { FileText, Calendar } from "lucide-react";
 
-export default async function TermsPage() {
-  // TODO: Fetch from API when dashboard is ready
-  // const termsContent = await fetchTermsContent();
-  
+import PageLayout from "@/tools/PageLayout";
+import { Badge } from "@/components/ui/badge";
+import { FileText, Calendar, ShieldCheck, Lock, Gavel, Mail } from "lucide-react";
+
+export default function TermsPage() {
   const termsContent = {
     title: "Terms & Conditions",
     lastUpdated: "January 10, 2026",
-    content: `
-      <h2>1. Acceptance of Terms</h2>
-      <p>By accessing and using Recycle Mart, you accept and agree to be bound by the terms and provision of this agreement.</p>
-      
-      <h2>2. Use License</h2>
-      <p>Permission is granted to temporarily access the materials on Recycle Mart's website for personal, non-commercial transitory viewing only.</p>
-      
-      <h3>2.1 This license shall automatically terminate if you violate any of these restrictions:</h3>
-      <ul>
-        <li>Modify or copy the materials</li>
-        <li>Use the materials for any commercial purpose</li>
-        <li>Attempt to decompile or reverse engineer any software</li>
-        <li>Remove any copyright or proprietary notations</li>
-      </ul>
-      
-      <h2>3. User Accounts</h2>
-      <p>When you create an account with us, you must provide accurate, complete, and current information. Failure to do so constitutes a breach of the Terms.</p>
-      
-      <h2>4. Posting Ads</h2>
-      <p>Users are responsible for the content they post. All ads must comply with our community guidelines and local laws.</p>
-      
-      <h3>4.1 Prohibited Items</h3>
-      <ul>
-        <li>Illegal or stolen goods</li>
-        <li>Counterfeit products</li>
-        <li>Weapons and explosives</li>
-        <li>Adult content</li>
-      </ul>
-      
-      <h2>5. Payment and Fees</h2>
-      <p>Certain services may require payment. You agree to provide current, complete, and accurate purchase and account information.</p>
-      
-      <h2>6. Limitation of Liability</h2>
-      <p>Recycle Mart shall not be held liable for any damages arising from the use or inability to use our services.</p>
-      
-      <h2>7. Governing Law</h2>
-      <p>These Terms shall be governed by the laws of Bangladesh without regard to its conflict of law provisions.</p>
-      
-      <h2>8. Changes to Terms</h2>
-      <p>We reserve the right to modify these terms at any time. Continued use of the service after changes constitutes acceptance of the new terms.</p>
-      
-      <h2>9. Contact Information</h2>
-      <p>If you have any questions about these Terms, please contact us at support@recyclemart.com</p>
-    `
+    content: [
+      {
+        title: "1. Acceptance of Terms",
+        text: "By accessing and using Recycle Mart, you accept and agree to be bound by the terms and provision of this agreement.",
+        icon: Gavel
+      },
+      {
+        title: "2. Use License",
+        text: "Permission is granted to temporarily access the materials on Recycle Mart's website for personal, non-commercial transitory viewing only.",
+        subItems: [
+          "Modify or copy the materials",
+          "Use the materials for any commercial purpose",
+          "Attempt to decompile or reverse engineer any software",
+          "Remove any copyright or proprietary notations"
+        ],
+        icon: FileText
+      },
+      {
+        title: "3. User Accounts",
+        text: "When you create an account with us, you must provide accurate, complete, and current information. Failure to do so constitutes a breach of the Terms.",
+        icon: Lock
+      },
+      {
+        title: "4. Posting Ads",
+        text: "Users are responsible for the content they post. All ads must comply with our community guidelines and local laws.",
+        subItems: [
+          "Illegal or stolen goods",
+          "Counterfeit products",
+          "Weapons and explosives",
+          "Adult content"
+        ],
+        icon: FileText
+      },
+      {
+        title: "5. Limitation of Liability",
+        text: "Recycle Mart shall not be held liable for any damages arising from the use or inability to use our services.",
+        icon: ShieldCheck
+      }
+    ]
   };
 
   return (
-    <PageLayout paddingSize="small">
-      <div className="relative">
-         {/* Background Decorative Elements */}
-         <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 h-64 w-full max-w-4xl bg-linear-to-b from-primary/5 to-transparent blur-3xl opacity-50" />
-
-        <CustomBreadcrumb
-          links={[
-            { name: "Home", href: "/" },
-            { name: "Terms & Conditions", href: "/terms" },
-          ]}
-        />
-
-        <div className="mt-8 sm:mt-16 max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-16 space-y-4">
-             <Badge variant="outline" className="px-3 py-1 border-primary/20 text-primary bg-primary/5 rounded-full text-xs font-medium uppercase tracking-widest">
-              Legal Document
-            </Badge>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-              {termsContent.title}
-            </h1>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Calendar className="w-4 h-4" />
-              <span>Last updated: {termsContent.lastUpdated}</span>
-            </div>
+    <>
+      {/* Hero Section */}
+      <div className="bg-primary/5 dark:bg-primary/10 py-20 border-b border-primary/10 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 h-64 w-full max-w-4xl bg-primary/10 blur-3xl opacity-50" />
+        
+        <div className="container mx-auto px-4 text-center">
+          <Badge variant="outline" className="px-4 py-1.5 mb-6 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">
+            Legal Information
+          </Badge>
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+            Terms & <span className="text-primary">Conditions</span>
+          </h1>
+          <div className="flex items-center justify-center gap-2 text-muted-foreground font-medium">
+            <Calendar className="w-5 h-5 text-primary" />
+            <span>Last updated: {termsContent.lastUpdated}</span>
           </div>
-
-          <div className="flex items-center gap-2 mb-8 pb-4 border-b border-border/40">
-            <FileText className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium text-muted-foreground">Read carefully before using our services</span>
-          </div>
-
-          <div 
-            className="prose prose-slate dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: termsContent.content }}
-          />
         </div>
       </div>
-    </PageLayout>
+
+      <PageLayout paddingSize="none" className="screen-height">
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-4xl mx-auto">
+            
+            <div className="flex items-center gap-3 mb-10 pb-4 border-b border-border/40">
+              <FileText className="w-6 h-6 text-primary" />
+              <p className="text-lg font-medium text-muted-foreground">Read carefully before using our services</p>
+            </div>
+
+            <div className="space-y-12">
+              {termsContent.content.map((section, index) => (
+                <div key={index} className="group">
+                  <div className="flex items-start gap-6">
+                    <div className="p-3 bg-primary/10 rounded-2xl group-hover:bg-primary group-hover:text-white transition-all">
+                      <section.icon className="w-6 h-6" />
+                    </div>
+                    <div className="space-y-4">
+                      <h2 className="text-2xl font-bold">{section.title}</h2>
+                      <p className="text-muted-foreground text-lg leading-relaxed">
+                        {section.text}
+                      </p>
+                      {section.subItems && (
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                          {section.subItems.map((item, i) => (
+                            <li key={i} className="flex items-center gap-3 text-muted-foreground bg-muted/30 p-3 rounded-xl border border-border/40">
+                              <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Support Box */}
+            <div className="mt-20 p-8 md:p-12 rounded-[2.5rem] bg-card border border-border/60 text-center relative overflow-hidden shadow-sm">
+               <div className="absolute top-0 right-0 p-10 opacity-5">
+                 <Mail className="w-32 h-32 text-primary" />
+               </div>
+               <h3 className="text-2xl font-bold mb-4">Have questions about our terms?</h3>
+               <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+                 If you have any questions or need clarification regarding these terms, please reach out to us.
+               </p>
+               <a 
+                 href="mailto:support@recyclemart.com" 
+                 className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-primary/20"
+               >
+                 <Mail className="w-5 h-5" />
+                 Contact Legal Support
+               </a>
+            </div>
+
+          </div>
+        </div>
+      </PageLayout>
+    </>
   );
 }
