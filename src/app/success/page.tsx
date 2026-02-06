@@ -7,11 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { verifyLotteryPayment } from '@/services/lottery';
+import { verifySubscriptionPayment } from '@/services/profile';
 import Link from 'next/link';
 
 const PaymentStatusContent = () => {
   const searchParams = useSearchParams();
   const tran_id = searchParams.get('tran_id');
+  const type = searchParams.get('type'); // 'lottery' or 'subscription'
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('Verifying your payment...');
   const [tokens, setTokens] = useState<string[]>([]);
@@ -25,11 +27,20 @@ const PaymentStatusContent = () => {
       }
 
       try {
-        const res = await verifyLotteryPayment(tran_id);
+        let res;
+        if (type === 'subscription') {
+          res = await verifySubscriptionPayment(tran_id);
+        } else {
+          res = await verifyLotteryPayment(tran_id);
+        }
+
         if (res?.success) {
           setStatus('success');
-          setMessage(res.message || 'Payment verified successfully! Your lottery entry is confirmed.');
-          if (res.data?.tokenNumbers) {
+          setMessage(res.message || (type === 'subscription' 
+            ? 'Subscription upgraded successfully!' 
+            : 'Payment verified successfully! Your lottery entry is confirmed.'));
+          
+          if (type !== 'subscription' && res.data?.tokenNumbers) {
             setTokens(res.data.tokenNumbers);
           }
         } else {
@@ -43,7 +54,7 @@ const PaymentStatusContent = () => {
     };
 
     verify();
-  }, [tran_id]);
+  }, [tran_id, type]);
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center p-4">
@@ -104,8 +115,8 @@ const PaymentStatusContent = () => {
         </CardContent>
         <CardFooter className="flex flex-col gap-3">
           <Button asChild className="w-full font-bold py-6 rounded-xl">
-            <Link href="/profile/my-lottery">
-              Go to My Lottery <ArrowRight className="ml-2 h-4 w-4" />
+            <Link href={type === 'subscription' ? '/profile/subscription' : '/profile/my-lottery'}>
+              {type === 'subscription' ? 'Go to Subscription' : 'Go to My Lottery'} <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
           <Button variant="outline" asChild className="w-full py-6 rounded-xl">

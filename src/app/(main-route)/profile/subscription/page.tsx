@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Check, Crown, Zap, Ticket } from "lucide-react";
+import { Check, Crown, Zap, Ticket, Eye, Calendar, ShieldCheck, Clock, Coins } from "lucide-react";
 import { format } from "date-fns";
 
 import { ProfilePageHeader } from "@/components/profile/ProfilePageHeader";
@@ -7,7 +7,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { fetchAllPlans, fetchMyInvoices, fetchMySubscription } from "@/services/profile";
+import { UpgradeButton } from "@/components/subscription/UpgradeButton";
 
 const getPlanConfig = (name: string) => {
   switch (name.toLowerCase()) {
@@ -55,6 +64,109 @@ export default async function SubscriptionPage() {
       <ProfilePageHeader
         title="Subscription & billing"
         description="Choose the right plan to boost your sales and visibility on Recycle Mart."
+        actions={
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="rounded-full shadow-sm hover:bg-primary/5 hover:text-primary transition-all gap-2">
+                  <Eye className="h-4 w-4" />
+                  View My Subscription
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md border-none shadow-2xl overflow-hidden p-0">
+                <div className="bg-primary/5 p-6 border-b border-primary/10">
+                  <DialogHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 rounded-xl bg-primary text-primary-foreground">
+                        <Crown className="h-5 w-5" />
+                      </div>
+                      <DialogTitle className="text-xl">My Active Subscription</DialogTitle>
+                    </div>
+                    <DialogDescription className="text-muted-foreground/90">
+                      Your current plan details and billing cycle.
+                    </DialogDescription>
+                  </DialogHeader>
+                </div>
+                
+                <div className="p-6 space-y-6">
+                  {/* Plan Info */}
+                  <div className="flex items-center justify-between p-4 rounded-2xl bg-muted/30 border border-border/50">
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Current Plan</p>
+                      <h4 className="text-2xl font-bold text-primary">{currentSub?.plan?.name || "Free Plan"}</h4>
+                    </div>
+                    <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 px-3 py-1">
+                      {currentSub?.status || "Active"}
+                    </Badge>
+                  </div>
+
+                  {/* Details Grid */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1 p-3 rounded-xl bg-muted/20 border border-border/30">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Calendar className="h-3.5 w-3.5" />
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">Started On</span>
+                      </div>
+                      <p className="text-sm font-bold">
+                        {currentSub?.createdAt ? format(new Date(currentSub.createdAt), "dd MMM, yyyy") : "N/A"}
+                      </p>
+                    </div>
+                    <div className="space-y-1 p-3 rounded-xl bg-muted/20 border border-border/30">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Clock className="h-3.5 w-3.5" />
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">Renewal Date</span>
+                      </div>
+                      <p className="text-sm font-bold">
+                        {currentSub?.renewsAt ? format(new Date(currentSub.renewsAt), "dd MMM, yyyy") : "N/A"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Credits & Status */}
+                  <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-primary/5 border border-primary/10">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                        <Coins className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Available Credits</p>
+                        <p className="text-sm font-bold">{currentSub?.credits || 0} Credits</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Auto Renew</p>
+                      <p className="text-xs font-bold text-primary">{currentSub?.autoRenew ? "Enabled" : "Disabled"}</p>
+                    </div>
+                  </div>
+
+                  {/* Features List */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-primary">
+                      <ShieldCheck className="h-4 w-4" />
+                      <span className="text-sm font-bold">Plan Benefits</span>
+                    </div>
+                    <div className="grid grid-cols-1 gap-2.5 pl-1">
+                      {currentSub?.plan?.features?.map((feature: string, idx: number) => (
+                        <div key={idx} className="flex items-center gap-3 text-sm text-muted-foreground">
+                          <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
+                          {feature}
+                        </div>
+                      ))}
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground font-medium">
+                        <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
+                        {currentSub?.plan?.adsLimit || 0} Ads Listing Limit
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer Info */}
+                  <div className="pt-4 border-t border-border/50 flex items-center justify-between text-[11px] text-muted-foreground italic">
+                    <p>Last Updated: {currentSub?.updatedAt ? format(new Date(currentSub.updatedAt), "dd MMM, yyyy") : "N/A"}</p>
+                    <p className="font-bold text-primary not-italic">Total: ৳{currentSub?.plan?.price || 0}</p>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+        }
       />
 
       {/* Plans Section */}
@@ -89,7 +201,7 @@ export default async function SubscriptionPage() {
                   )}
                 </div>
                 <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
-                <CardDescription className="min-h-[40px] leading-relaxed">
+                <CardDescription className="min-h-10 leading-relaxed">
                   {config.description}
                 </CardDescription>
               </CardHeader>
@@ -119,16 +231,11 @@ export default async function SubscriptionPage() {
 
               <CardFooter className="pt-0">
                 {!(plan.name.toLowerCase() === 'free' && currentSub && !isCurrent) && (
-                  <Button 
-                    variant={isCurrent ? "outline" : "default"} 
-                    className={`w-full rounded-full h-11 transition-all ${!isCurrent && 'shadow-sm shadow-primary/20'}`}
-                    disabled={isCurrent}
-                  >
-                    {isCurrent 
-                      ? "Current Plan" 
-                      : `Upgrade to ${plan.name}`
-                    }
-                  </Button>
+                  <UpgradeButton 
+                    planId={plan._id} 
+                    planName={plan.name} 
+                    isCurrent={isCurrent} 
+                  />
                 )}
               </CardFooter>
             </Card>
@@ -146,7 +253,7 @@ export default async function SubscriptionPage() {
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow>
-                <TableHead className="w-[180px]">Invoice</TableHead>
+                <TableHead className="w-45">Invoice</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Plan</TableHead>
                 <TableHead>Amount</TableHead>

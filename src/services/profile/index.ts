@@ -198,3 +198,28 @@ export const topupWallet = async (amount: number): Promise<any> => {
     return { success: false, message: error.message || "Failed to topup wallet" };
   }
 };
+
+/**
+ * 9. Verify Subscription Payment
+ * Endpoint: GET /subscription/verify?tran_id=...
+ */
+export const verifySubscriptionPayment = async (tran_id: string): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerActions();
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/verify?tran_id=${tran_id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      revalidatePath("/profile/subscription");
+    }
+    return result;
+  } catch (error: any) {
+    return { success: false, message: error.message || "Failed to verify payment" };
+  }
+};
