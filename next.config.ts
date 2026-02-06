@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-      {
+      { 
         protocol: 'https',
         hostname: 'www.startech.com.bd',
         port: '',
