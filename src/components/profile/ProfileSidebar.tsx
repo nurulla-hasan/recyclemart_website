@@ -94,15 +94,37 @@ function SidebarContent({
   LinkWrapper,
 }: SidebarContentProps) {
   const pathname = usePathname();
-  const { isBuyer } = useUserRole();
+  const { isBuyer, isLoading: roleLoading } = useUserRole();
 
   const isActive = (href: string) => {
     if (href === "/profile") {
       return pathname === href;
     }
-
     return pathname.startsWith(href);
   };
+
+  if (roleLoading) {
+    return (
+      <div className={cn("flex flex-col gap-4 animate-pulse", className)}>
+        <div className="flex items-center gap-3">
+          <div className="h-14 w-14 rounded-full bg-muted" />
+          <div className="flex-1 space-y-2">
+            <div className="h-4 w-24 bg-muted rounded" />
+            <div className="h-3 w-32 bg-muted rounded" />
+          </div>
+        </div>
+        <div className="h-10 w-full bg-muted rounded-full" />
+        <div className="space-y-4 pt-4">
+          <div className="h-3 w-16 bg-muted rounded" />
+          <div className="space-y-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-12 w-full bg-muted rounded-xl" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("flex flex-col gap-4", className)}>

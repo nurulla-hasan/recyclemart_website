@@ -30,7 +30,7 @@ import { Category } from '@/types/category.type';
 
 const NavMiddle = ({ categories }: { categories: Category[] }) => {
   const { user } = useUser();
-  const { isBuyer } = useUserRole();
+  const { isBuyer, isLoading: roleLoading } = useUserRole();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   return (
@@ -113,16 +113,20 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
             </Button>
           </Link>
 
-          {!isBuyer && (
-            <Link href={user ? '/ads/create' : '/auth/login'}>
-              <Button
-                size="sm"
-                className="flex items-center gap-2 rounded-full bg-linear-to-r from-pink-400 to-orange-500 px-6 py-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-lg shadow-orange-500/20"
-              >
-                <PlusCircle className="h-4 w-4" />
-                Post Free Ad
-              </Button>
-            </Link>
+          {roleLoading ? (
+            <div className="h-10 w-32 rounded-full bg-white/10 animate-pulse" />
+          ) : (
+            !isBuyer && (
+              <Link href={user ? '/ads/create' : '/auth/login'}>
+                <Button
+                  size="sm"
+                  className="flex items-center gap-2 rounded-full bg-linear-to-r from-pink-400 to-orange-500 px-6 py-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-lg shadow-orange-500/20"
+                >
+                  <PlusCircle className="h-4 w-4" />
+                  Post Free Ad
+                </Button>
+              </Link>
+            )
           )}
         </div>
 
@@ -237,15 +241,21 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
                     </div>
                   </div>
                 </div>
-                {!isBuyer && (
+                {roleLoading ? (
                   <div className="px-6 py-6 pb-10">
-                    <Link href={user ? '/ads/create' : '/auth/login'}>
-                      <Button className="w-full gap-2 rounded-xl bg-linear-to-r from-pink-400 to-orange-500 text-base font-semibold text-white shadow-lg hover:from-pink-300 hover:to-orange-400 py-6">
-                        <PlusCircle className="h-5 w-5" />
-                        Post Free Ad
-                      </Button>
-                    </Link>
+                    <div className="h-14 w-full rounded-xl bg-white/10 animate-pulse" />
                   </div>
+                ) : (
+                  !isBuyer && (
+                    <div className="px-6 py-6 pb-10">
+                      <Link href={user ? '/ads/create' : '/auth/login'}>
+                        <Button className="w-full gap-2 rounded-xl bg-linear-to-r from-pink-400 to-orange-500 text-base font-semibold text-white shadow-lg hover:from-pink-300 hover:to-orange-400 py-6">
+                          <PlusCircle className="h-5 w-5" />
+                          Post Free Ad
+                        </Button>
+                      </Link>
+                    </div>
+                  )
                 )}
               </ScrollArea>
             </SheetContent>
