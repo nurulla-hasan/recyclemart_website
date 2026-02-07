@@ -473,7 +473,7 @@ const RegisterForm = () => {
                                     </svg>
                                     <div className="text-center">
                                       <p className="text-sm font-medium text-foreground">
-                                        Upload store image
+                                        Upload other document
                                       </p>
                                       <p className="text-xs text-muted-foreground">
                                         PNG, JPG up to 10MB
