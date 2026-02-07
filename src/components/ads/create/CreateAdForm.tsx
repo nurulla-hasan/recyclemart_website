@@ -46,7 +46,7 @@ const formSchema = z.object({
   price: z.number().min(1, { message: "Price must be at least 1." }),
   negotiable: z.boolean(),
   location: z.string().min(3, { message: "Location is required." }),
-  description: z.string().min(100, { message: "Description must be at least 100 characters." }).max(2000),
+  description: z.string().min(0, { message: "Description is required." }).max(2000),
   contactPhone: z.string().min(11, { message: "Valid phone number is required." }),
   contactName: z.string().min(2, { message: "Name is required." }),
   contactEmail: z.string().email({ message: "Invalid email address." }),
