@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -10,15 +11,27 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Moon, Sun, ChevronDown, Ticket } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { promoMessages } from './shared';
 import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
 import { useUser } from '@/context/UserContext';
 import { logOut } from '@/services/Auth';
 import { usePathname, useRouter } from 'next/navigation';
 import { protectedRoutes } from '@/constants';
+import { useTranslations, useLocale } from 'next-intl';
+import { Link } from '@/i18n/routing';
 
-export default function NavTop() {
+export default function NavTop({ promos = [] }: { promos?: any[] }) {
+  const t = useTranslations('NavTop');
+  const locale = useLocale();
+  
+  const promoMessages = promos.length > 0 
+    ? promos.map(p => locale === 'bn' ? p.messageBn || p.messageEn : p.messageEn)
+    : [
+        t('promo1'),
+        t('promo2'),
+        t('promo3'),
+        t('promo4'),
+      ];
+  
   const [promoIndex, setPromoIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const intervalRef = useRef<number | null>(null);
@@ -27,8 +40,22 @@ export default function NavTop() {
   const { setTheme, theme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
+  const [isVisible, setIsVisible] = useState(true);
 
   const { user, setIsLoading, setUser } = useUser();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const id = window.setTimeout(() => setMounted(true), 0);
@@ -48,6 +75,7 @@ export default function NavTop() {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // logout function
@@ -68,7 +96,11 @@ export default function NavTop() {
     : 'transition-none';
 
   return (
-    <section className="border-b border-white/15">
+    <section 
+      className={`border-b border-white/15 overflow-hidden transition-all duration-300 ease-in-out ${
+        isVisible ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+      }`}
+    >
       {/* Mobile Top Row */}
       <div className="flex md:hidden h-10 items-center justify-end px-5 text-sm text-white gap-2">
         <Link href="/lottery">
@@ -87,7 +119,7 @@ export default function NavTop() {
               size="sm"
               className="text-xs text-white hover:text-white/80"
             >
-              My Account
+              {t('myAccount')}
               <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -96,51 +128,50 @@ export default function NavTop() {
             className="border-border bg-background text-foreground"
           >
             <DropdownMenuItem asChild>
-              <Link href="/profile">Profile</Link>
+              <Link href="/profile">{t('profile')}</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/auth/login">Sign In</Link>
+              <Link href="/auth/login">{t('signIn')}</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/auth/register">Register</Link>
+              <Link href="/auth/register">{t('register')}</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {mounted && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="group relative rounded-full h-7 w-7 text-white data-[state=active]:bg-white/0"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            <Moon
-              className={`absolute h-5 w-5 transition-all ${
-                theme === 'dark' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-              }`}
-              aria-hidden="true"
-            />
-            <Sun
-              className={`h-5 w-5 transition-all ${
-                theme === 'dark' ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
-              }`}
-              aria-hidden="true"
-            />
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="group relative rounded-full h-7 w-7 text-white data-[state=active]:bg-white/0"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          aria-label={mounted ? (theme === 'dark' ? t('switchToLight') : t('switchToDark')) : t('toggleTheme')}
+          suppressHydrationWarning
+        >
+          <Moon
+            className={`absolute h-5 w-5 transition-all ${
+              mounted && theme === 'dark' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+            }`}
+            aria-hidden="true"
+          />
+          <Sun
+            className={`h-5 w-5 transition-all ${
+              mounted && theme === 'dark' ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
+            }`}
+            aria-hidden="true"
+          />
+        </Button>
       </div>
       <div className="custom-width mx-auto hidden md:flex h-9 items-center justify-between px-5 text-sm text-white">
         <div className="relative h-full min-w-0 flex-1 overflow-hidden">
           <span
-            className={`absolute inset-0 flex items-center ${transitionClass} ${
+            className={`absolute inset-0 flex items-center uppercase ${transitionClass} ${
               isAnimating ? '-translate-y-full' : 'translate-y-0'
             }`}
           >
             {promoMessages[promoIndex]}
           </span>
           <span
-            className={`absolute inset-0 flex items-center ${transitionClass} ${
+            className={`absolute inset-0 flex items-center uppercase ${transitionClass} ${
               isAnimating ? 'translate-y-0' : 'translate-y-full'
             }`}
           >
@@ -156,7 +187,7 @@ export default function NavTop() {
               className="tracking-widest text-xs hover:bg-black/20 text-white gap-2 hover:text-yellow-300 transition-colors"
             >
               <Ticket />
-              LOTTERY
+              {t('lottery')}
             </Button>
           </Link>
           <Separator orientation="vertical" className="bg-white" />
@@ -167,7 +198,7 @@ export default function NavTop() {
                 size="sm"
                 className="tracking-widest text-xs text-white! hover:bg-black/20"
               >
-                MY ACCOUNT
+                {t('myAccount')}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -177,53 +208,50 @@ export default function NavTop() {
               {user ? (
                 <>
                   <DropdownMenuItem asChild>
-                    <Link href="/profile">Profile</Link>
+                    <Link href="/profile">{t('profile')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <div onClick={handleLogout} className="text-red-500 hover:text-red-400">Logout</div>
+                    <div onClick={handleLogout} className="text-red-500 hover:text-red-400 cursor-pointer">{t('logout')}</div>
                   </DropdownMenuItem>
                 </>
               ) : (
                 <>
                   <DropdownMenuItem asChild>
-                    <Link href="/auth/login">Sign In</Link>
+                    <Link href="/auth/login">{t('signIn')}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/auth/register">Register</Link>
+                    <Link href="/auth/register">{t('register')}</Link>
                   </DropdownMenuItem>
                 </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>
           <Separator orientation="vertical" className="bg-white" />
-          {mounted && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="group relative rounded-full h-8 w-8 text-white data-[state=active]:bg-white/0 hover:bg-white/0 "
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              aria-label={`Switch to ${
-                theme === 'dark' ? 'light' : 'dark'
-              } mode`}
-            >
-              <Moon
-                className={`absolute h-5 w-5 transition-all ${
-                  theme === 'dark'
-                    ? 'scale-100 opacity-100'
-                    : 'scale-0 opacity-0'
-                }`}
-                aria-hidden="true"
-              />
-              <Sun
-                className={`h-5 w-5 transition-all ${
-                  theme === 'dark'
-                    ? 'scale-0 opacity-0'
-                    : 'scale-100 opacity-100'
-                }`}
-                aria-hidden="true"
-              />
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="group relative rounded-full h-8 w-8 text-white data-[state=active]:bg-white/0 hover:bg-white/0 "
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            aria-label={mounted ? (theme === 'dark' ? t('switchToLight') : t('switchToDark')) : t('toggleTheme')}
+            suppressHydrationWarning
+          >
+            <Moon
+              className={`absolute h-5 w-5 transition-all ${
+                mounted && theme === 'dark'
+                  ? 'scale-100 opacity-100'
+                  : 'scale-0 opacity-0'
+              }`}
+              aria-hidden="true"
+            />
+            <Sun
+              className={`h-5 w-5 transition-all ${
+                mounted && theme === 'dark'
+                  ? 'scale-0 opacity-0'
+                  : 'scale-100 opacity-100'
+              }`}
+              aria-hidden="true"
+            />
+          </Button>
         </div>
       </div>
     </section>

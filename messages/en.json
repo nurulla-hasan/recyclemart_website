@@ -1,0 +1,32 @@
+{
+  "Navbar": {
+    "categories": "Categories",
+    "browseListings": "Browse listings",
+    "language": "English",
+    "postFreeAd": "Post Free Ad",
+    "inbox": "Inbox",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Logout",
+    "signIn": "Sign In",
+    "register": "Register",
+    "explore": "Explore",
+    "viewAllCategories": "View all categories",
+    "settings": "Settings"
+  },
+  "NavTop": {
+    "lottery": "Lottery",
+    "myAccount": "My Account",
+    "profile": "Profile",
+    "logout": "Logout",
+    "signIn": "Sign In",
+    "register": "Register",
+    "promo1": "Gift every single day on Weekends",
+    "promo2": "New Coupon code: HAPPY2018",
+    "promo3": "Free shipping on all orders",
+    "promo4": "Hotline: (+84) 985 432 141",
+    "toggleTheme": "Toggle theme",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  }
+}

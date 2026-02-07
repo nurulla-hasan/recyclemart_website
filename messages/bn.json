@@ -1,0 +1,32 @@
+{
+  "Navbar": {
+    "categories": "ক্যাটাগরি",
+    "browseListings": "বিজ্ঞাপন দেখুন",
+    "language": "বাংলা",
+    "postFreeAd": "বিজ্ঞাপন দিন",
+    "inbox": "ইনবক্স",
+    "dashboard": "ড্যাশবোর্ড",
+    "profile": "প্রোফাইল",
+    "logout": "লগআউট",
+    "signIn": "লগইন",
+    "register": "রেজিস্টার",
+    "explore": "এক্সপ্লোর",
+    "viewAllCategories": "সব ক্যাটাগরি দেখুন",
+    "settings": "সেটিংস"
+  },
+  "NavTop": {
+    "lottery": "লটারি",
+    "myAccount": "আমার একাউন্ট",
+    "profile": "প্রোফাইল",
+    "logout": "লগআউট",
+    "signIn": "লগইন",
+    "register": "রেজিস্টার",
+    "promo1": "সপ্তাহান্তে প্রতিদিন উপহার",
+    "promo2": "নতুন কুপন কোড: HAPPY2018",
+    "promo3": "সব অর্ডারে ফ্রি শিপিং",
+    "promo4": "হটলাইন: (+৮৪) ৯৮৫ ৪৩২ ১৪১",
+    "toggleTheme": "থিম পরিবর্তন করুন",
+    "switchToLight": "লাইট মোড চালু করুন",
+    "switchToDark": "ডার্ক মোড চালু করুন"
+  }
+}

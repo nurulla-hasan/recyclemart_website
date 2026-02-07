@@ -1,19 +1,17 @@
-import { fetchAllCategories } from "@/services/category";
-import NavMiddle from "./NavMiddle";
-import NavTop from "./NavTop";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import NavMiddle from './NavMiddle';
+import NavTop from './NavTop';
+import { Category } from '@/types/category.type';
 
-export default async function Navbar() {
-  const categoriesRes = await fetchAllCategories();
-  const categories = categoriesRes.success ? categoriesRes.data : [];
-
+const Navbar = ({ categories, promos = [] }: { categories: Category[], promos?: any[] }) => {
   return (
-    <>
-      <div className="bg-primary dark:bg-teal-950 text-white">
-        <NavTop />
-      </div>
-      <div className="sticky top-0 z-50 bg-primary dark:bg-teal-950 text-white shadow-md">
+    <nav className="sticky top-0 z-50 w-full bg-primary dark:bg-teal-950">
+      <NavTop promos={promos} />
+      <div className="shadow-md">
         <NavMiddle categories={categories} />
       </div>
-    </>
+    </nav>
   );
-}
+};
+
+export default Navbar;
