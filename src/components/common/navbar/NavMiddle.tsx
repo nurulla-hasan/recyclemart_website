@@ -46,7 +46,7 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
   const handleLanguageChange = () => {
     const nextLocale = locale === 'en' ? 'bn' : 'en';
     startTransition(() => {
-      router.replace(pathname, { locale: nextLocale });
+      router.replace(pathname, { locale: nextLocale, scroll: false });
     });
   };
 
