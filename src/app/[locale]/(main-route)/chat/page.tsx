@@ -1,9 +1,16 @@
 'use client';
 
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import { io, Socket } from 'socket.io-client';
-import { MessageCircle, UploadCloud } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -172,7 +179,7 @@ const updateConversationPreview = (
   return next;
 };
 
-let socketInstance: Socket | null = null; 
+let socketInstance: Socket | null = null;
 
 async function ensureSocket(): Promise<Socket | null> {
   if (socketInstance) return socketInstance;
@@ -290,9 +297,10 @@ function ChatContent() {
         setSocket(sock);
         setLoading(false);
 
-        sock.on('connect', () => {
+        if (sock.connected) {
           loadConversations(sock);
-        });
+        }
+        sock.on('connect', () => loadConversations(sock));
 
         sock.on('chat:message:new', (msg: MessagePayload) => {
           if (!myId) return;
@@ -325,6 +333,7 @@ function ChatContent() {
 
     return () => {
       socketInstance?.off('chat:message:new');
+      socketInstance?.off('connect');
     };
   }, [loadConversations, myId]);
 
@@ -583,11 +592,8 @@ function ChatContent() {
 
   if (!socket || !activeConversationMeta || !myId) {
     return (
-      <div className="flex h-full min-h-[70vh] flex-col items-center justify-center gap-3 text-center">
-        <UploadCloud className="h-12 w-12 text-muted-foreground" />
-        <p className="text-muted-foreground">
-          চ্যাট ব্যবহার করতে লগইন করে অন্তত একটি কথোপকথন শুরু করুন।
-        </p>
+      <div className="flex h-full min-h-[70vh] items-center justify-center text-muted-foreground">
+        Loading chat...
       </div>
     );
   }
@@ -712,11 +718,13 @@ function ChatContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={
-      <div className="flex h-full min-h-[70vh] items-center justify-center text-muted-foreground">
-        Loading chat...
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex h-full min-h-[70vh] items-center justify-center text-muted-foreground">
+          Loading chat...
+        </div>
+      }
+    >
       <ChatContent />
     </Suspense>
   );
