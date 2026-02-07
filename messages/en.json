@@ -325,7 +325,8 @@
       "roles": {
         "VENDOR": "Vendor",
         "BUYER": "Buyer",
-        "ADMIN": "Admin"
+        "ADMIN": "Admin",
+        "SUPER_ADMIN": "Super Admin"
       }
     },
     "favourites": {
@@ -352,7 +353,8 @@
       "upcomingDraws": "Upcoming draws",
       "upcomingDesc": "View your active entries and upcoming draw dates.",
       "drawDate": "Draw Date",
-      "tokens": "Tokens"
+      "tokens": "Tokens",
+      "noDraws": "No upcoming draws found."
     },
     "settings": {
       "title": "Profile settings",

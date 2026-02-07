@@ -1,14 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
-  return handleRequest(request);
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ locale: string }> }
+) {
+  const { locale } = await params;
+  return handleRequest(request, locale);
 }
 
-export async function GET(request: NextRequest) {
-  return handleRequest(request);
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ locale: string }> }
+) {
+  const { locale } = await params;
+  return handleRequest(request, locale);
 }
 
-async function handleRequest(request: NextRequest) {
+async function handleRequest(request: NextRequest, locale: string) {
   try {
     let tran_id: string | null = null;
 
@@ -27,12 +35,12 @@ async function handleRequest(request: NextRequest) {
     }
 
     if (!tran_id) {
-      return NextResponse.redirect(new URL('/lottery', request.url));
+      return NextResponse.redirect(new URL(`/${locale}/lottery`, request.url));
     }
 
     // Redirect to success page with tran_id
     return NextResponse.redirect(
-      new URL(`/success?tran_id=${tran_id}`, request.url),
+      new URL(`${request.nextUrl.origin}/${locale}/success?tran_id=${tran_id}&type=lottery`),
       {
         status: 303, // Use 303 See Other for proper redirection
       }
@@ -40,6 +48,6 @@ async function handleRequest(request: NextRequest) {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('SSLCommerz Validation Error:', error);
-    return NextResponse.redirect(new URL('/lottery', request.url));
+    return NextResponse.redirect(new URL(`/${locale}/lottery`, request.url));
   }
 }

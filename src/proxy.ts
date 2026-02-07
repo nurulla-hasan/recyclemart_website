@@ -43,9 +43,8 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   // Match all pathnames except for
-  // - /api (API routes)
   // - /_next (Next.js internals)
   // - /static (static files)
   // - all files with an extension (e.g. favicon.ico)
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/((?!_next|.*\\..*).*)"],
 };
