@@ -5,7 +5,7 @@ export const fetchExtraData = async (): Promise<any> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/extra-data`, {
       method: "GET",
-      next: { tags: ["extra-data"], revalidate: 3600 },
+      next: { tags: ["extra-data"], revalidate: 300 }, // Cache for 5 minutes
     });
 
     const result = await res.json();
