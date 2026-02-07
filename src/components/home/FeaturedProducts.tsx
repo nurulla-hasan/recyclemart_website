@@ -10,7 +10,7 @@ interface FeaturedProductsProps {
 export default function FeaturedProducts({ ads }: FeaturedProductsProps) {
   return (
     <section className="py-10 bg-muted/30">
-      <div className="container mx-auto px-4">
+      <div className="custom-width mx-auto px-4">
         <div className="mb-6 flex items-end justify-between">
           <h2 className="text-2xl font-semibold">Featured Products</h2>
           <Link href="/ads" className="text-primary hover:underline">

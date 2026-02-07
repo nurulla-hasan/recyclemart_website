@@ -60,7 +60,7 @@ export default function PrivacyPage() {
       <div className="bg-primary/5 dark:bg-primary/10 py-20 border-b border-primary/10 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 h-64 w-full max-w-4xl bg-primary/10 blur-3xl opacity-50" />
         
-        <div className="container mx-auto px-4 text-center">
+        <div className="custom-width mx-auto px-4 text-center">
           <Badge variant="outline" className="px-4 py-1.5 mb-6 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">
             Data Protection
           </Badge>
@@ -75,7 +75,7 @@ export default function PrivacyPage() {
       </div>
 
       <PageLayout paddingSize="none" className="screen-height">
-        <div className="container mx-auto px-4 py-16">
+        <div className="custom-width mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto">
             
             <div className="flex items-center gap-3 mb-12 pb-4 border-b border-border/40">

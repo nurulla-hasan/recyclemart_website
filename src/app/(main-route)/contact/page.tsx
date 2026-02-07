@@ -8,7 +8,7 @@ const ContactPage = () => {
     <>
       {/* Hero Section */}
       <div className="bg-primary/5 dark:bg-primary/10 py-16 mb-12 border-b border-primary/10">
-        <div className="container mx-auto px-4 text-center">
+        <div className="custom-width mx-auto px-4 text-center">
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-6">
             <MessageSquare className="w-10 h-10 text-primary" />
           </div>

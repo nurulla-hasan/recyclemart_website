@@ -69,7 +69,7 @@ const socials = [
 const Footer = () => {
   return (
     <footer className="relative overflow-hidden border-border/30 border-t bg-background py-8 text-sm text-muted-foreground">
-      <div className="container mx-auto px-6">
+      <div className="custom-width mx-auto px-6">
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div className="space-y-6">
             <div className="flex items-center gap-3">

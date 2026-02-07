@@ -47,7 +47,7 @@ export default function FaqPage() {
     <>
       {/* Hero Section */}
       <div className="bg-primary/5 dark:bg-primary/10 py-20 border-b border-primary/10">
-        <div className="container mx-auto px-4 text-center">
+        <div className="custom-width mx-auto px-4 text-center">
           <Badge variant="outline" className="px-4 py-1.5 mb-6 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">
             Help Center
           </Badge>

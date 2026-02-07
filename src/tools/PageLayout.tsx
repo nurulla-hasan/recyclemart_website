@@ -16,7 +16,7 @@ const PageLayout = ({ children, pagination, className, paddingSize = "default" }
   };
 
   return (
-    <div className={cn("container mx-auto", paddingMap[paddingSize], className)}>
+    <div className={cn("custom-width mx-auto", paddingMap[paddingSize], className)}>
       <div className="grow mb-4 lg:mb-0">
         {children}
       </div>

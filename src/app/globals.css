@@ -191,7 +191,7 @@ body {
 }
 
 .custom-width {
-  max-width: 1650px;
+  max-width: 1280px;
 }
 .screen-height {
   min-height: calc(100vh - 131px);

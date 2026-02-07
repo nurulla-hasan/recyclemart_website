@@ -20,7 +20,7 @@ export default function PressPage() {
       <div className="bg-primary/5 dark:bg-primary/10 py-24 border-b border-primary/10 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 h-96 w-full max-w-5xl bg-primary/10 blur-3xl opacity-60 animate-pulse" />
         
-        <div className="container mx-auto px-4 text-center">
+        <div className="custom-width mx-auto px-4 text-center">
           <Badge variant="outline" className="px-6 py-2 mb-8 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-[0.2em]">
             Press & Media
           </Badge>
@@ -35,7 +35,7 @@ export default function PressPage() {
       </div>
 
       <PageLayout paddingSize="none">
-        <div className="container mx-auto px-4 py-20">
+        <div className="custom-width mx-auto px-4 py-20">
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
@@ -150,7 +150,7 @@ export default function PressPage() {
 
                 {/* Featured Asset Preview */}
                 <div className="relative aspect-video rounded-3xl overflow-hidden border border-border/40 group cursor-pointer">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute inset-0 bg-primary/10 group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute bottom-0 left-0 p-6 z-20 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
                     <p className="text-white text-sm font-bold">Brand Identity 2026</p>

@@ -38,7 +38,7 @@ const Category = async () => {
         </div>
 
         <div className="relative space-y-10">
-          <div className="mx-auto grid container gap-4 sm:grid-cols-2 md:grid-cols-3">
+          <div className="mx-auto grid custom-width gap-4 sm:grid-cols-2 md:grid-cols-3">
             {categories.map((category, index) => (
               <Link
                 key={category._id}

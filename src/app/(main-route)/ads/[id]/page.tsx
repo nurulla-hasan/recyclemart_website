@@ -88,7 +88,7 @@ export default async function AdDetailsPage({ params }: Props) {
 
   return (
     <PageLayout paddingSize="small">
-      <div className="container mx-auto">
+      <div className="custom-width mx-auto">
         <CustomBreadcrumb links={breadcrumbs} />
 
         <div className="grid gap-8 lg:grid-cols-3">

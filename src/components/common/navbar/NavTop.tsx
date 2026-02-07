@@ -130,7 +130,7 @@ export default function NavTop() {
           </Button>
         )}
       </div>
-      <div className="container mx-auto hidden md:flex h-9 items-center justify-between px-5 text-sm text-white">
+      <div className="custom-width mx-auto hidden md:flex h-9 items-center justify-between px-5 text-sm text-white">
         <div className="relative h-full min-w-0 flex-1 overflow-hidden">
           <span
             className={`absolute inset-0 flex items-center ${transitionClass} ${

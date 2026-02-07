@@ -10,7 +10,7 @@ interface LatestAdsProps {
 export default function LatestAds({ ads }: LatestAdsProps) {
   return (
     <section className="py-10 bg-muted/30">
-      <div className="container mx-auto px-4">
+      <div className="custom-width mx-auto px-4">
         <div className="mb-6 flex items-end justify-between">
           <h2 className="text-2xl font-semibold">Latest Ads</h2>
           <Link href="/ads" className="text-primary hover:underline">
@@ -28,7 +28,7 @@ export default function LatestAds({ ads }: LatestAdsProps) {
               <Link
                 key={ad._id || ad.id}
                 href={`/ads/${ad._id || ad.id}`}
-                className="group rounded-md border bg-card shadow-sm overflow-hidden"
+                className="group rounded-2xl border bg-card shadow-sm overflow-hidden"
               >
                 <div className="aspect-6/5 relative">
                   <Image

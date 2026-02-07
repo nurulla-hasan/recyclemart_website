@@ -35,7 +35,7 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
 
   return (
     <div className="text-white">
-      <div className="container mx-auto flex items-center justify-between py-4 px-5">
+      <div className="custom-width mx-auto flex items-center justify-between py-4 px-5">
         {/* Logo */}
         <Link href="/">
           <Image

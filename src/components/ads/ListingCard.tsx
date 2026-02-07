@@ -30,7 +30,7 @@ const ListingCard = ({
   return (
     <Link
       href={`/ads/${id || 'item'}`}
-      className="group rounded-md border bg-card shadow-sm overflow-hidden relative"
+      className="group rounded-2xl border bg-card shadow-sm overflow-hidden relative"
     >
       <div className="aspect-6/5 relative">
         <Image
@@ -43,7 +43,7 @@ const ListingCard = ({
         {showRemove && <RemoveFavoriteButton adId={id} />}
       </div>
       <div className="p-3">
-        <div className="line-clamp-2 font-medium group-hover:text-primary transition-colors min-h-[40px]">
+        <div className="line-clamp-2 font-medium group-hover:text-primary transition-colors min-h-10">
           {title}
         </div>
         <div className="mt-1 text-sm font-semibold text-primary">{formattedPrice}</div>

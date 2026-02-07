@@ -6,7 +6,7 @@ import { Ghost, ArrowLeft, ShoppingBag } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <main className="container mx-auto screen-height">
+    <main className="custom-width mx-auto screen-height">
       <NoData msg="Oops! Page not found." size="full" className="py-16">
         <Card className="w-full max-w-xl border-dashed mt-4">
           <CardContent className="p-8 text-center">

@@ -26,7 +26,7 @@ type PageHeaderProps = {
 const PageHeader: React.FC<PageHeaderProps> = ({ title, breadcrumbs }) => {
   return (
     <section className="bg-secondary py-6 md:py-12">
-      <div className="container max-w-7xl mx-auto text-center">
+      <div className="custom-width max-w-7xl mx-auto text-center">
         <h1 className="text-2xl md:text-3xl font-semibold mb-4">{title}</h1>
         <Breadcrumb>
           <BreadcrumbList className="justify-center">

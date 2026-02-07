@@ -43,7 +43,7 @@ export default function AboutPage() {
         <div className="absolute top-0 right-0 -z-10 h-96 w-96 rounded-full bg-primary/10 blur-3xl opacity-50" />
         <div className="absolute bottom-0 left-0 -z-10 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl opacity-50" />
         
-        <div className="container mx-auto px-4 text-center">
+        <div className="custom-width mx-auto px-4 text-center">
           <Badge variant="outline" className="px-4 py-1.5 mb-6 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">
             Who We Are
           </Badge>
@@ -69,7 +69,7 @@ export default function AboutPage() {
       </div>
 
       <PageLayout paddingSize="none" className="screen-height">
-        <div className="container mx-auto px-4 py-20">
+        <div className="custom-width mx-auto px-4 py-20">
           
           {/* Features/Values Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">

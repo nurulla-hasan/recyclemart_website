@@ -124,7 +124,7 @@ export default function LotteryPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-primary py-16 text-primary-foreground lg:py-24">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        <div className="container relative mx-auto px-4 text-center">
+        <div className="custom-width relative mx-auto px-4 text-center">
           <Badge className="mb-4 bg-white/20 text-white hover:bg-white/30">
             Win Big Today
           </Badge>
@@ -153,7 +153,7 @@ export default function LotteryPage() {
         </div>
       </section>
 
-      <div className="container mx-auto -mt-10 px-4 relative z-20">
+      <div className="custom-width mx-auto -mt-10 px-4 relative z-20">
         <div className="grid gap-6 md:grid-cols-3">
           <Card className="border-none shadow-lg">
             <CardContent className="flex flex-col items-center text-center">
@@ -192,7 +192,7 @@ export default function LotteryPage() {
       </div>
 
       {/* Lotteries Section */}
-      <section className="container mx-auto mt-16 px-4">
+      <section className="custom-width mx-auto mt-16 px-4">
         <Tabs defaultValue="ACTIVE" className="w-full">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
@@ -401,7 +401,7 @@ export default function LotteryPage() {
       </section>
 
       {/* Trust Section */}
-      <section className="container mx-auto mt-20 px-4 text-center">
+      <section className="custom-width mx-auto mt-20 px-4 text-center">
         <h2 className="text-2xl font-bold mb-8">Live Draws & Transparency</h2>
         <div className="relative overflow-hidden rounded-3xl bg-black text-white">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516280440614-6697288d5d38?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>

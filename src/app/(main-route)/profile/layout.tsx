@@ -12,7 +12,7 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
 
   return (
     <div className="min-h-screen bg-muted/20">
-      <div className="container mx-auto px-4 py-6">
+      <div className="custom-width mx-auto px-4 py-6">
         <div className="lg:hidden">
           <div className="rounded-xl border bg-card shadow-sm">
             <ProfileSidebar 
