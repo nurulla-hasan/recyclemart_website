@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -10,38 +11,48 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { fetchExtraData } from "@/services/promo";
 
-const heroSlides = [
-  {
-    id: 1,
-    href: "/ads/featured",
-    imageSrc: "/images/hero1.png",
-  },
-  {
-    id: 2,
-    href: "/ads/electronics",
-    imageSrc: "/images/hero2.png",
-  },
-  {
-    id: 3,
-    href: "/ads/property",
-    imageSrc: "/images/hero3.png",
-  },
-  {
-    id: 4,
-    href: "/ads/electronics",
-    imageSrc: "/images/hero4.png",
-  },
-  {
-    id: 5,
-    href: "/ads/property",
-    imageSrc: "/images/hero5.png",
-  },
-] as const;
+const defaultSlides = [
+  { id: 1, href: "/ads", imageSrc: "/images/hero1.png" },
+  { id: 2, href: "/ads", imageSrc: "/images/hero2.png" },
+  { id: 3, href: "/ads", imageSrc: "/images/hero3.png" },
+  { id: 4, href: "/ads", imageSrc: "/images/hero4.png" },
+  { id: 5, href: "/ads", imageSrc: "/images/hero5.png" },
+];
 
 const Hero = () => {
   const [carouselApi, setCarouselApi] = React.useState<CarouselApi | null>(null);
   const autoplayRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
+  const [extraData, setExtraData] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const getData = async () => {
+      const res = await fetchExtraData();
+      if (res?.success) {
+        setExtraData(res.data);
+      }
+    };
+    getData();
+  }, []);
+
+  const carouselImages = React.useMemo(() => {
+    if (!extraData) return defaultSlides;
+    return [
+      { id: 1, href: "/ads", imageSrc: extraData.adImage1 || "/images/hero1.png" },
+      { id: 2, href: "/ads", imageSrc: extraData.adImage2 || "/images/hero2.png" },
+      { id: 3, href: "/ads", imageSrc: extraData.adImage3 || "/images/hero3.png" },
+      { id: 4, href: "/ads", imageSrc: extraData.adImage4 || "/images/hero4.png" },
+      { id: 5, href: "/ads", imageSrc: extraData.adImage5 || "/images/hero5.png" },
+    ];
+  }, [extraData]);
+
+  const sideAds = React.useMemo(() => {
+    return {
+      top: extraData?.adImage6 || "/images/hero4.png",
+      bottom: extraData?.adImage7 || "/images/hero5.png",
+    };
+  }, [extraData]);
 
   const stopAutoplay = React.useCallback(() => {
     if (autoplayRef.current) {
@@ -84,7 +95,7 @@ const Hero = () => {
               onBlurCapture={startAutoplay}
             >
               <CarouselContent className="ml-0">
-                {heroSlides.map((slide) => (
+                {carouselImages.map((slide) => (
                   <CarouselItem key={slide.id} className="pl-0 h-full relative">
                     <Link href={slide.href} className="block h-75 lg:h-112.5 w-full relative">
                       <Image
@@ -108,11 +119,11 @@ const Hero = () => {
           <div className="flex flex-col md:flex-row lg:flex-col gap-4 lg:gap-6 h-auto lg:h-full">
             {/* Top Ad */}
             <Link 
-              href="/ads/featured" 
+              href="/ads" 
               className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow"
             >
               <Image
-                src="/images/hero4.png"
+                src={sideAds.top}
                 alt="Featured Ad"
                 fill
                 className="object-cover transition-transform duration-500"
@@ -122,11 +133,11 @@ const Hero = () => {
 
             {/* Bottom Ad */}
             <Link 
-              href="/ads/property" 
+              href="/ads" 
               className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow"
             >
               <Image
-                src="/images/hero5.png"
+                src={sideAds.bottom}
                 alt="Property Ad"
                 fill
                 className="object-cover transition-transform duration-500"

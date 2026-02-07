@@ -1,42 +1,13 @@
 {
     "success": true,
-    "message": "Latest ads retrieved successfully!",
-    "meta": {
-        "page": 1,
-        "limit": 20,
-        "total": 3,
-        "totalPage": 1
-    },
-    "data": [
-        {
-            "id": "69575211b50959cae6a60a72",
-            "title": "Redmi note 10 pro max",
-            "price": 10000,
-            "location": "Dinajpur",
-            "postedAt": "2026-01-02T05:05:21.977Z",
-            "coverImage": "https://res.cloudinary.com/dweesppci/image/upload/v1767330320/recycle-mart/images/vep83z1bate-1767330320010-images-fitted.jpg",
-            "isFeatured": false,
-            "isUrgent": false
-        },
-        {
-            "id": "69569d2fb4dbe96259c31855",
-            "title": "Used Phone for Sale",
-            "price": 25000,
-            "location": "Dhaka",
-            "postedAt": "2026-01-01T16:13:35.247Z",
-            "coverImage": "https://res.cloudinary.com/dweesppci/image/upload/v1767284013/recycle-mart/images/it88yodrh5i-1767284012498-images-screenshot-2025-12-31-192956.png",
-            "isFeatured": false,
-            "isUrgent": false
-        },
-        {
-            "id": "69552a3d44976287fe5f586e",
-            "title": "Used Laptop for Sale",
-            "price": 25000,
-            "location": "Dhaka",
-            "postedAt": "2025-12-31T13:50:53.374Z",
-            "coverImage": "https://res.cloudinary.com/dweesppci/image/upload/v1767189050/recycle-mart/images/14zdzq2omi2-1767189049900-images-screenshot-2025-12-31-192956.png",
-            "isFeatured": false,
-            "isUrgent": false
-        }
-    ]
+    "message": "Extra data updated successfully!",
+    "data": {
+        "adImage1": "https://res.cloudinary.com/dweesppci/image/upload/v1770455397/recycle-mart/images/uagxx40wng8-1770455389114-adImage-hero1.png",
+        "adImage2": "https://res.cloudinary.com/dweesppci/image/upload/v1770455560/recycle-mart/images/7mr96ldz0o3-1770455551042-adImage-hero2.png",
+        "adImage3": "https://res.cloudinary.com/dweesppci/image/upload/v1770455580/recycle-mart/images/3ihivudm50u-1770455572668-adImage-hero4.png",
+        "adImage4": "https://res.cloudinary.com/dweesppci/image/upload/v1770455580/recycle-mart/images/3ihivudm50u-1770455572668-adImage-hero4.png",
+        "adImage5": "https://res.cloudinary.com/dweesppci/image/upload/v1770455580/recycle-mart/images/3ihivudm50u-1770455572668-adImage-hero4.png",
+        "adImage6": "https://res.cloudinary.com/dweesppci/image/upload/v1770455580/recycle-mart/images/3ihivudm50u-1770455572668-adImage-hero4.png",
+        "adImage7": "https://res.cloudinary.com/dweesppci/image/upload/v1770455580/recycle-mart/images/3ihivudm50u-1770455572668-adImage-hero4.png"
+    }
 }
