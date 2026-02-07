@@ -12,51 +12,7 @@ import {
   Mail,
 } from "lucide-react";
 
-const infoColumns = [
-  {
-    title: "Company & Legal",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Press", href: "/press" },
-      { label: "Terms & Conditions", href: "/terms" },
-      { label: "Privacy Policy", href: "/privacy" },
-    ],
-  },
-  {
-    title: "Help & Support",
-    links: [
-      { label: "FAQs", href: "/faq" },
-      { label: "Stay Safe", href: "/safety" },
-      { label: "Contact Us", href: "/contact" },
-    ],
-  },
-  {
-    title: "Guides & Blog",
-    links: [
-      { label: "MotorGuide BD", href: "/guides/motor" },
-      { label: "PropertyGuide BD", href: "/guides/property" },
-      { label: "Official Blog", href: "/blog" },
-    ],
-  },
-];
-
-const contactDetails = [
-  {
-    icon: MapPin,
-    label: "House 105, Road 12, Banani",
-    description: "Dhaka 1213, Bangladesh",
-  },
-  {
-    icon: Phone,
-    label: "+880 1302-000000",
-    description: "Support: 10am – 10pm",
-  },
-  {
-    icon: Mail,
-    label: "support@allpricebd.com",
-    description: "We reply within 24 hours",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const socials = [
   { label: "Facebook", href: "https://facebook.com", icon: Facebook },
@@ -67,6 +23,54 @@ const socials = [
 ];
 
 const Footer = () => {
+  const t = useTranslations("Footer");
+
+  const infoColumns = [
+    {
+      title: t("companyLegal"),
+      links: [
+        { label: t("aboutUs"), href: "/about" },
+        { label: t("press"), href: "/press" },
+        { label: t("termsConditions"), href: "/terms" },
+        { label: t("privacyPolicy"), href: "/privacy" },
+      ],
+    },
+    {
+      title: t("helpSupport"),
+      links: [
+        { label: t("faqs"), href: "/faq" },
+        { label: t("staySafe"), href: "/safety" },
+        { label: t("contactUs"), href: "/contact" },
+      ],
+    },
+    {
+      title: t("guidesBlog"),
+      links: [
+        { label: t("motorGuide"), href: "/guides/motor" },
+        { label: t("propertyGuide"), href: "/guides/property" },
+        { label: t("officialBlog"), href: "/blog" },
+      ],
+    },
+  ];
+
+  const contactDetails = [
+    {
+      icon: MapPin,
+      label: "House 105, Road 12, Banani",
+      description: "Dhaka 1213, Bangladesh",
+    },
+    {
+      icon: Phone,
+      label: "+880 1302-000000",
+      description: t("supportHours"),
+    },
+    {
+      icon: Mail,
+      label: "support@allpricebd.com",
+      description: t("replyWithin"),
+    },
+  ];
+
   return (
     <footer className="relative overflow-hidden border-border/30 border-t bg-background py-8 text-sm text-muted-foreground">
       <div className="custom-width mx-auto px-6">
@@ -79,7 +83,7 @@ const Footer = () => {
               <p className="text-xl font-bold text-foreground tracking-tight">Recycle Mart</p>
             </div>
             <p className="text-base leading-relaxed text-muted-foreground/90 max-w-xs">
-              Bangladesh&rsquo;s trusted marketplace for buying and selling everything—from electronics and vehicles to property and services.
+              {t("companyDescription")}
             </p>
           </div>
 
@@ -105,7 +109,7 @@ const Footer = () => {
 
           <div className="space-y-6">
             <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
-              Contact Us
+              {t("contactUs")}
             </h3>
             <div className="space-y-4">
               {contactDetails.map(({ icon: Icon, label, description }) => (
@@ -128,10 +132,10 @@ const Footer = () => {
         <div className="flex flex-col items-center justify-between gap-6 text-xs sm:flex-row">
           <div className="flex flex-col gap-2 text-center sm:text-left">
             <p className="font-medium text-muted-foreground">
-              © {new Date().getFullYear()} Recycle Mart. All rights reserved.
+              © {new Date().getFullYear()} Recycle Mart. {t("allRightsReserved")}
             </p>
             <p className="text-muted-foreground/60">
-              Developed by <span className="font-semibold text-primary">SmartEdge Technologies</span>
+              {t("developedBy")} <span className="font-semibold text-primary">SmartEdge Technologies</span>
             </p>
           </div>
           

@@ -28,5 +28,39 @@
     "toggleTheme": "Toggle theme",
     "switchToLight": "Switch to light mode",
     "switchToDark": "Switch to dark mode"
+  },
+  "Home": {
+    "browseMarketplace": "Browse the marketplace",
+    "categoriesTitle": "Categories curated for every need",
+    "categoriesSubtitle": "Pick a category to explore tailored deals and trending listings.",
+    "exploreNow": "Explore now",
+    "featuredTitle": "Featured Products",
+    "latestTitle": "Latest Ads",
+    "topTitle": "Top Ads",
+    "seeAll": "See all",
+    "noFeaturedAds": "No featured ads available at the moment.",
+    "noLatestAds": "No latest ads available.",
+    "noTopAds": "No top ads available.",
+    "viewAllCategories": "View all categories"
+  },
+  "Footer": {
+    "companyDescription": "Bangladesh’s trusted marketplace for buying and selling everything—from electronics and vehicles to property and services.",
+    "developedBy": "Developed by",
+    "allRightsReserved": "All rights reserved.",
+    "companyLegal": "Company & Legal",
+    "aboutUs": "About Us",
+    "press": "Press",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "helpSupport": "Help & Support",
+    "faqs": "FAQs",
+    "staySafe": "Stay Safe",
+    "contactUs": "Contact Us",
+    "guidesBlog": "Guides & Blog",
+    "motorGuide": "MotorGuide BD",
+    "propertyGuide": "PropertyGuide BD",
+    "officialBlog": "Official Blog",
+    "supportHours": "Support: 10am – 10pm",
+    "replyWithin": "We reply within 24 hours"
   }
 }

@@ -2,25 +2,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { Ad } from "@/types/ad.type";
+import { useTranslations } from "next-intl";
 
 interface TopAdsProps {
   ads: Ad[];
 }
 
 export default function TopAds({ ads }: TopAdsProps) {
+  const t = useTranslations("Home");
+
   return (
     <section className="py-10">
       <div className="custom-width mx-auto px-4">
         <div className="mb-6 flex items-end justify-between">
-          <h2 className="text-2xl font-semibold">Top Ads</h2>
+          <h2 className="text-2xl font-semibold">{t("topTitle")}</h2>
           <Link href="/ads" className="text-primary hover:underline">
-            See all
+            {t("seeAll")}
           </Link>
         </div>
         
         {(!ads || ads.length === 0) ? (
           <div className="text-center py-12 text-muted-foreground bg-card rounded-lg border border-dashed">
-            <p>No top ads available.</p>
+            <p>{t("noTopAds")}</p>
           </div>
         ) : (
           <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">

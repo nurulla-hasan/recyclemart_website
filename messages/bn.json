@@ -28,5 +28,39 @@
     "toggleTheme": "থিম পরিবর্তন করুন",
     "switchToLight": "লাইট মোড চালু করুন",
     "switchToDark": "ডার্ক মোড চালু করুন"
+  },
+  "Home": {
+    "browseMarketplace": "মার্কেটপ্লেস দেখুন",
+    "categoriesTitle": "আপনার প্রয়োজন অনুযায়ী ক্যাটাগরি",
+    "categoriesSubtitle": "আপনার পছন্দের ক্যাটাগরি বেছে নিন এবং সেরা ডিলগুলো দেখুন।",
+    "exploreNow": "এখনই দেখুন",
+    "featuredTitle": "ফিচারড প্রোডাক্ট",
+    "latestTitle": "সাম্প্রতিক বিজ্ঞাপন",
+    "topTitle": "সেরা বিজ্ঞাপন",
+    "seeAll": "সব দেখুন",
+    "noFeaturedAds": "এই মুহূর্তে কোনো ফিচারড বিজ্ঞাপন নেই।",
+    "noLatestAds": "কোনো সাম্প্রতিক বিজ্ঞাপন নেই।",
+    "noTopAds": "কোনো সেরা বিজ্ঞাপন নেই।",
+    "viewAllCategories": "সব ক্যাটাগরি দেখুন"
+  },
+  "Footer": {
+    "companyDescription": "বাংলাদেশি কেনাবেচার নির্ভরযোগ্য মার্কেটপ্লেস—ইলেকট্রনিক্স থেকে শুরু করে যানবাহন, প্রপার্টি এবং সার্ভিস পর্যন্ত সবকিছু।",
+    "developedBy": "ডেভেলপ করেছে",
+    "allRightsReserved": "সর্বস্বত্ব সংরক্ষিত।",
+    "companyLegal": "কোম্পানি ও লিগ্যাল",
+    "aboutUs": "আমাদের সম্পর্কে",
+    "press": "প্রেস",
+    "termsConditions": "শর্তাবলী",
+    "privacyPolicy": "প্রাইভেসি পলিসি",
+    "helpSupport": "সহায়তা ও সাপোর্ট",
+    "faqs": "জিজ্ঞাসা",
+    "staySafe": "নিরাপদ থাকুন",
+    "contactUs": "যোগাযোগ করুন",
+    "guidesBlog": "গাইড ও ব্লগ",
+    "motorGuide": "মোটরগাইড বিডি",
+    "propertyGuide": "প্রপার্টিগাইড বিডি",
+    "officialBlog": "অফিসিয়াল ব্লগ",
+    "supportHours": "সাপোর্ট: সকাল ১০টা – রাত ১০টা",
+    "replyWithin": "আমরা ২৪ ঘণ্টার মধ্যে উত্তর দেই"
   }
 }

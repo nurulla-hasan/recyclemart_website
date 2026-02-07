@@ -3,6 +3,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import PageLayout from "@/tools/PageLayout";
 import { fetchAllCategories } from "@/services/category";
+import { getTranslations } from "next-intl/server";
 
 const accentColors = [
   "from-primary/20 via-primary/10 to-transparent",
@@ -18,6 +19,7 @@ const accentColors = [
 const Category = async () => {
   const categoriesRes = await fetchAllCategories();
   const categories = categoriesRes.success ? categoriesRes.data : [];
+  const t = await getTranslations("Home");
 
   return (
     <section className="relative overflow-hidden">
@@ -26,13 +28,13 @@ const Category = async () => {
         <div className="space-y-2 pb-10">
           <div className="mx-auto max-w-3xl space-y-2 text-center">
             <span className="text-sm font-semibold uppercase tracking-[0.3em] text-foreground">
-              Browse the marketplace
+              {t("browseMarketplace")}
             </span>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
-              Categories curated for every need
+              {t("categoriesTitle")}
             </h2>
             <p className="mx-auto max-w-2xl text-base text-muted-foreground">
-              Pick a category to explore tailored deals and trending listings.
+              {t("categoriesSubtitle")}
             </p>
           </div>
         </div>
@@ -67,7 +69,7 @@ const Category = async () => {
                   <div className="space-y-1">
                     <p className="text-sm font-semibold text-foreground">{category.name}</p>
                     <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                      Explore now
+                      {t("exploreNow")}
                     </p>
                   </div>
                 </div>
