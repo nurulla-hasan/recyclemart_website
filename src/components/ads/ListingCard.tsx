@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { MapPin, Eye } from "lucide-react";
 import { RemoveFavoriteButton } from "./RemoveFavoriteButton";
 
 export type ListingCardProps = {
@@ -13,6 +13,7 @@ export type ListingCardProps = {
   isFeatured?: boolean;
   isUrgent?: boolean;
   showRemove?: boolean;
+  views?: number;
 };
 
 const ListingCard = ({
@@ -22,6 +23,7 @@ const ListingCard = ({
   location,
   imageUrl,
   showRemove = false,
+  views,
 }: ListingCardProps) => {
   const formattedPrice = typeof price === 'number' 
     ? new Intl.NumberFormat('en-BD', { style: 'currency', currency: 'BDT', maximumFractionDigits: 0 }).format(price) 
@@ -47,9 +49,17 @@ const ListingCard = ({
           {title}
         </div>
         <div className="mt-1 text-sm font-semibold text-primary">{formattedPrice}</div>
-        <div className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground">
-          <MapPin className="h-3 w-3" />
-          {location}
+        <div className="mt-2 flex items-center justify-between gap-1 text-[10px] text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <MapPin className="h-3 w-3" />
+            <span className="line-clamp-1">{location}</span>
+          </div>
+          {typeof views === 'number' && (
+            <div className="flex items-center gap-1 shrink-0">
+              <Eye className="h-3 w-3" />
+              <span>{views}</span>
+            </div>
+          )}
         </div>
       </div>
     </Link>

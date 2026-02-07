@@ -23,6 +23,7 @@ export interface Ad {
   isFeatured: boolean;
   isUrgent: boolean;
   images?: string[];
+  views?: number;
   createdAt?: string;
   updatedAt?: string;
 }

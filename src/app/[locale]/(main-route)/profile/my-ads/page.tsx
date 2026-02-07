@@ -53,6 +53,7 @@ export default async function MyAdsPage(props: {
                   imageUrl={ad.images?.[0] || ""}
                   isFeatured={ad.isFeatured}
                   isUrgent={ad.isUrgent}
+                  views={ad.views}
                 />
               ))}
             </div>

@@ -15,6 +15,7 @@ import { fetchMyFavorites } from '@/services/favorite';
 import { FavoriteItem } from '@/types/favorite.type';
 import { MessageSellerButton } from '@/components/ads/details/MessageSellerButton';
 import RelatedAds from '@/components/ads/details/RelatedAds';
+import AdViewTracker from '@/components/ads/details/AdViewTracker';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -92,6 +93,7 @@ export default async function AdDetailsPage({ params }: Props) {
 
   return (
     <PageLayout paddingSize="small">
+      <AdViewTracker adId={ad._id} />
       <div className="custom-width mx-auto">
         <CustomBreadcrumb links={breadcrumbs} />
 
