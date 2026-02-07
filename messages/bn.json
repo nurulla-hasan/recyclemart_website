@@ -205,7 +205,7 @@
   },
   "Lottery": {
     "heroBadge": "আজই বড় কিছু জিতুন",
-    "heroTitle": "রিসাইকেল মার্ট {lottery}",
+    "heroTitle": "রিসাইকেল মার্ট <highlight>{lottery}</highlight>",
     "heroLottery": "লটারি",
     "heroSubtitle": "খুবই সামান্য প্রবেশ মূল্যে আমাদের লটারিতে অংশগ্রহণ করুন। আইফোন, মোটরবাইক এবং আরও অনেক কিছু জেতার সুযোগ পান!",
     "viewActiveDraws": "চলমান লটারি দেখুন",

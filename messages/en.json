@@ -205,7 +205,7 @@
   },
   "Lottery": {
     "heroBadge": "Win Big Today",
-    "heroTitle": "Recycle Mart {lottery}",
+    "heroTitle": "Recycle Mart <highlight>{lottery}</highlight>",
     "heroLottery": "Lottery",
     "heroSubtitle": "Participate in our exciting lotteries with just a small entry fee. Win amazing prizes like iPhones, Motorbikes, and more!",
     "viewActiveDraws": "View Active Draws",
