@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useTranslations, useFormatter } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -28,6 +29,7 @@ import { ILottery } from '@/types';
 import { toast } from 'sonner';
 
 const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
+  const t = useTranslations('Lottery');
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -67,7 +69,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
         >
           <span className="text-sm font-bold text-primary leading-tight">{value}</span>
           <span className="text-[8px] uppercase text-muted-foreground leading-none">
-            {unit.charAt(0)}
+            {t(unit).charAt(0)}
           </span>
         </div>
       ))}
@@ -76,6 +78,8 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
 };
 
 export default function LotteryPage() {
+  const t = useTranslations('Lottery');
+  const format = useFormatter();
   const [lotteries, setLotteries] = useState<ILottery[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isJoining, setIsJoining] = useState<string | null>(null);
@@ -87,13 +91,13 @@ export default function LotteryPage() {
       const res = await joinLottery(lotteryId, ticketQuantity);
       
       if (res?.success && res?.data?.gatewayUrl) {
-        toast.success('Redirecting to payment gateway...');
+        toast.success(t('redirecting'));
         window.location.href = res.data.gatewayUrl;
       } else {
-        toast.error(res?.message || 'Failed to join lottery. Please try again.');
+        toast.error(res?.message || t('joinFailed'));
       }
     } catch  {
-      toast.error('An unexpected error occurred. Please try again.');
+      toast.error(t('unexpectedError'));
     } finally {
       setIsJoining(null);
     }
@@ -126,28 +130,29 @@ export default function LotteryPage() {
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="custom-width relative mx-auto px-4 text-center">
           <Badge className="mb-4 bg-white/20 text-white hover:bg-white/30">
-            Win Big Today
+            {t('heroBadge')}
           </Badge>
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-            Recycle Mart <span className="text-yellow-300">Lottery</span>
+            {t.rich('heroTitle', {
+              lottery: (chunks) => <span className="text-yellow-300">{chunks}</span>
+            })}
           </h1>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-primary-foreground/90 sm:text-xl">
-            Participate in our exciting lotteries with just a small entry fee.
-            Win amazing prizes like iPhones, Motorbikes, and more!
+            {t('heroSubtitle')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               size="lg"
               className="bg-white text-primary hover:bg-white/90 font-bold rounded-full px-8"
             >
-              View Active Draws
+              {t('viewActiveDraws')}
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="border-white hover:bg-white/10 rounded-full px-8"
             >
-              How it Works
+              {t('howItWorks')}
             </Button>
           </div>
         </div>
@@ -160,9 +165,9 @@ export default function LotteryPage() {
               <div className="mb-4 rounded-full bg-blue-100 p-4 text-blue-600">
                 <Ticket className="h-8 w-8" />
               </div>
-              <h3 className="mb-2 text-lg font-bold">Buy a Ticket</h3>
+              <h3 className="mb-2 text-lg font-bold">{t('step1Title')}</h3>
               <p className="text-sm text-muted-foreground">
-                Choose a lottery and purchase a ticket for as low as ৳10.
+                {t('step1Desc')}
               </p>
             </CardContent>
           </Card>
@@ -171,9 +176,9 @@ export default function LotteryPage() {
               <div className="mb-4 rounded-full bg-purple-100 p-4 text-purple-600">
                 <Timer className="h-8 w-8" />
               </div>
-              <h3 className="mb-2 text-lg font-bold">Wait for Draw</h3>
+              <h3 className="mb-2 text-lg font-bold">{t('step2Title')}</h3>
               <p className="text-sm text-muted-foreground">
-                Watch the live draw countdown. Winners are picked randomly.
+                {t('step2Desc')}
               </p>
             </CardContent>
           </Card>
@@ -182,9 +187,9 @@ export default function LotteryPage() {
               <div className="mb-4 rounded-full bg-green-100 p-4 text-green-600">
                 <Gift className="h-8 w-8" />
               </div>
-              <h3 className="mb-2 text-lg font-bold">Win Prizes</h3>
+              <h3 className="mb-2 text-lg font-bold">{t('step3Title')}</h3>
               <p className="text-sm text-muted-foreground">
-                If your ticket number matches, you win the grand prize!
+                {t('step3Desc')}
               </p>
             </CardContent>
           </Card>
@@ -196,11 +201,11 @@ export default function LotteryPage() {
         <Tabs defaultValue="ACTIVE" className="w-full">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              Featured Lotteries
+              {t('featuredLotteries')}
             </h2>
             <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:flex">
-              <TabsTrigger value="ACTIVE">Active Draws</TabsTrigger>
-              <TabsTrigger value="COMPLETED">Past Winners</TabsTrigger>
+              <TabsTrigger value="ACTIVE">{t('activeDraws')}</TabsTrigger>
+              <TabsTrigger value="COMPLETED">{t('pastWinners')}</TabsTrigger>
             </TabsList>
           </div>
 
@@ -233,7 +238,7 @@ export default function LotteryPage() {
                             {lottery.title}
                           </CardTitle>
                           <p className="text-xs font-semibold text-primary mt-0.5 line-clamp-1">
-                            Win: {lottery.prize}
+                            {t('win', { prize: lottery.prize })}
                           </p>
                         </div>
                       </div>
@@ -241,11 +246,11 @@ export default function LotteryPage() {
                     <CardContent className="space-y-3">
                       <div className="flex justify-between text-[11px] text-muted-foreground">
                         <span className="flex items-center gap-1">
-                          <Users className="h-3 w-3" /> {lottery.participantsCount} Participants
+                          <Users className="h-3 w-3" /> {t('participants', { count: lottery.participantsCount })}
                         </span>
                         <span className="flex items-center gap-1 font-medium text-primary/80">
                           <Ticket className="h-3 w-3" />{' '}
-                          {lottery.totalTickets} Sold
+                          {t('ticketsSold', { count: lottery.totalTickets })}
                         </span>
                       </div>
 
@@ -262,19 +267,19 @@ export default function LotteryPage() {
                             size="sm"
                             className="w-full gap-2 text-sm font-bold py-5 rounded-lg shadow-md shadow-primary/10"
                           >
-                            <Ticket className="h-4 w-4" /> Buy Ticket
+                            <Ticket className="h-4 w-4" /> {t('buyTickets')}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-106.25">
                           <DialogHeader>
-                            <DialogTitle>Join {lottery.title}</DialogTitle>
+                            <DialogTitle>{t('joinTitle', { title: lottery.title })}</DialogTitle>
                             <DialogDescription>
-                              Select how many tickets you want to purchase.
+                              {t('joinDesc')}
                             </DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 py-4">
                             <div className="grid gap-3">
-                              <Label htmlFor="quantity" className="text-center text-sm font-medium">Select Ticket Quantity</Label>
+                              <Label htmlFor="quantity" className="text-center text-sm font-medium">{t('selectQuantity')}</Label>
                               <div className="flex items-center justify-center gap-4">
                                 <Button
                                   variant="outline"
@@ -302,18 +307,18 @@ export default function LotteryPage() {
                             </div>
                             <div className="rounded-2xl border border-primary/10 p-4 bg-primary/5 space-y-2">
                               <div className="flex justify-between text-sm mb-1">
-                                <span>Price per Ticket</span>
+                                <span>{t('pricePerTicket')}</span>
                                 <span className="font-semibold">
                                   ৳{lottery.ticketPrice}
                                 </span>
                               </div>
                               <div className="flex justify-between text-sm mb-1">
-                                <span>Quantity</span>
+                                <span>{t('quantity')}</span>
                                 <span className="font-semibold">x {ticketQuantity}</span>
                               </div>
                               <div className="border-t my-2"></div>
                               <div className="flex justify-between font-bold">
-                                <span>Total Amount</span>
+                                <span>{t('totalAmount')}</span>
                                 <span className="text-primary">
                                   ৳{lottery.ticketPrice * ticketQuantity}
                                 </span>
@@ -329,10 +334,10 @@ export default function LotteryPage() {
                               {isJoining === lottery._id ? (
                                 <>
                                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  Processing...
+                                  {t('processing')}
                                 </>
                               ) : (
-                                'Pay & Join'
+                                t('payAndJoin')
                               )}
                             </Button>
                           </DialogFooter>
@@ -362,14 +367,14 @@ export default function LotteryPage() {
                           variant="secondary"
                           className="text-xs px-2 py-0 h-5"
                         >
-                          Ended
+                          {t('ended')}
                         </Badge>
                       </div>
                     </div>
                     <CardHeader>
                       <CardTitle className="text-base line-clamp-1">{lottery.title}</CardTitle>
                       <p className="text-xs text-muted-foreground line-clamp-1">
-                        Prize: {lottery.prize}
+                        {t('win', { prize: lottery.prize })}
                       </p>
                     </CardHeader>
                     <CardContent>
@@ -379,17 +384,21 @@ export default function LotteryPage() {
                         </div>
                         <div className="min-w-0">
                           <p className="text-[10px] text-muted-foreground uppercase font-bold leading-none mb-1">
-                            Winner Token
+                            {t('winnerToken')}
                           </p>
                           <p className="font-bold text-sm text-foreground truncate">
-                            {lottery.winnerToken || 'N/A'}
+                            {lottery.winnerToken || t('notAvailable')}
                           </p>
                         </div>
                       </div>
                       <div className="mt-3 flex items-center gap-1.5 text-[10px] text-green-600 font-medium">
                         <CheckCircle2 className="h-3 w-3" />
                         <span>
-                          {new Date(lottery.drawDate).toLocaleDateString()}
+                          {format.dateTime(new Date(lottery.drawDate), {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
                         </span>
                       </div>
                     </CardContent>
@@ -402,7 +411,7 @@ export default function LotteryPage() {
 
       {/* Trust Section */}
       <section className="custom-width mx-auto mt-20 px-4 text-center">
-        <h2 className="text-2xl font-bold mb-8">Live Draws & Transparency</h2>
+        <h2 className="text-2xl font-bold mb-8">{t('liveDrawTitle')}</h2>
         <div className="relative overflow-hidden rounded-3xl bg-black text-white">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516280440614-6697288d5d38?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>
           <div className="relative z-10 px-6 py-16 md:px-12 md:py-24">
@@ -412,22 +421,20 @@ export default function LotteryPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                 </span>
-                Live Streaming
+                {t('liveStreaming')}
               </div>
               <h3 className="text-3xl font-bold sm:text-4xl">
-                Watch Draws Live on Facebook & YouTube
+                {t('watchLiveTitle')}
               </h3>
               <p className="text-lg text-gray-300">
-                We ensure 100% transparency. Every draw is streamed live. You
-                can verify the results instantly. Join our community to get
-                notified.
+                {t('transparencyDesc')}
               </p>
               <div className="flex flex-wrap justify-center gap-4 pt-4">
                 <Button className="bg-[#1877F2] hover:bg-[#1877F2]/90 text-white gap-2">
-                  Watch on Facebook
+                  {t('watchFacebook')}
                 </Button>
                 <Button className="bg-[#FF0000] hover:bg-[#FF0000]/90 text-white gap-2">
-                  Watch on YouTube
+                  {t('watchYouTube')}
                 </Button>
               </div>
             </div>
