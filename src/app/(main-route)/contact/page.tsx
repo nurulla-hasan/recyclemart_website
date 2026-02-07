@@ -19,7 +19,7 @@ const ContactPage = () => {
     try {
       const res = await createContact(data);
       if (res.success) {
-        SuccessToast(res.message || "Message sent successfully!");
+        SuccessToast("ধন্যবাদ! আপনার বার্তাটি আমরা পেয়েছি। খুব শীঘ্রই আপনার সাথে যোগাযোগ করা হবে।");
         reset();
       } else {
         ErrorToast(res.message || "Failed to send message");
@@ -121,14 +121,25 @@ const ContactPage = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-semibold ml-1">Subject</label>
-                    <input 
-                      type="text" 
-                      {...register("subject", { required: true })}
-                      placeholder="How can we help you?" 
-                      className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-semibold ml-1">Phone Number</label>
+                      <input 
+                        type="tel" 
+                        {...register("phone", { required: true })}
+                        placeholder="+880 1234 567 890" 
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-semibold ml-1">Subject</label>
+                      <input 
+                        type="text" 
+                        {...register("subject", { required: true })}
+                        placeholder="How can we help you?" 
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-2">

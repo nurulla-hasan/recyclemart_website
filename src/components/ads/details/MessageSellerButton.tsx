@@ -37,7 +37,7 @@ export function MessageSellerButton({
       toast.error('চ্যাটে যেতে লগইন করুন', {
         description: 'আপনি লগইন না করলে বার্তা পাঠাতে পারবেন না。',
       });
-      router.push(`/signin?redirect=/ads/${adId}`);
+      router.push(`/auth/login?redirect=/ads/${adId}`);
       return;
     }
 
