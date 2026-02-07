@@ -3,12 +3,14 @@ import ListingCard from "@/components/ads/ListingCard";
 import CustomPagination from "@/tools/CustomPagination";
 import { fetchMyFavorites } from "@/services/favorite";
 import { Heart } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { FavoriteItem } from "@/types/favorite.type";
 
 import { PageProps } from "@/types/page.type";
 
 export default async function FavouriteAdsPage({ searchParams }: PageProps) {
+  const t = await getTranslations("Profile.favourites");
   const filter = await searchParams;
   const page = Math.max(1, parseInt(filter.page as string) || 1);
   const limit = Math.max(1, parseInt(filter.limit as string) || 10);
@@ -21,8 +23,8 @@ export default async function FavouriteAdsPage({ searchParams }: PageProps) {
   return (
     <div className="space-y-6">
       <ProfilePageHeader
-        title="Favourite ads"
-        description="Everything you love in one place. Track price drops, contact sellers quickly, and share your shortlist."
+        title={t("title")}
+        description={t("description")}
       />
 
       <section>
@@ -31,9 +33,9 @@ export default async function FavouriteAdsPage({ searchParams }: PageProps) {
             <div className="rounded-full bg-muted p-6 mb-4">
               <Heart className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-semibold">No favourites yet</h3>
+            <h3 className="text-xl font-semibold">{t("emptyTitle")}</h3>
             <p className="text-muted-foreground mt-2 max-w-xs">
-              Ads you mark as favourite will appear here. Start exploring and save what you love!
+              {t("emptyDesc")}
             </p>
           </div>
         ) : (

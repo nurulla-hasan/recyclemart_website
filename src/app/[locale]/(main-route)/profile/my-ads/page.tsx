@@ -4,12 +4,14 @@ import CustomPagination from "@/tools/CustomPagination";
 import { fetchMyAds } from "@/services/ads";
 import { PackageOpen } from "lucide-react";
 import { timeAgo } from "@/lib/utils";
+import { getTranslations } from "next-intl/server";
 
 import { Ad } from "@/types/ad.type";
 
 export default async function MyAdsPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const t = await getTranslations("Profile.myAds");
   const searchParams = await props.searchParams;
   const page = Number(searchParams.page) || 1;
   const limit = Number(searchParams.limit) || 10;
@@ -22,8 +24,8 @@ export default async function MyAdsPage(props: {
   return (
     <div className="space-y-6">
       <ProfilePageHeader
-        title="Manage your ads"
-        description="Track performance, renew listings, and promote your ads for maximum visibility."
+        title={t("title")}
+        description={t("description")}
       />
 
       <section>
@@ -32,9 +34,9 @@ export default async function MyAdsPage(props: {
             <div className="rounded-full bg-muted p-6 mb-4">
               <PackageOpen className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-semibold">No ads posted yet</h3>
+            <h3 className="text-xl font-semibold">{t("emptyTitle")}</h3>
             <p className="text-muted-foreground mt-2 max-w-xs">
-              When you post ads, they will appear here for you to manage and track performance.
+              {t("emptyDesc")}
             </p>
           </div>
         ) : (

@@ -257,5 +257,166 @@
     "redirecting": "Redirecting to payment gateway...",
     "joinFailed": "Failed to join lottery. Please try again.",
     "unexpectedError": "An unexpected error occurred. Please try again."
+  },
+  "Profile": {
+    "welcome": "Welcome back",
+    "buyerDesc": "Manage your favourites, lottery entries and account settings.",
+    "vendorDesc": "Track your ads, performance, and manage your vendor account.",
+    "postNewAd": "Post New Ad",
+    "stats": {
+      "favourites": "Favourites",
+      "myChats": "My Chats",
+      "messages": "Messages",
+      "accountStatus": "Account Status",
+      "active": "Active",
+      "settings": "Settings",
+      "manage": "Manage",
+      "activeAds": "Active Ads",
+      "subscription": "Subscription"
+    },
+    "sections": {
+      "helpSupport": "Help & Support",
+      "trustSafety": "Trust & Safety",
+      "vendorTips": "Vendor Tips",
+      "accountPerformance": "Account Performance",
+      "performancePlaceholder": "Your ad performance analytics will appear here."
+    },
+    "support": {
+      "howToBuy": "How to buy safely?",
+      "howToBuyDesc": "Read our guide on secure transactions.",
+      "refundPolicy": "Refund Policy",
+      "refundPolicyDesc": "Understand how our protection works.",
+      "contactSupport": "Contact Support",
+      "contactSupportDesc": "Get help from our 24/7 team."
+    },
+    "trust": {
+      "verifiedSellers": "Verified Sellers",
+      "verifiedSellersDesc": "We verify all top vendors for your safety.",
+      "securePayments": "Secure Payments",
+      "securePaymentsDesc": "Your financial data is always encrypted."
+    },
+    "tips": {
+      "photos": "Use high-quality photos for 3x more views.",
+      "descriptions": "Detailed descriptions reduce inquiry time.",
+      "boost": "Boost your ads for faster sales.",
+      "safeBuying": "Safe Buying",
+      "safeBuyingDesc": "Always meet in public places and inspect the item before paying.",
+      "priceAlerts": "Price Alerts",
+      "priceAlertsDesc": "Add items to favorites to get notified when prices drop.",
+      "winBig": "Win Big",
+      "winBigDesc": "Participate in weekly lotteries to win premium recycling tools."
+    },
+    "sidebar": {
+      "overview": "Overview",
+      "dashboard": "Dashboard",
+      "myActivity": "My Activity",
+      "myAds": "My Ads",
+      "favouriteAds": "Favourite Ads",
+      "myLottery": "My Lottery",
+      "mySubscription": "My Subscription",
+      "account": "Account",
+      "settings": "Settings",
+      "postAnAd": "Post an ad",
+      "verified": "Verified",
+      "member": "Member",
+      "noContactInfo": "No contact info",
+      "manageAccount": "Manage Account",
+      "userName": "User Name",
+      "roles": {
+        "VENDOR": "Vendor",
+        "BUYER": "Buyer",
+        "ADMIN": "Admin"
+      }
+    },
+    "favourites": {
+      "title": "Favourite ads",
+      "description": "Everything you love in one place. Track price drops, contact sellers quickly, and share your shortlist.",
+      "emptyTitle": "No favourites yet",
+      "emptyDesc": "Ads you mark as favourite will appear here. Start exploring and save what you love!"
+    },
+    "myAds": {
+      "title": "Manage your ads",
+      "description": "Track performance, renew listings, and promote your ads for maximum visibility.",
+      "emptyTitle": "No ads posted yet",
+      "emptyDesc": "When you post ads, they will appear here for you to manage and track performance."
+    },
+    "myLottery": {
+      "title": "My Lottery",
+      "description": "Increase your chances to win exclusive prizes and ad boosts. Track entries, rewards, and draw schedules here.",
+      "stats": {
+        "entries": "Entries this month",
+        "wins": "Wins so far",
+        "activeEntries": "Active entries",
+        "totalLuckyDraws": "Total lucky draws"
+      },
+      "upcomingDraws": "Upcoming draws",
+      "upcomingDesc": "View your active entries and upcoming draw dates.",
+      "drawDate": "Draw Date",
+      "tokens": "Tokens"
+    },
+    "settings": {
+      "title": "Profile settings",
+      "description": "Update account details, manage security preferences, and configure notifications.",
+      "tabs": {
+        "account": "Account",
+        "security": "Security"
+      }
+    },
+    "subscription": {
+      "title": "Subscription & billing",
+      "description": "Choose the right plan to boost your sales and visibility on Recycle Mart.",
+      "viewMySub": "View My Subscription",
+      "activeSubTitle": "My Active Subscription",
+      "activeSubDesc": "Your current plan details and billing cycle.",
+      "currentPlan": "Current Plan",
+      "active": "Active",
+      "price": "Price",
+      "nextBilling": "Next Billing",
+      "startedOn": "Started On",
+      "renewalDate": "Renewal Date",
+      "availableCredits": "Available Credits",
+      "credits": "Credits",
+      "autoRenew": "Auto Renew",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "planBenefits": "Plan Benefits",
+      "status": "Status",
+      "freePlan": "Free Plan",
+      "popular": "Popular",
+      "mostPopular": "Most Popular",
+      "activePlan": "Active Plan",
+      "autoActivated": "Auto Activated",
+      "includedFeatures": "Included features",
+      "adsListingLimit": "Active ads listing",
+      "free": "Free",
+      "monthly": "Monthly",
+      "perMonth": "/ month",
+      "upgradeTo": "Upgrade to",
+      "current": "Current Plan",
+      "adsLimit": "Ads limit",
+      "lotteryTokens": "Lottery tokens",
+      "supportType": "Support type",
+      "duration": "Duration",
+      "invoiceHistory": "Billing history",
+      "invoiceDesc": "Track your payments and download invoices.",
+      "noInvoices": "No billing history found.",
+      "table": {
+        "plan": "Plan",
+        "amount": "Amount",
+        "date": "Date",
+        "status": "Status",
+        "action": "Action",
+        "invoice": "Invoice"
+      },
+      "download": "Download",
+      "paymentFailed": "Failed to initiate payment",
+      "unexpectedError": "An unexpected error occurred",
+      "plans": {
+        "free": "Perfect for casual sellers getting started.",
+        "basic": "Ideal for regular sellers with more items.",
+        "premium": "Best for power users and small businesses.",
+        "standard": "Standard plan for growth."
+      }
+    }
   }
 }

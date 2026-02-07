@@ -5,30 +5,35 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProfilePageHeader } from "@/components/profile/ProfilePageHeader";
 import { fetchLotterySummary, fetchUpcomingLotteries, fetchMyLotteryTokens } from "@/services/lottery";
+import { getTranslations } from "next-intl/server";
 
 // Token Component to fetch individual lottery tokens
-async function LotteryTokenList({ lotteryId }: { lotteryId: string }) {
+async function LotteryTokenList({ lotteryId, t }: { lotteryId: string, t: any }) {
   const tokenRes = await fetchMyLotteryTokens(lotteryId);
   const tokens = tokenRes?.success ? tokenRes.data?.tokenNumbers : [];
 
   if (!tokens || tokens.length === 0) return null;
 
   return (
-    <div className="mt-3 flex flex-wrap gap-1.5">
-      {tokens.map((token: string) => (
-        <Badge 
-          key={token} 
-          variant="secondary" 
-          className="bg-primary/5 text-primary border-primary/10 text-[10px] font-mono px-1.5 py-0"
-        >
-          {token}
-        </Badge>
-      ))}
+    <div className="mt-1 space-y-1.5">
+      <p className="text-[10px] text-muted-foreground font-medium">{t("tokens")}:</p>
+      <div className="flex flex-wrap gap-1.5">
+        {tokens.map((token: string) => (
+          <Badge 
+            key={token} 
+            variant="secondary" 
+            className="bg-primary/5 text-primary border-primary/10 text-[10px] font-mono px-1.5 py-0"
+          >
+            {token}
+          </Badge>
+        ))}
+      </div>
     </div>
   );
 }
 
 export default async function MyLotteryPage() {
+  const t = await getTranslations("Profile.myLottery");
   const [summaryRes, upcomingRes] = await Promise.all([
     fetchLotterySummary(),
     fetchUpcomingLotteries(),
@@ -39,15 +44,15 @@ export default async function MyLotteryPage() {
 
   const lotteryStats = [
     {
-      label: "Entries this month",
+      label: t("stats.entries"),
       value: summary?.entriesThisMonth || "0",
-      change: "Active entries",
+      change: t("stats.activeEntries"),
       icon: Ticket,
     },
     {
-      label: "Wins so far",
+      label: t("stats.wins"),
       value: summary?.winsCount || "0",
-      change: "Total lucky draws",
+      change: t("stats.totalLuckyDraws"),
       icon: Trophy,
     },
   ];
@@ -55,8 +60,8 @@ export default async function MyLotteryPage() {
   return (
     <div className="space-y-6">
       <ProfilePageHeader
-        title="My Lottery"
-        description="Increase your chances to win exclusive prizes and ad boosts. Track entries, rewards, and draw schedules here."
+        title={t("title")}
+        description={t("description")}
       />
 
       <section className="grid gap-4 md:grid-cols-2">
@@ -83,9 +88,9 @@ export default async function MyLotteryPage() {
         <Card className="border-border/60 bg-card/95 shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base font-semibold">
-              <CalendarDays className="h-4 w-4 text-primary" /> Upcoming draws
+              <CalendarDays className="h-4 w-4 text-primary" /> {t("upcomingDraws")}
             </CardTitle>
-            <CardDescription>View your active entries and upcoming draw dates.</CardDescription>
+            <CardDescription>{t("upcomingDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {upcomingDraws.length > 0 ? (
@@ -98,25 +103,20 @@ export default async function MyLotteryPage() {
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div>
                         <p className="font-semibold text-foreground">{draw.title}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Draw on {new Date(draw.drawDate).toLocaleDateString()}
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {t("drawDate")}: {draw.drawDate}
                         </p>
                       </div>
-                      <Badge variant="outline" className="border-primary/40 text-primary">
-                        {draw.status}
-                      </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">Price: ৳{draw.ticketPrice}</p>
                     
-                    {/* Integrated Token List */}
-                    <LotteryTokenList lotteryId={draw.lotteryId} />
+                    <LotteryTokenList lotteryId={draw.lotteryId} t={t} />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-8 text-center">
-                <Ticket className="h-12 w-12 text-muted-foreground/20" />
-                <p className="mt-2 text-sm text-muted-foreground">No upcoming draws found.</p>
+              <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground bg-muted/20 rounded-xl border border-dashed border-border/60">
+                <Ticket className="h-8 w-8 mb-2 opacity-20" />
+                <p>{t("noDraws")}</p>
               </div>
             )}
           </CardContent>

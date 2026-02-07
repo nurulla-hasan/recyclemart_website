@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { LucideIcon } from "lucide-react";
 import {
   Heart,
@@ -53,29 +54,6 @@ type NavSection = {
   items: NavItem[];
 };
 
-const navSections: NavSection[] = [
-  {
-    title: "Overview",
-    items: [
-      { label: "Dashboard", href: "/profile", icon: LayoutDashboard },
-      // { label: "Alerts", href: "/profile/alerts", icon: Bell, badge: 3 },
-    ],
-  },
-  {
-    title: "My Activity",
-    items: [
-      { label: "My Ads", href: "/profile/my-ads", icon: Megaphone },
-      { label: "Favourite Ads", href: "/profile/favourites", icon: Heart },
-      { label: "My Lottery", href: "/profile/my-lottery", icon: Ticket },
-      { label: "My Subscription", href: "/profile/subscription", icon: CreditCard },
-    ],
-  },
-  {
-    title: "Account",
-    items: [{ label: "Settings", href: "/profile/settings", icon: Settings }],
-  },
-];
-
 type SidebarContentProps = {
   user: UserProfile | null;
   className?: string;
@@ -93,8 +71,31 @@ function SidebarContent({
   onNavigate,
   LinkWrapper,
 }: SidebarContentProps) {
+  const t = useTranslations("Profile.sidebar");
   const pathname = usePathname();
   const { isBuyer, isLoading: roleLoading } = useUserRole();
+
+  const navSections: NavSection[] = [
+    {
+      title: t("overview"),
+      items: [
+        { label: t("dashboard"), href: "/profile", icon: LayoutDashboard },
+      ],
+    },
+    {
+      title: t("myActivity"),
+      items: [
+        { label: t("myAds"), href: "/profile/my-ads", icon: Megaphone },
+        { label: t("favouriteAds"), href: "/profile/favourites", icon: Heart },
+        { label: t("myLottery"), href: "/profile/my-lottery", icon: Ticket },
+        { label: t("mySubscription"), href: "/profile/subscription", icon: CreditCard },
+      ],
+    },
+    {
+      title: t("account"),
+      items: [{ label: t("settings"), href: "/profile/settings", icon: Settings }],
+    },
+  ];
 
   const isActive = (href: string) => {
     if (href === "/profile") {
@@ -137,22 +138,22 @@ function SidebarContent({
         </Avatar>
         <div className="flex-1 min-w-0">
           <h2 className="text-base font-bold leading-tight truncate">
-            {user?.name || "User Name"}
+            {user?.name || t("userName")}
           </h2>
           <p className="text-xs text-muted-foreground font-medium">
-            {user?.phone || user?.email || "No contact info"}
+            {user?.phone || user?.email || t("noContactInfo")}
           </p>
           <div className="mt-2 flex items-center gap-2">
             <Badge
               variant="secondary"
               className="text-[10px] h-5 font-semibold bg-primary/10 text-primary border-none"
             >
-              {user?.role || "Member"}
+              {user?.role ? t(`roles.${user.role}`) : t("member")}
             </Badge>
             {user?.isVerifiedByOTP ? (
               <Badge className="text-[10px] h-5 gap-1 bg-emerald-500 hover:bg-emerald-600 border-none">
                 <ShieldCheck className="h-3 w-3" />
-                Verified
+                {t("verified")}
               </Badge>
             ) : null}
           </div>
@@ -161,7 +162,7 @@ function SidebarContent({
 
       {!isBuyer && (
         <Button variant="default" className="w-full rounded-full">
-          <Link href="/ads/create">Post an ad</Link>
+          <Link href="/ads/create">{t("postAnAd")}</Link>
         </Button>
       )}
 
@@ -251,6 +252,7 @@ export default function ProfileSidebar({
   className,
   onNavigate,
 }: ProfileSidebarProps) {
+  const t = useTranslations("Profile.sidebar");
   if (variant === "mobile") {
     return (
       <Sheet>
@@ -267,14 +269,14 @@ export default function ProfileSidebar({
                 </AvatarFallback>
               </Avatar>
               <div className="min-w-0">
-                <p className="font-semibold leading-none truncate">{user?.name}</p>
-                <p className="text-xs text-muted-foreground mt-1">Manage Account</p>
+                <p className="font-semibold leading-none truncate">{user?.name || t("userName")}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t("manageAccount")}</p>
               </div>
             </div>
             <Menu className="h-5 w-5 text-muted-foreground" />
           </Button>
         </SheetTrigger>
-        <SheetTitle className="sr-only">Manage Account</SheetTitle>
+        <SheetTitle className="sr-only">{t("manageAccount")}</SheetTitle>
         <SheetContent side="left" className="w-[320px] p-5 overflow-y-auto">
           <SidebarContent user={user} onNavigate={onNavigate} LinkWrapper={SheetClose} />
         </SheetContent>

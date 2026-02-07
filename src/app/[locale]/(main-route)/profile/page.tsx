@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { ProfilePageHeader } from "@/components/profile/ProfilePageHeader";
 import { useUserRole } from "@/hooks/useUserRole";
+import { useTranslations } from "next-intl";
 import { 
   Megaphone, 
   Heart, 
@@ -27,6 +28,7 @@ import { fetchLotterySummary } from "@/services/lottery";
 import { fetchWalletBalance, fetchMySubscription } from "@/services/profile";
 
 export default function ProfileDashboardPage() {
+  const t = useTranslations("Profile");
   const { isBuyer, isLoading: roleLoading } = useUserRole();
   const [stats, setStats] = useState({
     adsCount: 0,
@@ -54,7 +56,7 @@ export default function ProfileDashboardPage() {
           favoritesCount: favorites?.meta?.total || favorites?.data?.length || 0,
           lotteryTokens: lottery?.data?.totalTokens || 0,
           walletBalance: wallet?.data?.balance || 0,
-          subscriptionPlan: subscription?.data?.plan?.name || "Free",
+          subscriptionPlan: subscription?.data?.plan?.name || t("subscription.freePlan"),
           totalViews: ads?.data?.reduce((acc: number, ad: any) => acc + (ad.views || 0), 0) || 0,
         });
       } catch {
@@ -89,18 +91,18 @@ export default function ProfileDashboardPage() {
   return (
     <div className="space-y-6">
       <ProfilePageHeader
-        title="Welcome back"
+        title={t("welcome")}
         description={
           isBuyer 
-            ? "Manage your favourites, lottery entries and account settings." 
-            : "Track your ads, performance, and manage your vendor account."
+            ? t("buyerDesc") 
+            : t("vendorDesc")
         }
         actions={
           !isBuyer && (
             <Button asChild className="rounded-full shadow-lg shadow-primary/20">
               <Link href="/ads/create">
                 <PlusCircle className="mr-2 h-4 w-4" />
-                Post New Ad
+                {t("postNewAd")}
               </Link>
             </Button>
           )
@@ -112,26 +114,26 @@ export default function ProfileDashboardPage() {
         {isBuyer ? (
           <>
             <StatsCard 
-              title="Favourites" 
+              title={t("stats.favourites")} 
               value={stats.favoritesCount.toString()} 
               icon={Heart} 
               href="/profile/favourites"
             />
             <StatsCard 
-              title="My Chats" 
-              value="Messages" 
+              title={t("stats.myChats")} 
+              value={t("stats.messages")} 
               icon={MessageSquare} 
               href="/chat"
             />
             <StatsCard 
-              title="Account Status" 
-              value="Active" 
+              title={t("stats.accountStatus")} 
+              value={t("stats.active")} 
               icon={User} 
               href="/profile/settings"
             />
             <StatsCard 
-              title="Settings" 
-              value="Manage" 
+              title={t("stats.settings")} 
+              value={t("stats.manage")} 
               icon={Settings} 
               href="/profile/settings"
             />
@@ -139,25 +141,25 @@ export default function ProfileDashboardPage() {
         ) : (
           <>
             <StatsCard 
-              title="Active Ads" 
+              title={t("stats.activeAds")} 
               value={stats.adsCount.toString()} 
               icon={Megaphone} 
               href="/profile/my-ads"
             />
             <StatsCard 
-              title="My Chats" 
-              value="Messages" 
+              title={t("stats.myChats")} 
+              value={t("stats.messages")} 
               icon={MessageSquare} 
               href="/chat"
             />
             <StatsCard 
-              title="Settings" 
-              value="Manage" 
+              title={t("stats.settings")} 
+              value={t("stats.manage")} 
               icon={Settings} 
               href="/profile/settings"
             />
             <StatsCard 
-              title="Subscription" 
+              title={t("stats.subscription")} 
               value={stats.subscriptionPlan} 
               icon={CreditCard} 
               href="/profile/subscription"
@@ -175,22 +177,22 @@ export default function ProfileDashboardPage() {
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <HelpCircle className="h-5 w-5 text-primary" />
-                  Help & Support
+                  {t("sections.helpSupport")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 gap-3">
                   <SupportItem 
-                    title="How to buy safely?" 
-                    description="Read our guide on secure transactions."
+                    title={t("support.howToBuy")} 
+                    description={t("support.howToBuyDesc")}
                   />
                   <SupportItem 
-                    title="Refund Policy" 
-                    description="Understand how our protection works."
+                    title={t("support.refundPolicy")} 
+                    description={t("support.refundPolicyDesc")}
                   />
                   <SupportItem 
-                    title="Contact Support" 
-                    description="Get help from our 24/7 team."
+                    title={t("support.contactSupport")} 
+                    description={t("support.contactSupportDesc")}
                   />
                 </div>
               </CardContent>
@@ -201,7 +203,7 @@ export default function ProfileDashboardPage() {
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <ShieldCheck className="h-5 w-5 text-primary" />
-                  Trust & Safety
+                  {t("sections.trustSafety")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -211,8 +213,8 @@ export default function ProfileDashboardPage() {
                       <ShieldCheck className="h-3 w-3 text-primary-foreground" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium">Verified Sellers</p>
-                      <p className="text-xs text-muted-foreground">We verify all top vendors for your safety.</p>
+                      <p className="text-sm font-medium">{t("trust.verifiedSellers")}</p>
+                      <p className="text-xs text-muted-foreground">{t("trust.verifiedSellersDesc")}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -220,8 +222,8 @@ export default function ProfileDashboardPage() {
                       <ShieldCheck className="h-3 w-3 text-primary-foreground" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium">Secure Payments</p>
-                      <p className="text-xs text-muted-foreground">Your financial data is always encrypted.</p>
+                      <p className="text-sm font-medium">{t("trust.securePayments")}</p>
+                      <p className="text-xs text-muted-foreground">{t("trust.securePaymentsDesc")}</p>
                     </div>
                   </div>
                 </div>
@@ -235,15 +237,15 @@ export default function ProfileDashboardPage() {
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2 text-primary">
                   <Zap className="h-5 w-5" />
-                  Vendor Tips
+                  {t("sections.vendorTips")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {[
-                    "Use high-quality photos for 3x more views.",
-                    "Detailed descriptions reduce inquiry time.",
-                    "Boost your ads for faster sales."
+                    t("tips.photos"),
+                    t("tips.descriptions"),
+                    t("tips.boost")
                   ].map((tip, i) => (
                     <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-background border border-border/50">
                       <p className="text-sm font-medium text-muted-foreground">{tip}</p>
@@ -256,13 +258,13 @@ export default function ProfileDashboardPage() {
             <Card className="border-none shadow-sm bg-primary/5 border border-primary/10">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold">
-                  Account Performance
+                  {t("sections.accountPerformance")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-50 flex items-center justify-center border-2 border-dashed border-primary/20 rounded-xl">
                   <p className="text-sm text-muted-foreground italic">
-                    Your ad performance analytics will appear here.
+                    {t("sections.performancePlaceholder")}
                   </p>
                 </div>
               </CardContent>
@@ -275,18 +277,18 @@ export default function ProfileDashboardPage() {
       {isBuyer && (
         <div className="grid gap-4 md:grid-cols-3">
           <TipCard 
-            title="Safe Buying"
-            description="Always meet in public places and inspect the item before paying."
+            title={t("tips.safeBuying")}
+            description={t("tips.safeBuyingDesc")}
             icon={ShieldCheck}
           />
           <TipCard 
-            title="Price Alerts"
-            description="Add items to favorites to get notified when prices drop."
+            title={t("tips.priceAlerts")}
+            description={t("tips.priceAlertsDesc")}
             icon={Megaphone}
           />
           <TipCard 
-            title="Win Big"
-            description="Participate in weekly lotteries to win premium recycling tools."
+            title={t("tips.winBig")}
+            description={t("tips.winBigDesc")}
             icon={Ticket}
           />
         </div>

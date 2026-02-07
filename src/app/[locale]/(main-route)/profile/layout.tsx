@@ -8,10 +8,9 @@ type ProfileLayoutProps = {
 export default async function ProfileLayout({ children }: ProfileLayoutProps) {
   const profileData = await fetchMyProfile();
   const user = profileData?.success ? profileData.data : null;
-  console.log(user);
 
   return (
-    <div className="min-h-screen bg-muted/20">
+    <div className="screen-height bg-muted/20">
       <div className="custom-width mx-auto px-4 py-6">
         <div className="lg:hidden">
           <div className="rounded-xl border bg-card shadow-sm">

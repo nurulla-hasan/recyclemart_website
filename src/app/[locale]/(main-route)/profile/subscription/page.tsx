@@ -18,37 +18,40 @@ import {
 import { fetchAllPlans, fetchMyInvoices, fetchMySubscription } from "@/services/profile";
 import { UpgradeButton } from "@/components/subscription/UpgradeButton";
 
-const getPlanConfig = (name: string) => {
+import { getTranslations } from "next-intl/server";
+
+const getPlanConfig = (name: string, t: any) => {
   switch (name.toLowerCase()) {
     case 'free':
       return { 
         icon: <Ticket className="h-6 w-6 text-slate-500" />, 
         color: "slate", 
-        description: "Perfect for casual sellers getting started." 
+        description: t("plans.free")
       };
     case 'basic':
       return { 
         icon: <Zap className="h-6 w-6 text-blue-500" />, 
         color: "blue", 
-        description: "Ideal for regular sellers with more items.",
+        description: t("plans.basic"),
       };
     case 'premium':
       return { 
         icon: <Crown className="h-6 w-6 text-amber-500" />, 
         color: "amber", 
-        description: "Best for power users and small businesses.",
+        description: t("plans.premium"),
         popular: true 
       };
     default:
       return { 
         icon: <Zap className="h-6 w-6 text-primary" />, 
         color: "primary", 
-        description: "Standard plan for growth." 
+        description: t("plans.standard") 
       };
   }
 };
 
 export default async function SubscriptionPage() {
+  const t = await getTranslations("Profile.subscription");
   const [plansRes, mySubRes, invoicesRes] = await Promise.all([
     fetchAllPlans(),
     fetchMySubscription(),
@@ -62,14 +65,14 @@ export default async function SubscriptionPage() {
   return (
     <div className="space-y-8">
       <ProfilePageHeader
-        title="Subscription & billing"
-        description="Choose the right plan to boost your sales and visibility on Recycle Mart."
+        title={t("title")}
+        description={t("description")}
         actions={
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="outline" className="rounded-full shadow-sm hover:bg-primary/5 hover:text-primary transition-all gap-2">
                   <Eye className="h-4 w-4" />
-                  View My Subscription
+                  {t("viewMySub")}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md border-none shadow-2xl overflow-hidden p-0">
@@ -79,10 +82,10 @@ export default async function SubscriptionPage() {
                       <div className="p-2 rounded-xl bg-primary text-primary-foreground">
                         <Crown className="h-5 w-5" />
                       </div>
-                      <DialogTitle className="text-xl">My Active Subscription</DialogTitle>
+                      <DialogTitle className="text-xl">{t("activeSubTitle")}</DialogTitle>
                     </div>
                     <DialogDescription className="text-muted-foreground/90">
-                      Your current plan details and billing cycle.
+                      {t("activeSubDesc")}
                     </DialogDescription>
                   </DialogHeader>
                 </div>
@@ -91,11 +94,11 @@ export default async function SubscriptionPage() {
                   {/* Plan Info */}
                   <div className="flex items-center justify-between p-4 rounded-2xl bg-muted/30 border border-border/50">
                     <div>
-                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Current Plan</p>
-                      <h4 className="text-2xl font-bold text-primary">{currentSub?.plan?.name || "Free Plan"}</h4>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">{t("currentPlan")}</p>
+                      <h4 className="text-2xl font-bold text-primary">{currentSub?.plan?.name || t("freePlan")}</h4>
                     </div>
                     <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 px-3 py-1">
-                      {currentSub?.status || "Active"}
+                      {currentSub?.status || t("active")}
                     </Badge>
                   </div>
 
@@ -104,7 +107,7 @@ export default async function SubscriptionPage() {
                     <div className="space-y-1 p-3 rounded-xl bg-muted/20 border border-border/30">
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <Calendar className="h-3.5 w-3.5" />
-                        <span className="text-[10px] font-semibold uppercase tracking-wider">Started On</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">{t("startedOn")}</span>
                       </div>
                       <p className="text-sm font-bold">
                         {currentSub?.createdAt ? format(new Date(currentSub.createdAt), "dd MMM, yyyy") : "N/A"}
@@ -113,7 +116,7 @@ export default async function SubscriptionPage() {
                     <div className="space-y-1 p-3 rounded-xl bg-muted/20 border border-border/30">
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span className="text-[10px] font-semibold uppercase tracking-wider">Renewal Date</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-wider">{t("renewalDate")}</span>
                       </div>
                       <p className="text-sm font-bold">
                         {currentSub?.renewsAt ? format(new Date(currentSub.renewsAt), "dd MMM, yyyy") : "N/A"}
@@ -128,13 +131,13 @@ export default async function SubscriptionPage() {
                         <Coins className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Available Credits</p>
-                        <p className="text-sm font-bold">{currentSub?.credits || 0} Credits</p>
+                        <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{t("availableCredits")}</p>
+                        <p className="text-sm font-bold">{currentSub?.credits || 0} {t("credits")}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Auto Renew</p>
-                      <p className="text-xs font-bold text-primary">{currentSub?.autoRenew ? "Enabled" : "Disabled"}</p>
+                      <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{t("autoRenew")}</p>
+                      <p className="text-xs font-bold text-primary">{currentSub?.autoRenew ? t("enabled") : t("disabled")}</p>
                     </div>
                   </div>
 
@@ -142,7 +145,7 @@ export default async function SubscriptionPage() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-primary">
                       <ShieldCheck className="h-4 w-4" />
-                      <span className="text-sm font-bold">Plan Benefits</span>
+                      <span className="text-sm font-bold">{t("planBenefits")}</span>
                     </div>
                     <div className="grid grid-cols-1 gap-2.5 pl-1">
                       {currentSub?.plan?.features?.map((feature: string, idx: number) => (
@@ -151,17 +154,13 @@ export default async function SubscriptionPage() {
                           {feature}
                         </div>
                       ))}
-                      <div className="flex items-center gap-3 text-sm text-muted-foreground font-medium">
-                        <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
-                        {currentSub?.plan?.adsLimit || 0} Ads Listing Limit
-                      </div>
                     </div>
                   </div>
 
                   {/* Footer Info */}
                   <div className="pt-4 border-t border-border/50 flex items-center justify-between text-[11px] text-muted-foreground italic">
-                    <p>Last Updated: {currentSub?.updatedAt ? format(new Date(currentSub.updatedAt), "dd MMM, yyyy") : "N/A"}</p>
-                    <p className="font-bold text-primary not-italic">Total: ৳{currentSub?.plan?.price || 0}</p>
+                    <p>{t("status")}: {currentSub?.status || t("active")}</p>
+                    <p className="font-bold text-primary not-italic">{t("price")}: ৳{currentSub?.plan?.price || 0}</p>
                   </div>
                 </div>
               </DialogContent>
@@ -172,7 +171,7 @@ export default async function SubscriptionPage() {
       {/* Plans Section */}
       <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {plans.map((plan: any) => {
-          const config = getPlanConfig(plan.name);
+          const config = getPlanConfig(plan.name, t);
           // Default to Free plan if no subscription found
           const isCurrent = currentSub 
             ? currentSub.plan?._id === plan._id 
@@ -185,7 +184,7 @@ export default async function SubscriptionPage() {
             >
               {config.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
-                  Most Popular
+                  {t("mostPopular")}
                 </div>
               )}
               
@@ -196,7 +195,7 @@ export default async function SubscriptionPage() {
                   </div>
                   {isCurrent && (
                     <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                      {currentSub ? "Active Plan" : "Auto Activated"}
+                      {currentSub ? t("activePlan") : t("autoActivated")}
                     </Badge>
                   )}
                 </div>
@@ -209,11 +208,11 @@ export default async function SubscriptionPage() {
               <CardContent className="flex-1 space-y-6">
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">৳{plan.price}</span>
-                  <span className="text-sm text-muted-foreground font-medium">/{plan.durationUnit?.toLowerCase()}ly</span>
+                  <span className="text-sm text-muted-foreground font-medium">/{plan.durationUnit?.toLowerCase() || 'month'}</span>
                 </div>
 
                 <div className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">Included features</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">{t("includedFeatures")}</p>
                   <ul className="space-y-2.5">
                     {plan.features?.map((feature: string) => (
                       <li key={feature} className="flex items-start gap-2.5 text-sm text-muted-foreground leading-snug">
@@ -221,10 +220,6 @@ export default async function SubscriptionPage() {
                         <span>{feature}</span>
                       </li>
                     ))}
-                    <li className="flex items-start gap-2.5 text-sm text-muted-foreground leading-snug">
-                      <Check className="h-4 w-4 mt-0.5 shrink-0 text-primary" />
-                      <span>{plan.adsLimit} Active ads listing</span>
-                    </li>
                   </ul>
                 </div>
               </CardContent>
@@ -246,18 +241,18 @@ export default async function SubscriptionPage() {
       {/* Billing History Section */}
       <Card className="border-border/60 bg-card/95 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base font-semibold">Billing history</CardTitle>
-          <CardDescription>Track your payments and download invoices.</CardDescription>
+          <CardTitle className="text-base font-semibold">{t("invoiceHistory")}</CardTitle>
+          <CardDescription>{t("invoiceDesc")}</CardDescription>
         </CardHeader>
         <CardContent className="overflow-hidden border border-border/40 p-0">
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow>
-                <TableHead className="w-45">Invoice</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Plan</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead className="text-right">Status</TableHead>
+                <TableHead className="w-45">{t("table.invoice")}</TableHead>
+                <TableHead>{t("table.date")}</TableHead>
+                <TableHead>{t("table.plan")}</TableHead>
+                <TableHead>{t("table.amount")}</TableHead>
+                <TableHead className="text-right">{t("table.status")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -284,7 +279,7 @@ export default async function SubscriptionPage() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
-                    No billing history found.
+                    {t("noInvoices")}
                   </TableCell>
                 </TableRow>
               )}
