@@ -105,11 +105,11 @@ const Hero = () => {
           </div>
 
           {/* Side Ads - Right side (1 column on desktop) */}
-          <div className="hidden lg:flex flex-col gap-4 lg:gap-6 h-full">
+          <div className="flex flex-col md:flex-row lg:flex-col gap-4 lg:gap-6 h-auto lg:h-full">
             {/* Top Ad */}
             <Link 
               href="/ads/featured" 
-              className="relative flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow"
+              className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow"
             >
               <Image
                 src="/images/hero4.png"
@@ -118,17 +118,12 @@ const Hero = () => {
                 className="object-cover transition-transform duration-500"
                 unoptimized
               />
-              <div className="absolute inset-0 bg-black/30 transition-colors" />
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <p className="text-white text-sm font-medium opacity-80">Limited Offer</p>
-                <h3 className="text-white text-lg font-bold">New Electronics</h3>
-              </div>
             </Link>
 
             {/* Bottom Ad */}
             <Link 
               href="/ads/property" 
-              className="relative flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow"
+              className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow"
             >
               <Image
                 src="/images/hero5.png"
@@ -137,11 +132,6 @@ const Hero = () => {
                 className="object-cover transition-transform duration-500"
                 unoptimized
               />
-              <div className="absolute inset-0 bg-black/30 transition-colors" />
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <p className="text-white text-sm font-medium opacity-80">Best Deals</p>
-                <h3 className="text-white text-lg font-bold">Dream Property</h3>
-              </div>
             </Link>
           </div>
         </div>

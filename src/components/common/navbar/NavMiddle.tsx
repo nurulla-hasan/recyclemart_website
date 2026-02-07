@@ -102,22 +102,24 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
 
         {/* Desktop Utility Links */}
         <div className="hidden lg:flex items-center gap-3 text-sm">
-          <Link href={user ? '/chat' : '/auth/login'}>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full bg-white/10 text-white hover:bg-white/20 w-10 h-10"
-              title="Inbox"
-            >
-              <MessageCircle className="h-5 w-5" />
-            </Button>
-          </Link>
+          {user && (
+            <Link href="/chat">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full bg-white/10 text-white hover:bg-white/20 w-10 h-10"
+                title="Inbox"
+              >
+                <MessageCircle className="h-5 w-5" />
+              </Button>
+            </Link>
+          )}
 
           {roleLoading ? (
             <div className="h-10 w-32 rounded-full bg-white/10 animate-pulse" />
           ) : (
-            !isBuyer && (
-              <Link href={user ? '/ads/create' : '/auth/login'}>
+            user && !isBuyer && (
+              <Link href="/ads/create">
                 <Button
                   size="sm"
                   className="flex items-center gap-2 rounded-full bg-linear-to-r from-pink-400 to-orange-500 px-6 py-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-lg shadow-orange-500/20"
@@ -133,14 +135,16 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
         {/* Mobile & Tablet View */}
         <div className="flex items-center gap-2 lg:hidden">
           {/* Favorites Button */}
-          <Link href="/profile/favourites">
-            <Button
-              size="icon"
-              className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-2 text-sm font-semibold text-white shadow transition hover:bg-white/30 w-10 h-10"
-            >
-              <Heart className="h-5 w-5" />
-            </Button>
-          </Link>
+          {user && (
+            <Link href="/profile/favourites">
+              <Button
+                size="icon"
+                className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-2 text-sm font-semibold text-white shadow transition hover:bg-white/30 w-10 h-10"
+              >
+                <Heart className="h-5 w-5" />
+              </Button>
+            </Link>
+          )}
 
           {/* Main Menu (Mobile) */}
           <Sheet>
@@ -224,13 +228,15 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
                     </Link>
 
                     <div className="grid grid-cols-2 gap-3">
-                      <Link
-                        href="/chat"
-                        className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:bg-white/15 justify-center"
-                      >
-                        <MessageCircle className="h-4 w-4" />
-                        Inbox
-                      </Link>
+                      {user && (
+                        <Link
+                          href="/chat"
+                          className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:bg-white/15 justify-center"
+                        >
+                          <MessageCircle className="h-4 w-4" />
+                          Inbox
+                        </Link>
+                      )}
                       <Link
                         href={user ? '/profile' : '/auth/login'}
                         className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:bg-white/15 justify-center"
@@ -246,9 +252,9 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
                     <div className="h-14 w-full rounded-xl bg-white/10 animate-pulse" />
                   </div>
                 ) : (
-                  !isBuyer && (
+                  user && !isBuyer && (
                     <div className="px-6 py-6 pb-10">
-                      <Link href={user ? '/ads/create' : '/auth/login'}>
+                      <Link href="/ads/create">
                         <Button className="w-full gap-2 rounded-xl bg-linear-to-r from-pink-400 to-orange-500 text-base font-semibold text-white shadow-lg hover:from-pink-300 hover:to-orange-400 py-6">
                           <PlusCircle className="h-5 w-5" />
                           Post Free Ad

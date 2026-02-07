@@ -167,14 +167,15 @@ const VerifyOtpForm = () => {
   // const isResendLoading = isResendResetLoading || isResendSignupLoading;
 
   return (
-    <div className="w-full max-w-sm md:max-w-lg">
-      <Card className="overflow-hidden p-0">
-        <CardContent className="p-0">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleVerifyOTP)}
-              className="space-y-6 p-6 md:p-8"
-            >
+    <div className="flex min-h-screen w-full items-center justify-center bg-linear-to-br from-background via-primary/5 to-background p-4">
+      <div className="w-full max-w-sm md:max-w-lg">
+        <Card className="overflow-hidden p-0 shadow-2xl">
+          <CardContent className="p-0">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleVerifyOTP)}
+                className="space-y-6 p-6 md:p-8"
+              >
               <Link
                 href={
                   type === 'register'
@@ -268,7 +269,8 @@ const VerifyOtpForm = () => {
         </CardContent>
       </Card>
     </div>
-  );
+  </div>
+);
 };
 
 const VerifyOtpPage = () => {
