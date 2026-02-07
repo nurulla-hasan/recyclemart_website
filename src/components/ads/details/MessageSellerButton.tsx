@@ -3,6 +3,7 @@
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { MessageCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { getAccessTokenFromCookies } from '@/lib/authClient';
 import { toast } from 'sonner';
@@ -29,13 +30,14 @@ export function MessageSellerButton({
   className,
 }: MessageSellerButtonProps) {
   const router = useRouter();
+  const t = useTranslations('AdDetails');
   const [pending, startTransition] = useTransition();
 
   const handleClick = () => {
     const token = getAccessTokenFromCookies();
     if (!token) {
-      toast.error('চ্যাটে যেতে লগইন করুন', {
-        description: 'আপনি লগইন না করলে বার্তা পাঠাতে পারবেন না。',
+      toast.error(t('loginToChat'), {
+        description: t('loginToChatDesc'),
       });
       router.push(`/auth/login?redirect=/ads/${adId}`);
       return;
@@ -43,8 +45,8 @@ export function MessageSellerButton({
 
     const currentUserId = decodeUserId(token);
     if (currentUserId && currentUserId === sellerId) {
-      toast.info('এটি আপনার নিজস্ব বিজ্ঞাপন', {
-        description: 'নিজের কাছে বার্তা পাঠানোর প্রয়োজন নেই。',
+      toast.info(t('ownAd'), {
+        description: t('ownAdDesc'),
       });
       return;
     }
@@ -67,7 +69,7 @@ export function MessageSellerButton({
       disabled={pending}
     >
       <MessageCircle />
-      {pending ? 'Opening...' : 'Send Message'}
+      {pending ? t('opening') : t('sendMessage')}
     </Button>
   );
 }

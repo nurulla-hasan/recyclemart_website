@@ -2,6 +2,7 @@
 
 import { Shield, MapPin, Calendar } from "lucide-react";
 import Image from "next/image";
+import { useTranslations, useFormatter } from "next-intl";
 import { User } from "@/types/ad.type";
 
 type SellerInfoProps = {
@@ -10,6 +11,8 @@ type SellerInfoProps = {
 };
 
 export default function SellerInfo({ seller, location }: SellerInfoProps) {
+  const t = useTranslations("AdDetails");
+  const format = useFormatter();
   const initials = seller.name
     .split(" ")
     .map((n) => n[0])
@@ -19,7 +22,7 @@ export default function SellerInfo({ seller, location }: SellerInfoProps) {
   return (
     <div className="rounded-xl border border-border/40 bg-card">
       <div className="p-6 pb-4 border-b border-border/40">
-        <h3 className="text-lg font-semibold">Seller Information</h3>
+        <h3 className="text-lg font-semibold">{t("sellerInfo")}</h3>
       </div>
       <div className="p-6 space-y-4">
         {/* Seller Profile */}
@@ -57,7 +60,14 @@ export default function SellerInfo({ seller, location }: SellerInfoProps) {
         <div className="space-y-2.5 pt-2 text-sm">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="w-4 h-4" />
-            <span>Member since {getMemberSince(seller.createdAt)}</span>
+            <span>
+              {t("memberSince", {
+                date: format.dateTime(new Date(seller.createdAt), {
+                  year: "numeric",
+                  month: "short",
+                }),
+              })}
+            </span>
           </div>
           {location && (
             <div className="flex items-center gap-2 text-muted-foreground text-sm">
@@ -70,19 +80,10 @@ export default function SellerInfo({ seller, location }: SellerInfoProps) {
         {/* Action Button (Optional, can be added if needed) */}
         <div className="pt-2">
            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/5 text-primary border border-primary/20">
-             Verified User
+             {t("verifiedUser")}
            </span>
         </div>
       </div>
     </div>
   );
-}
-
-function getMemberSince(dateString: string) {
-  const date = new Date(dateString);
-  const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
-  return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }

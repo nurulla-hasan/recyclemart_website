@@ -42,6 +42,7 @@ export interface AdDetail extends Omit<Ad, 'id' | 'postedAt' | 'coverImage'> {
   views: number;
   createdAt: string;
   updatedAt: string;
+  relatedAds?: AdDetail[];
 }
 
 export interface AdMeta {

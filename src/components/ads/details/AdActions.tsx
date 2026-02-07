@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Heart, Share2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { ErrorToast, SuccessToast, WarningToast } from "@/lib/utils";
 import { addFavorite, removeFavorite } from "@/services/favorite";
@@ -16,12 +17,14 @@ interface AdActionsProps {
 
 export default function AdActions({ adId, title, initialIsFavorite = false }: AdActionsProps) {
   const { user } = useUser();
+  const t = useTranslations("AdDetails");
+  const tAds = useTranslations("Ads");
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
   const [loading, setLoading] = useState(false);
 
   const handleFavorite = async () => {
     if (!user) {
-      WarningToast("Please login to add to favorites");
+      WarningToast(tAds("favLogin"));
       return;
     }
 
@@ -34,12 +37,12 @@ export default function AdActions({ adId, title, initialIsFavorite = false }: Ad
 
       if (res.success) {
         setIsFavorite(!isFavorite);
-        SuccessToast(isFavorite ? "Removed from favorites" : "Added to favorites");
+        SuccessToast(isFavorite ? tAds("favRemove") : tAds("favAdd"));
       } else {
         ErrorToast(res.message);
       }
     } catch {
-      ErrorToast("Something went wrong");
+      ErrorToast(tAds("somethingWrong"));
     } finally {
       setLoading(false);
     }
@@ -51,18 +54,18 @@ export default function AdActions({ adId, title, initialIsFavorite = false }: Ad
       try {
         await navigator.share({
           title: "Recycle Mart",
-          text: `Check out this ad: ${title}`,
+          text: t("shareText", { title }),
           url: window.location.href,
         });
       } catch {
         // User cancelled or share failed, fallback to clipboard
         await navigator.clipboard.writeText(window.location.href);
-        SuccessToast("Link copied to clipboard");
+        SuccessToast(t("linkCopied"));
       }
     } else {
       // Fallback to clipboard if Web Share API not available
       await navigator.clipboard.writeText(window.location.href);
-      SuccessToast("Link copied to clipboard");
+      SuccessToast(t("linkCopied"));
     }
   };
 

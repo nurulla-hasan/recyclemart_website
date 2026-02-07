@@ -3,128 +3,100 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Clock } from "lucide-react";
-
-// Sample related ads - in real app, this would come from API
-const sampleRelatedAds = [
-  {
-    id: "gaming-pc",
-    title: "Custom Gaming PC (Ryzen 7, RTX 3070)",
-    price: "৳ 95,000",
-    location: "Mirpur, Dhaka",
-    postedAt: "Yesterday",
-    imageUrl: "https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg",
-    isFeatured: false,
-    isUrgent: true,
-  },
-  {
-    id: "dslr-kit",
-    title: "Canon EOS R6 with 24-105mm Lens (Warranty)",
-    price: "৳ 195,000",
-    location: "Sylhet",
-    postedAt: "1 week ago",
-    imageUrl: "https://images.pexels.com/photos/64609/pexels-photo-64609.jpeg",
-    isFeatured: false,
-    isUrgent: false,
-  },
-  {
-    id: "toyota-premio",
-    title: "Toyota Premio 2017 (Registered 2019)",
-    price: "৳ 2,150,000",
-    location: "Chattogram",
-    postedAt: "3 days ago",
-    imageUrl: "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
-    isFeatured: true,
-    isUrgent: true,
-  },
-  {
-    id: "dslr-kits",
-    title: "Canon EOS R6 with 24-105mm Lens (Warranty)",
-    price: "৳ 195,000",
-    location: "Sylhet",
-    postedAt: "1 week ago",
-    imageUrl: "https://images.pexels.com/photos/64609/pexels-photo-64609.jpeg",
-    isFeatured: false,
-    isUrgent: false,
-  },
-  {
-    id: "toyota-premiow",
-    title: "Toyota Premio 2017 (Registered 2019)",
-    price: "৳ 2,150,000",
-    location: "Chattogram",
-    postedAt: "3 days ago",
-    imageUrl: "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg",
-    isFeatured: true,
-    isUrgent: true,
-  },
-];
+import { useTranslations } from "next-intl";
+import { AdDetail } from "@/types/ad.type";
+import { timeAgo } from "@/lib/utils";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 type RelatedAdsProps = {
-  currentAdId: string;
+  ads: AdDetail[];
   category: string;
 };
 
-export default function RelatedAds({ currentAdId, category }: RelatedAdsProps) {
-  // Filter out current ad and limit to 3
-  const relatedAds = sampleRelatedAds.filter(ad => ad.id !== currentAdId).slice(0, 5);
+export default function RelatedAds({ ads }: RelatedAdsProps) {
+  const t = useTranslations("AdDetails");
 
-  if (relatedAds.length === 0) return null;
+  if (!ads || ads.length === 0) return null;
 
   return (
-    <section className="space-y-6 mt-12">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Related Ads</h2>
-        <Link
-          href={`/ads?category=${encodeURIComponent(category)}`}
-          className="text-sm text-primary hover:underline"
-        >
-          View all {category} ads →
-        </Link>
-      </div>
+    <section className="mt-12">
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <h2 className="text-xl font-semibold">{t("relatedAds")}</h2>
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:flex gap-2">
+              <CarouselPrevious className="static translate-y-0" />
+              <CarouselNext className="static translate-y-0" />
+            </div>
+          </div>
+        </div>
 
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-        {relatedAds.map((ad) => (
-          <div key={ad.id} className="overflow-hidden hover:shadow-lg transition-shadow rounded-xl border border-border/40 bg-card">
-            <Link href={`/ads/${ad.id}`}>
-              <div className="relative aspect-4/3 overflow-hidden">
-                <Image
-                  src={ad.imageUrl}
-                  alt={ad.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                {ad.isFeatured && (
-                  <span className="absolute top-2 left-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
-                    Featured
-                  </span>
-                )}
-                {ad.isUrgent && (
-                  <span className="absolute top-2 right-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                    Urgent
-                  </span>
-                )}
-              </div>
-              <div className="p-4">
-                <div className="space-y-2">
-                  <h3 className="font-semibold group-hover:text-primary transition-colors">
-                    {ad.title}
-                  </h3>
-                  <p className="text-lg font-bold text-primary">{ad.price}</p>
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />
-                      <span className="truncate">{ad.location}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      <span>{ad.postedAt}</span>
+        <CarouselContent className="-ml-4">
+          {ads.slice(0, 10).map((ad) => (
+            <CarouselItem key={ad._id} className="pl-4 md:basis-1/3 lg:basis-1/5">
+              <div className="overflow-hidden hover:shadow-lg transition-shadow rounded-xl border border-border/40 bg-card h-full">
+                <Link href={`/ads/${ad._id}`}>
+                  <div className="relative aspect-4/3 overflow-hidden">
+                    <Image
+                      src={ad.images[0]}
+                      alt={ad.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {ad.isFeatured && (
+                      <span className="absolute top-2 left-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
+                        {t("featured")}
+                      </span>
+                    )}
+                    {ad.isUrgent && (
+                      <span className="absolute top-2 right-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        {t("urgent")}
+                      </span>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <div className="space-y-2">
+                      <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-1">
+                        {ad.title}
+                      </h3>
+                      <p className="text-lg font-bold text-primary">
+                        ৳ {ad.price.toLocaleString()}
+                      </p>
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          <span className="truncate">{ad.location}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          <span>{timeAgo(ad.createdAt)}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
-            </Link>
-          </div>
-        ))}
-      </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        {/* Mobile controls */}
+        <div className="flex sm:hidden justify-center gap-4 mt-4">
+          <CarouselPrevious className="static translate-y-0" />
+          <CarouselNext className="static translate-y-0" />
+        </div>
+      </Carousel>
     </section>
   );
 }

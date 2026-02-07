@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Phone, MapPin, Calendar, Eye } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import CustomBreadcrumb from '@/tools/CustomBreadcrumb';
 import PageLayout from '@/tools/PageLayout';
 import SellerInfo from '@/components/ads/details/SellerInfo';
@@ -13,6 +14,7 @@ import AdActions from '@/components/ads/details/AdActions';
 import { fetchMyFavorites } from '@/services/favorite';
 import { FavoriteItem } from '@/types/favorite.type';
 import { MessageSellerButton } from '@/components/ads/details/MessageSellerButton';
+import RelatedAds from '@/components/ads/details/RelatedAds';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -21,11 +23,12 @@ type Props = {
 // Generate metadata for the ad details page
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  const t = await getTranslations('AdDetails');
   const res = await fetchAdById(id);
 
   if (!res.success || !res.data) {
     return {
-      title: 'Ad Not Found | Recycle Mart',
+      title: t('notFound'),
     };
   }
 
@@ -58,6 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AdDetailsPage({ params }: Props) {
   const { id } = await params;
+  const t = await getTranslations('AdDetails');
   const res = await fetchAdById(id);
   const favoritesRes = await fetchMyFavorites(1, 100).catch(() => null);
 
@@ -71,17 +75,17 @@ export default async function AdDetailsPage({ params }: Props) {
     : false;
 
   const breadcrumbs = [
-    { name: 'Home', href: '/' },
-    { name: 'Ads', href: '/ads' },
+    { name: t('home'), href: '/' },
+    { name: t('ads'), href: '/ads' },
     {
-      name: ad.categoryId?.name || 'Category',
+      name: ad.categoryId?.name || t('category'),
       href: ad.categoryId ? `/ads?category=${ad.categoryId.slug}` : '/ads',
     },
     {
       name:
         ad.title?.length > 50
           ? ad.title.slice(0, 50) + '...'
-          : ad.title || 'Ad Details',
+          : ad.title || t('adDetails'),
       isCurrent: true,
     },
   ];
@@ -121,12 +125,12 @@ export default async function AdDetailsPage({ params }: Props) {
                     </span>
                     {ad.isFeatured && (
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
-                        Featured
+                        {t('featured')}
                       </span>
                     )}
                     {ad.isUrgent && (
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
-                        Urgent
+                        {t('urgent')}
                       </span>
                     )}
                   </div>
@@ -140,7 +144,7 @@ export default async function AdDetailsPage({ params }: Props) {
                     </span>
                     {ad.negotiable && (
                       <span className="text-sm font-medium text-muted-foreground">
-                        (Negotiable)
+                        {t('negotiable')}
                       </span>
                     )}
                   </div>
@@ -154,11 +158,11 @@ export default async function AdDetailsPage({ params }: Props) {
                   </div>
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
-                    Posted {timeAgo(ad.createdAt)}
+                    {t('postedAt', { time: timeAgo(ad.createdAt) })}
                   </div>
                   <div className="flex items-center gap-1">
                     <Eye className="h-4 w-4" />
-                    {ad.views} views
+                    {t('views', { count: ad.views })}
                   </div>
                 </div>
 
@@ -166,7 +170,7 @@ export default async function AdDetailsPage({ params }: Props) {
 
                 {/* Description */}
                 <div className="space-y-3">
-                  <h2 className="text-lg font-semibold">Description</h2>
+                  <h2 className="text-lg font-semibold">{t('description')}</h2>
                   <div className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-line">
                     {ad.description}
                   </div>
@@ -183,7 +187,7 @@ export default async function AdDetailsPage({ params }: Props) {
                 <a href={`tel:${ad.contactPhone}`}>
                   <Button className="w-full h-11 font-semibold gap-2">
                     <Phone />
-                    Call {ad.contactPhone}
+                    {t('call', { phone: ad.contactPhone })}
                   </Button>
                 </a>
                 <MessageSellerButton
@@ -199,26 +203,26 @@ export default async function AdDetailsPage({ params }: Props) {
 
             {/* Safety Tips */}
             <div className="rounded-xl border border-border/40 bg-card p-6">
-              <h3 className="font-semibold mb-3">Safety Tips</h3>
+              <h3 className="font-semibold mb-3">{t('safetyTips')}</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Meet in public places</li>
-                <li>• Check item before buying</li>
-                <li>• Use secure payment methods</li>
-                <li>• Report suspicious ads</li>
+                <li>• {t('safetyTip1')}</li>
+                <li>• {t('safetyTip2')}</li>
+                <li>• {t('safetyTip3')}</li>
+                <li>• {t('safetyTip4')}</li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* Related Ads */}
-        {/* {ad.categoryId && (
+        {ad.relatedAds && ad.relatedAds.length > 0 && (
           <div className="mt-8">
             <RelatedAds 
-              currentAdId={ad._id} 
-              category={ad.categoryId.name} 
+              ads={ad.relatedAds} 
+              category={ad.categoryId?.name || t('category')} 
             />
           </div>
-        )} */}
+        )}
       </div>
     </PageLayout>
   );
