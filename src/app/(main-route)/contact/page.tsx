@@ -1,9 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
+"use client";
+
+import React, { useState } from "react";
 import PageLayout from "@/tools/PageLayout";
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Globe, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { createContact } from "@/services/contact";
+import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { useForm } from "react-hook-form";
 
 const ContactPage = () => {
+  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+    try {
+      const res = await createContact(data);
+      if (res.success) {
+        SuccessToast(res.message || "Message sent successfully!");
+        reset();
+      } else {
+        ErrorToast(res.message || "Failed to send message");
+      }
+    } catch  {
+      ErrorToast("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -72,20 +99,22 @@ const ContactPage = () => {
             {/* Contact Form Column */}
             <div className="lg:col-span-2">
               <Card className="p-8 md:p-10 shadow-2xl border-none bg-linear-to-br from-card to-primary/5">
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold ml-1">Full Name</label>
+                      <label className="text-sm font-semibold ml-1">Name</label>
                       <input 
                         type="text" 
+                        {...register("name", { required: true })}
                         placeholder="John Doe" 
                         className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold ml-1">Email Address</label>
+                      <label className="text-sm font-semibold ml-1">Email</label>
                       <input 
                         type="email" 
+                        {...register("email", { required: true })}
                         placeholder="john@example.com" 
                         className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                       />
@@ -96,6 +125,7 @@ const ContactPage = () => {
                     <label className="text-sm font-semibold ml-1">Subject</label>
                     <input 
                       type="text" 
+                      {...register("subject", { required: true })}
                       placeholder="How can we help you?" 
                       className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                     />
@@ -104,6 +134,7 @@ const ContactPage = () => {
                   <div className="space-y-2">
                     <label className="text-sm font-semibold ml-1">Message</label>
                     <textarea 
+                      {...register("message", { required: true })}
                       rows={6} 
                       placeholder="Type your message here..." 
                       className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
@@ -112,10 +143,20 @@ const ContactPage = () => {
 
                   <button 
                     type="submit" 
-                    className="w-full md:w-auto px-10 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+                    disabled={loading}
+                    className="w-full md:w-auto px-10 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-5 h-5" />
-                    Send Message
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        Send Message
+                      </>
+                    )}
                   </button>
                 </form>
               </Card>
