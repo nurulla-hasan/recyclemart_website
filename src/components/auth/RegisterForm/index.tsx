@@ -432,7 +432,7 @@ const RegisterForm = () => {
                           field: { onChange, onBlur, name, ref },
                         }) => (
                           <FormItem>
-                            <FormLabel>Storefront image</FormLabel>
+                            <FormLabel>Other Document</FormLabel>
                             <FormControl>
                               <div className="relative">
                                 {storeImagePreview ? (
