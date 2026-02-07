@@ -9,10 +9,10 @@ import {
   LayoutDashboard,
   Megaphone,
   Settings,
-  Ticket,
+  // Ticket,
   // Bell,
   UserCircle,
-  CreditCard,
+  // CreditCard,
   Menu,
   ShieldCheck,
 } from "lucide-react";
@@ -87,8 +87,8 @@ function SidebarContent({
       items: [
         { label: t("myAds"), href: "/profile/my-ads", icon: Megaphone },
         { label: t("favouriteAds"), href: "/profile/favourites", icon: Heart },
-        { label: t("myLottery"), href: "/profile/my-lottery", icon: Ticket },
-        { label: t("mySubscription"), href: "/profile/subscription", icon: CreditCard },
+        // { label: t("myLottery"), href: "/profile/my-lottery", icon: Ticket },
+        // { label: t("mySubscription"), href: "/profile/subscription", icon: CreditCard },
       ],
     },
     {
