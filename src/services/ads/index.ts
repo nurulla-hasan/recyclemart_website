@@ -14,7 +14,7 @@ export const fetchAllAds = async (query: Record<string, any> = {}): Promise<AdsR
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad?${params.toString()}`, {
       method: "GET",
-      next: { tags: ["ads"], revalidate: 300 },
+      cache: "no-store",
     });
 
     const result = await res.json();

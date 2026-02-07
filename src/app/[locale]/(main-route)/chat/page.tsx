@@ -34,7 +34,6 @@ import Sidebar from '@/components/chat/Sidebar';
 import ChatHeader from '@/components/chat/ChatHeader';
 import Messages from '@/components/chat/Messages';
 import Composer from '@/components/chat/Composer';
-import AdSummaryPanel from '@/components/chat/AdSummary';
 import type {
   Conversation as UIConversation,
   Message as UIMessage,
@@ -220,7 +219,7 @@ function ChatContent() {
   const [messages, setMessages] = useState<UIMessage[]>([]);
   const [input, setInput] = useState('');
   const [query, setQuery] = useState('');
-  const [adSummary, setAdSummary] = useState<UIAdSummary | null>(null);
+  // const [adSummary, setAdSummary] = useState<UIAdSummary | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -357,10 +356,10 @@ function ChatContent() {
   useEffect(() => {
     if (!socket || !activeId) return;
 
-    const activeConversation = conversations.find(
-      c => String(c.id) === String(activeId),
-    );
-    setAdSummary(activeConversation?.adSummary ?? null);
+    // const activeConversation = conversations.find(
+    //   c => String(c.id) === String(activeId),
+    // );
+    // setAdSummary(activeConversation?.adSummary ?? null);
 
     listMessages(activeId, socket);
   }, [activeId, conversations, listMessages, socket]);
@@ -601,8 +600,8 @@ function ChatContent() {
   return (
     <>
       <div className="h-[calc(100vh-131px)] overflow-hidden bg-muted/30">
-        <div className="mx-auto h-full px-4 py-3 overflow-hidden">
-          <div className="grid h-full min-h-0 grid-cols-1 gap-3 lg:grid-cols-[320px_minmax(0,1fr)_360px] lg:gap-4">
+        <div className="custom-width mx-auto h-full px-4 py-3 overflow-hidden">
+          <div className="grid h-full min-h-0 grid-cols-1 gap-3 lg:grid-cols-[320px_minmax(0,1fr)] lg:gap-4">
             <Sidebar
               className="hidden h-full min-h-0 overflow-hidden rounded-xl border bg-card lg:block"
               conversations={filteredConversations.map(c => ({
@@ -674,8 +673,6 @@ function ChatContent() {
                 disabled={sending}
               />
             </div>
-
-            <AdSummaryPanel ad={adSummary} />
           </div>
         </div>
       </div>
