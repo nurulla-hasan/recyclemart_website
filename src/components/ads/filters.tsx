@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Category } from "@/types/category.type";
 import { CategorySkeleton } from "./CategorySkeleton";
 import { useSmartFilter } from "@/hooks/useSmartFilter";
+import { useTranslations } from "next-intl";
 
 export const sortOptions = [
   { value: "newest", label: "Date: Newest first" },
@@ -34,6 +35,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
 const FiltersContent = ({ categories }: { categories: Category[] }) => {
+  const t = useTranslations("Ads");
   const { updateFilter, updateBatch, clearAll, getFilter } = useSmartFilter();
 
   const selectedCategory = getFilter("category");
@@ -52,8 +54,10 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
     <>
       <header className="flex items-center justify-between space-y-6">
         <div>
-          <p className="text-sm font-semibold text-foreground">Refine Results</p>
-          <p className="text-xs text-muted-foreground">{appliedCount} filter{appliedCount === 1 ? "" : "s"} applied</p>
+          <p className="text-sm font-semibold text-foreground">{t("refineResults")}</p>
+          <p className="text-xs text-muted-foreground">
+            {appliedCount === 1 ? t("appliedFilters", { count: appliedCount }) : t("appliedFiltersPlural", { count: appliedCount })}
+          </p>
         </div>
         <Button
           variant="ghost"
@@ -61,7 +65,7 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
           className="text-xs text-muted-foreground hover:text-primary"
           onClick={() => clearAll(["page", "limit", "sort", "location", "searchTerm"])}
         >
-          Reset
+          {t("reset")}
         </Button>
       </header>
 
@@ -69,7 +73,7 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
         {/* Category Filter */}
         <AccordionItem value="category" className="rounded-2xl border border-border/40 bg-background">
           <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-foreground">
-            Category
+            {t("category")}
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             {categories.length > 0 ? (
@@ -95,7 +99,7 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
         {/* Condition Filter */}
         <AccordionItem value="condition" className="rounded-2xl border border-border/40 bg-background">
           <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-foreground">
-            Condition
+            {t("condition")}
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <RadioGroup 
@@ -106,7 +110,7 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
                 <div key={cond} className="flex items-center gap-3">
                   <RadioGroupItem value={cond} id={`cond-${cond}`} />
                   <Label htmlFor={`cond-${cond}`} className="text-sm text-muted-foreground font-normal capitalize cursor-pointer flex-1">
-                    {cond}
+                    {t(cond)}
                   </Label>
                 </div>
               ))}
@@ -117,13 +121,13 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
         {/* Price Range Filter */}
         <AccordionItem value="price" className="rounded-2xl border border-border/40 bg-background">
           <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-foreground">
-            Price Range (BDT)
+            {t("priceRange")}
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Select Range</span>
+                  <span className="text-sm font-medium text-foreground">{t("selectRange")}</span>
                   <span className="text-xs text-muted-foreground">
                     ৳ {localPrice[0].toLocaleString()} - ৳ {localPrice[1].toLocaleString()}
                   </span>
@@ -142,13 +146,14 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
                 />
               </div>
               <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Min: ৳ 0</span>
-                <span>Max: ৳ 100k+</span>
+                <span>{t("minPrice")}</span>
+                <span>{t("maxPrice")}</span>
               </div>
             </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
 
       {/* Applied Chips */}
       {(selectedCategory || selectedCondition) && (

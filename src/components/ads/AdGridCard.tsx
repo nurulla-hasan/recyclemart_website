@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { addFavorite, removeFavorite } from '@/services/favorite';
 import { SuccessToast, ErrorToast, WarningToast } from '@/lib/utils';
 import { useUser } from '@/context/UserContext';
+import { useTranslations } from 'next-intl';
 
 interface AdGridCardProps {
   ad: Ad;
@@ -17,6 +18,7 @@ interface AdGridCardProps {
 }
 
 export const AdGridCard = ({ ad, isFavoriteInitial = false }: AdGridCardProps) => {
+  const t = useTranslations('Ads');
   const { user } = useUser();
   const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ export const AdGridCard = ({ ad, isFavoriteInitial = false }: AdGridCardProps) =
     e.stopPropagation();
 
     if (!user) {
-      WarningToast("Please login to add to favorites");
+      WarningToast(t('favLogin'));
       return;
     }
     
@@ -39,12 +41,12 @@ export const AdGridCard = ({ ad, isFavoriteInitial = false }: AdGridCardProps) =
 
       if (res.success) {
         setIsFavorite(!isFavorite);
-        SuccessToast(isFavorite ? "Removed from favorites" : "Added to favorites");
+        SuccessToast(isFavorite ? t('favRemove') : t('favAdd'));
       } else {
         ErrorToast(res.message);
       }
     } catch {
-      ErrorToast("Something went wrong");
+      ErrorToast(t('somethingWrong'));
     } finally {
       setLoading(false);
     }
@@ -64,12 +66,12 @@ export const AdGridCard = ({ ad, isFavoriteInitial = false }: AdGridCardProps) =
           <div className="absolute left-4 top-4 flex gap-2">
             {ad.isFeatured ? (
               <Badge className="rounded-full bg-amber-500 text-white border-none">
-                Featured
+                {t('featured')}
               </Badge>
             ) : null}
             {ad.isUrgent ? (
               <Badge className="rounded-full bg-red-500 text-white border-none">
-                Urgent
+                {t('urgent')}
               </Badge>
             ) : null}
           </div>
@@ -100,7 +102,7 @@ export const AdGridCard = ({ ad, isFavoriteInitial = false }: AdGridCardProps) =
               {ad.location}
             </p>
             <p className="text-muted-foreground/80">
-              Posted {timeAgo(ad.postedAt)}
+              {t('postedAt', { time: timeAgo(ad.postedAt) })}
             </p>
           </div>
         </div>

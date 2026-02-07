@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { addFavorite, removeFavorite } from '@/services/favorite';
 import { SuccessToast, ErrorToast, WarningToast } from '@/lib/utils';
 import { useUser } from '@/context/UserContext';
+import { useTranslations } from 'next-intl';
 
 interface AdListCardProps {
   ad: Ad;
@@ -17,6 +18,7 @@ interface AdListCardProps {
 }
 
 export const AdListCard = ({ ad, isFavoriteInitial = false }: AdListCardProps) => { 
+  const t = useTranslations('Ads');
   const { user } = useUser();
   const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ export const AdListCard = ({ ad, isFavoriteInitial = false }: AdListCardProps) =
     e.stopPropagation(); // Prevent Link navigation
     
     if (!user) {
-      WarningToast("Please login to add to favorites");
+      WarningToast(t('favLogin'));
       return;
     }
 
@@ -39,12 +41,12 @@ export const AdListCard = ({ ad, isFavoriteInitial = false }: AdListCardProps) =
       
       if (res.success) {
         setIsFavorite(!isFavorite);
-        SuccessToast(isFavorite ? "Removed from favorites" : "Added to favorites");
+        SuccessToast(isFavorite ? t('favRemove') : t('favAdd'));
       } else {
         ErrorToast(res.message);
       }
     } catch {
-      ErrorToast("Something went wrong");
+      ErrorToast(t('somethingWrong'));
     } finally {
       setLoading(false);
     }
@@ -64,12 +66,12 @@ export const AdListCard = ({ ad, isFavoriteInitial = false }: AdListCardProps) =
           <div className="absolute left-2 top-2 flex gap-1">
             {ad.isFeatured ? (
               <Badge className="rounded-full bg-amber-500 text-white text-xs px-2 py-0.5 border-none">
-                Featured
+                {t('featured')}
               </Badge>
             ) : null}
             {ad.isUrgent ? (
               <Badge className="rounded-full bg-red-500 text-white text-xs px-2 py-0.5 border-none">
-                Urgent
+                {t('urgent')}
               </Badge>
             ) : null}
           </div>
@@ -89,7 +91,7 @@ export const AdListCard = ({ ad, isFavoriteInitial = false }: AdListCardProps) =
               {ad.location}
             </p>
             <p className="text-muted-foreground/80">
-              Posted {timeAgo(ad.postedAt)}
+              {t('postedAt', { time: timeAgo(ad.postedAt) })}
             </p>
           </div>
         </div>

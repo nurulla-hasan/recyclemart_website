@@ -14,6 +14,7 @@ import { Ad, AdMeta } from '@/types/ad.type';
 import { useSmartFilter } from '@/hooks/useSmartFilter';
 import CustomPagination from '@/tools/CustomPagination';
 import NoAdsComponent from './NoAdsComponent';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   listings: Ad[];
@@ -28,6 +29,7 @@ export default function AllAdsExplorer({
   meta,
   favoriteIds = [],
 }: Props) {
+  const t = useTranslations('Ads');
   const { getFilter, updateFilter } = useSmartFilter();
   const currentView = getFilter('view') || 'list';
 
@@ -41,10 +43,10 @@ export default function AllAdsExplorer({
         {/* Heading Section */}
         <div className="mb-6 space-y-2">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
-            Buy & Sell Anything in Bangladesh
+            {t('title')}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Showing {listings.length} curated ads — discover the best deals tailored to you.
+            {t('showingAds', { count: listings.length })}
           </p>
         </div>
 
@@ -57,7 +59,7 @@ export default function AllAdsExplorer({
             {/* Search Box */}
             <div className="relative flex-1 order-1 lg:order-2">
               <Input
-                placeholder="What are you looking for?"
+                placeholder={t('searchPlaceholder')}
                 defaultValue={getFilter('searchTerm')}
                 onChange={(e) => updateFilter('searchTerm', e.target.value, 500)}
                 className="h-12 md:h-10 rounded-full border-border/60 bg-background pl-5 pr-12 text-sm"
@@ -72,7 +74,7 @@ export default function AllAdsExplorer({
 
             {/* Location & Filter Group for Mobile */}
             <div className="flex items-center gap-2 order-2 lg:order-1">
-              <div className="flex-1 lg:w-[250px]">
+              <div className="flex-1 lg:w-62.5">
                 <LocationSelector className="h-12 md:h-10 w-full" />
               </div>
               <div className="lg:hidden">
@@ -82,14 +84,14 @@ export default function AllAdsExplorer({
 
             {/* View Toggle (Desktop will stay right, mobile will stack below) */}
             <div className="order-3">
-              <TabsList className="grid w-full grid-cols-2 lg:w-[200px] rounded-full h-12 md:h-10">
+              <TabsList className="grid w-full grid-cols-2 lg:w-50 rounded-full h-12 md:h-10">
                 <TabsTrigger value="list" className="rounded-full">
                   <List className="h-4 w-4 mr-2" />
-                  List
+                  {t('listView')}
                 </TabsTrigger>
                 <TabsTrigger value="grid" className="rounded-full">
                   <Grid3X3 className="h-4 w-4 mr-2" />
-                  Grid
+                  {t('gridView')}
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -102,14 +104,14 @@ export default function AllAdsExplorer({
             <div className="sticky top-24">
                <div className="flex items-center gap-2 mb-4">
                  <SlidersHorizontal className="h-4 w-4 text-primary" />
-                 <h2 className="font-bold text-lg">Filters</h2>
+                 <h2 className="font-bold text-lg">{t('filters')}</h2>
                </div>
                <Filters categories={categories} />
             </div>
           </div>
 
           {/* Ads Content Area */}
-          <div className="min-h-[500px]">
+          <div className="min-h-125">
             <TabsContent value="list" className="mt-0 space-y-6">
               {listings.length === 0 ? (
                 <NoAdsComponent />
@@ -176,22 +178,27 @@ export default function AllAdsExplorer({
           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
             <Globe className="h-6 w-6" />
           </div>
-          <h2 className="text-base font-bold text-foreground">Why sell with Recycle Mart?</h2>
-          <p>Reach millions of verified buyers across Bangladesh with simple tools.</p>
+          <h2 className="text-base font-bold text-foreground">{t('whySellTitle')}</h2>
+          <p>{t('whySellDesc')}</p>
         </div>
         <div className="flex flex-col items-center text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
             <ListTree className="h-6 w-6" />
           </div>
-          <h2 className="text-base font-bold text-foreground">Secure transactions</h2>
-          <p>Avoid scams with safety tips and our dedicated customer care team.</p>
+          <h2 className="text-base font-bold text-foreground">{t('secureTransTitle')}</h2>
+          <p>{t('secureTransDesc')}</p>
         </div>
         <div className="flex flex-col items-center text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
             <Search className="h-6 w-6" />
           </div>
-          <h2 className="text-base font-bold text-foreground">Need help?</h2>
-          <p>Call us at <span className="text-primary font-bold">01302-000000</span> or email support team.</p>
+          <h2 className="text-base font-bold text-foreground">{t('needHelpTitle')}</h2>
+          <p>
+            {t.rich('needHelpDesc', {
+              phone: (chunks) => <span className="text-primary font-bold">{chunks}</span>,
+              phoneNumber: '01302-000000'
+            })}
+          </p>
         </div>
       </section>
     </section>
