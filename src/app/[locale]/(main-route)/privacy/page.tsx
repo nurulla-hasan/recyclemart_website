@@ -2,53 +2,55 @@
 import PageLayout from "@/tools/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { ShieldCheck, Calendar, Lock, Eye, Database, UserCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function PrivacyPage() {
+  const t = useTranslations("Privacy");
   const privacyContent = {
-    title: "Privacy Policy",
-    lastUpdated: "January 10, 2026",
+    title: t("title"),
+    lastUpdated: t("lastUpdated"),
     sections: [
       {
-        title: "1. Information We Collect",
-        text: "We collect information that you provide directly to us when you create an account, post an ad, or communicate with us.",
+        title: t("sec1Title"),
+        text: t("sec1Text"),
         icon: Database,
         subSections: [
           {
-            title: "Personal Information",
-            items: ["Name and contact info", "Email & phone number", "Location & address", "Payment info"]
+            title: t("sec1Sub1Title"),
+            items: [t("sec1Sub1Item1"), t("sec1Sub1Item2"), t("sec1Sub1Item3"), t("sec1Sub1Item4")]
           },
           {
-            title: "Automatic Data",
-            items: ["Device info & IP", "Browser type", "Usage patterns", "Cookies data"]
+            title: t("sec1Sub2Title"),
+            items: [t("sec1Sub2Item1"), t("sec1Sub2Item2"), t("sec1Sub2Item3"), t("sec1Sub2Item4")]
           }
         ]
       },
       {
-        title: "2. How We Use Data",
-        text: "We use the information we collect to provide, maintain, and improve our services.",
+        title: t("sec2Title"),
+        text: t("sec2Text"),
         icon: Eye,
         items: [
-          "Manage your account",
-          "Process transactions",
-          "Customer support",
-          "Fraud prevention",
-          "Service improvement"
+          t("sec2Item1"),
+          t("sec2Item2"),
+          t("sec2Item3"),
+          t("sec2Item4"),
+          t("sec2Item5")
         ]
       },
       {
-        title: "3. Data Security",
-        text: "We implement appropriate security measures to protect your personal information. However, no method of transmission is 100% secure.",
+        title: t("sec3Title"),
+        text: t("sec3Text"),
         icon: Lock
       },
       {
-        title: "4. Your Rights",
-        text: "You have full control over your data and how it's used on our platform.",
+        title: t("sec4Title"),
+        text: t("sec4Text"),
         icon: UserCheck,
         items: [
-          "Access your info",
-          "Correct inaccurate data",
-          "Request deletion",
-          "Withdraw consent"
+          t("sec4Item1"),
+          t("sec4Item2"),
+          t("sec4Item3"),
+          t("sec4Item4")
         ]
       }
     ]
@@ -62,14 +64,16 @@ export default function PrivacyPage() {
         
         <div className="custom-width mx-auto px-4 text-center">
           <Badge variant="outline" className="px-4 py-1.5 mb-6 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">
-            Data Protection
+            {t("badge")}
           </Badge>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-            Privacy <span className="text-primary">Policy</span>
+            {t.rich("heroTitle", {
+              span: (chunks) => <span className="text-primary">{chunks}</span>
+            })}
           </h1>
           <div className="flex items-center justify-center gap-2 text-muted-foreground font-medium">
             <Calendar className="w-5 h-5 text-primary" />
-            <span>Last updated: {privacyContent.lastUpdated}</span>
+            <span>{t("lastUpdatedLabel")}: {privacyContent.lastUpdated}</span>
           </div>
         </div>
       </div>
@@ -80,7 +84,7 @@ export default function PrivacyPage() {
             
             <div className="flex items-center gap-3 mb-12 pb-4 border-b border-border/40">
               <ShieldCheck className="w-6 h-6 text-primary" />
-              <p className="text-lg font-medium text-muted-foreground">Your privacy is our top priority</p>
+              <p className="text-lg font-medium text-muted-foreground">{t("priority")}</p>
             </div>
 
             <div className="space-y-16">
@@ -134,16 +138,16 @@ export default function PrivacyPage() {
                  <Lock className="w-12 h-12 text-primary" />
                </div>
                <div className="flex-1 text-center md:text-left">
-                 <h3 className="text-2xl font-bold mb-2">Privacy Questions?</h3>
+                 <h3 className="text-2xl font-bold mb-2">{t("footerTitle")}</h3>
                  <p className="text-muted-foreground">
-                   Our data protection officer is here to help you with any privacy-related concerns.
+                   {t("footerSubtitle")}
                  </p>
                </div>
                <a 
                  href="mailto:privacy@recyclemart.com" 
                  className="px-8 py-4 bg-primary text-primary-foreground font-bold rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
                >
-                 Email Privacy Team
+                 {t("footerBtn")}
                </a>
             </div>
 

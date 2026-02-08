@@ -30,7 +30,6 @@ const Footer = () => {
       title: t("companyLegal"),
       links: [
         { label: t("aboutUs"), href: "/about" },
-        { label: t("press"), href: "/press" },
         { label: t("termsConditions"), href: "/terms" },
         { label: t("privacyPolicy"), href: "/privacy" },
       ],

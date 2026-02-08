@@ -9,8 +9,10 @@ import { Card } from "@/components/ui/card";
 import { createContact } from "@/services/contact";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 const ContactPage = () => {
+  const t = useTranslations("Contact");
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
@@ -19,13 +21,13 @@ const ContactPage = () => {
     try {
       const res = await createContact(data);
       if (res.success) {
-        SuccessToast("ধন্যবাদ! আপনার বার্তাটি আমরা পেয়েছি। খুব শীঘ্রই আপনার সাথে যোগাযোগ করা হবে।");
+        SuccessToast(t("successMessage"));
         reset();
       } else {
-        ErrorToast(res.message || "Failed to send message");
+        ErrorToast(res.message || t("errorMessage"));
       }
     } catch  {
-      ErrorToast("Something went wrong");
+      ErrorToast(t("errorMessage"));
     } finally {
       setLoading(false);
     }
@@ -39,10 +41,9 @@ const ContactPage = () => {
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-6">
             <MessageSquare className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">Get in Touch</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">{t("heroTitle")}</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have questions or need assistance? Our team is here to help you. 
-            Reach out to us and we'll get back to you as soon as possible.
+            {t("heroSubtitle")}
           </p>
         </div>
       </div>
@@ -53,18 +54,18 @@ const ContactPage = () => {
             {/* Contact Info Column */}
             <div className="lg:col-span-1 space-y-8">
               <div>
-                <h2 className="text-3xl font-bold mb-6">Contact Information</h2>
+                <h2 className="text-3xl font-bold mb-6">{t("infoTitle")}</h2>
                 <p className="text-muted-foreground mb-8">
-                  Fill out the form or use our contact details to get in touch with our team.
+                  {t("infoSubtitle")}
                 </p>
               </div>
 
               <div className="space-y-6">
                 {[
-                  { icon: Mail, title: "Email Us", detail: "support@recyclemart.com", sub: "Online support 24/7" },
-                  { icon: Phone, title: "Call Us", detail: "+880 1234 567 890", sub: "Mon-Fri, 9am - 6pm" },
-                  { icon: MapPin, title: "Visit Us", detail: "Dhaka, Bangladesh", sub: "Main Office" },
-                  { icon: Clock, title: "Working Hours", detail: "Sat - Thu: 10am - 8pm", sub: "Friday Closed" }
+                  { icon: Mail, title: t("emailTitle"), detail: "support@recyclemart.com", sub: t("emailSub") },
+                  { icon: Phone, title: t("phoneTitle"), detail: "+880 1234 567 890", sub: t("phoneSub") },
+                  { icon: MapPin, title: t("visitTitle"), detail: t("visitDetail"), sub: t("visitSub") },
+                  { icon: Clock, title: t("hoursTitle"), detail: t("hoursDetail"), sub: t("hoursSub") }
                 ].map((item, index) => (
                   <div key={index} className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-card hover:border-primary/50 transition-colors">
                     <div className="p-3 bg-primary/10 rounded-xl">
@@ -83,7 +84,7 @@ const ContactPage = () => {
               <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10">
                 <div className="flex items-center gap-2 mb-4 text-primary font-bold">
                   <Globe className="w-5 h-5" />
-                  <span>Connect with us</span>
+                  <span>{t("connectTitle")}</span>
                 </div>
                 <div className="flex gap-4">
                   {/* Mock Social Icons */}
@@ -102,7 +103,7 @@ const ContactPage = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold ml-1">Name</label>
+                      <label className="text-sm font-semibold ml-1">{t("formName")}</label>
                       <input 
                         type="text" 
                         {...register("name", { required: true })}
@@ -111,7 +112,7 @@ const ContactPage = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold ml-1">Email</label>
+                      <label className="text-sm font-semibold ml-1">{t("formEmail")}</label>
                       <input 
                         type="email" 
                         {...register("email", { required: true })}
@@ -123,7 +124,7 @@ const ContactPage = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold ml-1">Phone Number</label>
+                      <label className="text-sm font-semibold ml-1">{t("formPhone")}</label>
                       <input 
                         type="tel" 
                         {...register("phone", { required: true })}
@@ -132,22 +133,22 @@ const ContactPage = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold ml-1">Subject</label>
+                      <label className="text-sm font-semibold ml-1">{t("formSubject")}</label>
                       <input 
                         type="text" 
                         {...register("subject", { required: true })}
-                        placeholder="How can we help you?" 
+                        placeholder={t("formSubjectPlaceholder")} 
                         className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-semibold ml-1">Message</label>
+                    <label className="text-sm font-semibold ml-1">{t("formMessage")}</label>
                     <textarea 
                       {...register("message", { required: true })}
                       rows={6} 
-                      placeholder="Type your message here..." 
+                      placeholder={t("formMessagePlaceholder")} 
                       className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
                     ></textarea>
                   </div>
@@ -160,12 +161,12 @@ const ContactPage = () => {
                     {loading ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Sending...
+                        {t("formSending")}
                       </>
                     ) : (
                       <>
                         <Send className="w-5 h-5" />
-                        Send Message
+                        {t("formSubmit")}
                       </>
                     )}
                   </button>
@@ -177,8 +178,8 @@ const ContactPage = () => {
                 <div className="absolute inset-0 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Dhaka,Bangladesh&zoom=13&size=800x400&key=YOUR_API_KEY')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity"></div>
                 <div className="relative text-center p-6">
                   <MapPin className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-                  <p className="font-semibold text-muted-foreground">Interactive Map Coming Soon</p>
-                  <p className="text-sm text-muted-foreground/60">Dhaka, Bangladesh</p>
+                  <p className="font-semibold text-muted-foreground">{t("mapPlaceholder")}</p>
+                  <p className="text-sm text-muted-foreground/60">{t("visitDetail")}</p>
                 </div>
               </div>
             </div>

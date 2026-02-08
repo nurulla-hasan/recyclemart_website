@@ -2,34 +2,36 @@
 import PageLayout from "@/tools/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { Info, Target, Users, Leaf, ShieldCheck, Zap } from "lucide-react";
-import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function AboutPage() {
+  const t = useTranslations("About");
+
   const stats = [
-    { label: "Active Users", value: "50K+", icon: Users },
-    { label: "Items Sold", value: "100K+", icon: Zap },
-    { label: "Waste Reduced", value: "20 Tons", icon: Leaf },
-    { label: "Trust Score", value: "4.9/5", icon: ShieldCheck },
+    { label: t("stats.users"), value: "100K+", icon: Users },
+    { label: t("stats.items"), value: "500K+", icon: Zap },
+    { label: t("stats.waste"), value: "50 Tons", icon: Leaf },
+    { label: t("stats.trust"), value: "4.9/5", icon: ShieldCheck },
   ];
 
   const features = [
     {
-      title: "Our Mission",
-      description: "Bangladesh's leading online marketplace for buying and selling recycled and second-hand goods. We make it easy to give pre-loved items a new life.",
+      title: t("missionTitle"),
+      description: t("missionDesc"),
       icon: Target,
       color: "text-blue-500",
       bgColor: "bg-blue-500/10"
     },
     {
-      title: "Our Vision",
-      description: "A future where every product gets a second chance, reducing waste and promoting a circular economy in Bangladesh.",
+      title: t("visionTitle"),
+      description: t("visionDesc"),
       icon: Leaf,
       color: "text-green-500",
       bgColor: "bg-green-500/10"
     },
     {
-      title: "Our Community",
-      description: "Building a safe, trusted, and eco-friendly marketplace that benefits both our users and the environment.",
+      title: t("communityTitle"),
+      description: t("communityDesc"),
       icon: Users,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10"
@@ -45,14 +47,15 @@ export default function AboutPage() {
         
         <div className="custom-width mx-auto px-4 text-center">
           <Badge variant="outline" className="px-4 py-1.5 mb-6 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">
-            Who We Are
+            {t("badge")}
           </Badge>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-            Empowering <span className="text-primary">Sustainable Trade</span>
+            {t.rich("heroTitle", {
+              span: (chunks) => <span className="text-primary">{chunks}</span>
+            })}
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-            Recycle Mart is Bangladesh's leading online marketplace for buying and selling recycled goods. 
-            We're building a community where pre-loved items find new homes.
+            {t("heroSubtitle")}
           </p>
 
           {/* Stats Grid */}
@@ -93,7 +96,7 @@ export default function AboutPage() {
               <div className="aspect-video bg-muted rounded-[3rem] overflow-hidden border-4 border-card shadow-2xl relative">
                 <div className="absolute inset-0 flex items-center justify-center bg-primary/5">
                    <Info className="w-20 h-20 text-primary/20" />
-                   <p className="absolute bottom-6 font-semibold text-muted-foreground">Our Story Visuals</p>
+                   <p className="absolute bottom-6 font-semibold text-muted-foreground">{t("storyVisuals")}</p>
                 </div>
               </div>
             </div>
@@ -101,26 +104,30 @@ export default function AboutPage() {
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold">
                 <Info className="w-4 h-4" />
-                Our Story
+                {t("storyBadge")}
               </div>
-              <h2 className="text-4xl font-bold leading-tight">Welcome to <span className="text-primary">Recycle Mart</span></h2>
+              <h2 className="text-4xl font-bold leading-tight">
+                {t.rich("welcomeTitle", {
+                  span: (chunks) => <span className="text-primary">{chunks}</span>
+                })}
+              </h2>
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  Recycle Mart is Bangladesh's leading online marketplace for buying and selling recycled and second-hand goods. Our mission is to promote sustainable living by making it easy for people to give new life to pre-loved items.
+                  {t("storyPara1")}
                 </p>
                 <p>
-                  We envision a future where every product gets a second chance, reducing waste and promoting a circular economy in Bangladesh.
+                  {t("storyPara2")}
                 </p>
               </div>
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  "Wide range of categories",
-                  "Secure & trusted platform",
-                  "Easy-to-use interface",
-                  "Verified vendors",
-                  "Quality assurance",
-                  "Eco-friendly mission"
+                  t("feature1"),
+                  t("feature2"),
+                  t("feature3"),
+                  t("feature4"),
+                  t("feature5"),
+                  t("feature6")
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 font-medium">
                     <div className="w-2 h-2 bg-primary rounded-full" />
@@ -134,22 +141,22 @@ export default function AboutPage() {
           {/* Call to Action */}
           <div className="mt-32 p-12 md:p-20 rounded-[3rem] bg-linear-to-br from-primary via-primary/90 to-blue-600 text-white text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Join the Revolution</h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">{t("ctaTitle")}</h2>
             <p className="text-white/80 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-              Start buying and selling pre-loved items today and be a part of the sustainable future of Bangladesh.
+              {t("ctaSubtitle")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a 
                 href="/ads/create" 
                 className="px-10 py-4 bg-white text-primary font-bold rounded-2xl hover:bg-white/90 transition-all shadow-xl active:scale-95"
               >
-                Start Selling
+                {t("ctaBtn1")}
               </a>
               <a 
                 href="/ads" 
                 className="px-10 py-4 bg-primary-foreground/10 text-white border border-white/20 font-bold rounded-2xl hover:bg-white/10 transition-all active:scale-95"
               >
-                Browse Ads
+                {t("ctaBtn2")}
               </a>
             </div>
           </div>

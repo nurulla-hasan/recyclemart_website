@@ -39,22 +39,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
   const { setTheme, theme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
-  const [isVisible, setIsVisible] = useState(true);
-
   const { user, setIsLoading, setUser } = useUser();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const id = window.setTimeout(() => setMounted(true), 0);
@@ -96,9 +81,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
 
   return (
     <section 
-      className={`border-b border-white/15 overflow-hidden transition-all duration-300 ease-in-out ${
-        isVisible ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
-      }`}
+      className="border-b border-white/15 overflow-hidden transition-all duration-200 ease-in-out max-h-12 opacity-100 visible"
     >
       {/* Mobile Top Row */}
       <div className="flex md:hidden h-10 items-center justify-end px-5 text-sm text-white gap-2">

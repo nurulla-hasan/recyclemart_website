@@ -2,47 +2,49 @@
 import PageLayout from "@/tools/PageLayout";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Calendar, ShieldCheck, Lock, Gavel, Mail } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function TermsPage() {
+  const t = useTranslations("Terms");
   const termsContent = {
-    title: "Terms & Conditions",
-    lastUpdated: "January 10, 2026",
+    title: t("title"),
+    lastUpdated: t("lastUpdated"),
     content: [
       {
-        title: "1. Acceptance of Terms",
-        text: "By accessing and using Recycle Mart, you accept and agree to be bound by the terms and provision of this agreement.",
+        title: t("sec1Title"),
+        text: t("sec1Text"),
         icon: Gavel
       },
       {
-        title: "2. Use License",
-        text: "Permission is granted to temporarily access the materials on Recycle Mart's website for personal, non-commercial transitory viewing only.",
+        title: t("sec2Title"),
+        text: t("sec2Text"),
         subItems: [
-          "Modify or copy the materials",
-          "Use the materials for any commercial purpose",
-          "Attempt to decompile or reverse engineer any software",
-          "Remove any copyright or proprietary notations"
+          t("sec2Item1"),
+          t("sec2Item2"),
+          t("sec2Item3"),
+          t("sec2Item4")
         ],
         icon: FileText
       },
       {
-        title: "3. User Accounts",
-        text: "When you create an account with us, you must provide accurate, complete, and current information. Failure to do so constitutes a breach of the Terms.",
+        title: t("sec3Title"),
+        text: t("sec3Text"),
         icon: Lock
       },
       {
-        title: "4. Posting Ads",
-        text: "Users are responsible for the content they post. All ads must comply with our community guidelines and local laws.",
+        title: t("sec4Title"),
+        text: t("sec4Text"),
         subItems: [
-          "Illegal or stolen goods",
-          "Counterfeit products",
-          "Weapons and explosives",
-          "Adult content"
+          t("sec4Item1"),
+          t("sec4Item2"),
+          t("sec4Item3"),
+          t("sec4Item4")
         ],
         icon: FileText
       },
       {
-        title: "5. Limitation of Liability",
-        text: "Recycle Mart shall not be held liable for any damages arising from the use or inability to use our services.",
+        title: t("sec5Title"),
+        text: t("sec5Text"),
         icon: ShieldCheck
       }
     ]
@@ -56,14 +58,16 @@ export default function TermsPage() {
         
         <div className="custom-width mx-auto px-4 text-center">
           <Badge variant="outline" className="px-4 py-1.5 mb-6 border-primary/20 text-primary bg-background/50 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider">
-            Legal Information
+            {t("badge")}
           </Badge>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-            Terms & <span className="text-primary">Conditions</span>
+            {t.rich("heroTitle", {
+              span: (chunks) => <span className="text-primary">{chunks}</span>
+            })}
           </h1>
           <div className="flex items-center justify-center gap-2 text-muted-foreground font-medium">
             <Calendar className="w-5 h-5 text-primary" />
-            <span>Last updated: {termsContent.lastUpdated}</span>
+            <span>{t("lastUpdatedLabel")}: {termsContent.lastUpdated}</span>
           </div>
         </div>
       </div>
@@ -74,7 +78,7 @@ export default function TermsPage() {
             
             <div className="flex items-center gap-3 mb-10 pb-4 border-b border-border/40">
               <FileText className="w-6 h-6 text-primary" />
-              <p className="text-lg font-medium text-muted-foreground">Read carefully before using our services</p>
+              <p className="text-lg font-medium text-muted-foreground">{t("priority")}</p>
             </div>
 
             <div className="space-y-12">
@@ -110,16 +114,16 @@ export default function TermsPage() {
                <div className="absolute top-0 right-0 p-10 opacity-5">
                  <Mail className="w-32 h-32 text-primary" />
                </div>
-               <h3 className="text-2xl font-bold mb-4">Have questions about our terms?</h3>
+               <h3 className="text-2xl font-bold mb-4">{t("footerTitle")}</h3>
                <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-                 If you have any questions or need clarification regarding these terms, please reach out to us.
+                 {t("footerSubtitle")}
                </p>
                <a 
                  href="mailto:support@recyclemart.com" 
                  className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-primary/20"
                >
                  <Mail className="w-5 h-5" />
-                 Contact Legal Support
+                 {t("footerBtn")}
                </a>
             </div>
 
