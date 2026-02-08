@@ -14,9 +14,10 @@ interface LocationSelectorProps {
     value?: string | null;
     onSelect?: (location: string | null) => void;
     className?: string;
+    placeholder?: string;
 }
 
-export const LocationSelector = ({ value, onSelect, className }: LocationSelectorProps) => {
+export const LocationSelector = ({ value, onSelect, className, placeholder }: LocationSelectorProps) => {
     const t = useTranslations("Location");
     const { getFilter, updateFilter } = useSmartFilter();
     const [hoveredDivision, setHoveredDivision] = useState(bdLocations[0]);
@@ -54,7 +55,7 @@ export const LocationSelector = ({ value, onSelect, className }: LocationSelecto
                 >
                     <MapPin className="shrink-0 transition-transform group-hover:scale-110" />
                     <span className="truncate flex-1 text-left text-foreground/80">
-                      {selectedLocation ? formatName(selectedLocation) : t("selectLocation")}
+                      {selectedLocation ? formatName(selectedLocation) : (placeholder || t("selectLocation"))}
                     </span>
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-40 group-hover:opacity-100 transition-opacity">
                        <ChevronRight className={cn("h-3 w-3 rotate-90 transition-transform duration-200", isOpen && "-rotate-90")} />
