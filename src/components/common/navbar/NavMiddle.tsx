@@ -64,7 +64,7 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
     <div>
       <div className="custom-width mx-auto flex items-center justify-between py-2.5 px-5">
         {/* Logo */}
-        <Link href="/">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.png"
             alt="Recycle Mart"
@@ -73,6 +73,10 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
             unoptimized
             className="h-auto w-9 md:w-14"
           />
+          <span className="hidden md:block text-xl font-normal tracking-wide text-white font-(family-name:--font-righteous)">
+            <span className="text-white">Recycle</span>
+            <span className="text-[#2ecc71] ml-1">Mart</span>
+          </span>
         </Link>
 
         {/* Desktop Primary Actions - Centered */}

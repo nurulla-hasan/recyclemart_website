@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Righteous } from "next/font/google";
 import "./[locale]/globals.css";
 import { ThemeProvider } from "@/theme/theme-provider";
 import UserProvider from "@/context/UserContext";
@@ -8,6 +8,12 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "700"],
+});
+
+const righteous = Righteous({
+  variable: "--font-righteous",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -56,7 +62,7 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning>
-      <body className={`${poppins.variable} antialiased max-w-480 mx-auto`}>
+      <body className={`${poppins.variable} ${righteous.variable} antialiased max-w-480 mx-auto`}>
         <UserProvider>
           <ThemeProvider
             attribute="class"
