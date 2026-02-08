@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +12,10 @@ import {
 
 interface HeroCarouselProps {
   carouselImages: { id: number; imageSrc: string }[];
-  sideAds: { top: string; bottom: string };
+  sideAds: { 
+    top: { image: string; link: string }; 
+    bottom: { image: string; link: string };
+  };
 }
 
 const HeroCarousel = ({ carouselImages, sideAds }: HeroCarouselProps) => {
@@ -80,26 +84,34 @@ const HeroCarousel = ({ carouselImages, sideAds }: HeroCarouselProps) => {
       {/* Side Ads - Right side (1 column on desktop) */}
       <div className="flex flex-col md:flex-row lg:flex-col gap-4 lg:gap-6 h-auto lg:h-full">
         {/* Top Ad */}
-        <div className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow">
+        <Link 
+          href={sideAds.top.link}
+          target="_blank"
+          className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow block"
+        >
           <Image
-            src={sideAds.top}
+            src={sideAds.top.image}
             alt="Featured Ad"
             fill
-            className="object-cover transition-transform duration-500"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             unoptimized
           />
-        </div>
+        </Link>
 
         {/* Bottom Ad */}
-        <div className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow">
+        <Link 
+          href={sideAds.bottom.link}
+          target="_blank"
+          className="relative h-40 md:h-52 lg:flex-1 overflow-hidden rounded-3xl bg-primary/10 group shadow-md transition-shadow block"
+        >
           <Image
-            src={sideAds.bottom}
+            src={sideAds.bottom.image}
             alt="Property Ad"
             fill
-            className="object-cover transition-transform duration-500"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             unoptimized
           />
-        </div>
+        </Link>
       </div>
     </div>
   );

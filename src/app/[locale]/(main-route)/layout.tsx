@@ -1,24 +1,24 @@
 import Navbar from '@/components/common/navbar/Navbar';
 import Footer from '@/components/home/Footer';
 import { fetchAllCategories } from '@/services/category';
-import { fetchAllPromos } from '@/services/promo';
+import { fetchExtraData } from '@/services/promo';
 
 export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [categoriesRes, promosRes] = await Promise.all([
+  const [categoriesRes, extraDataRes] = await Promise.all([
     fetchAllCategories(),
-    fetchAllPromos(),
+    fetchExtraData(),
   ]);
 
   const categories = categoriesRes.success ? categoriesRes.data : [];
-  const promos = promosRes.success ? promosRes.data : [];
+  const extraData = extraDataRes.success ? extraDataRes.data : null;
 
   return (
     <>
-      <Navbar categories={categories} promos={promos} />
+      <Navbar categories={categories} extraData={extraData} />
       <div className="min-h-[calc(100vh-37rem)] flex flex-col grow">
         {children}
       </div>

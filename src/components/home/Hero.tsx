@@ -14,8 +14,14 @@ const Hero = async () => {
   ];
 
   const sideAds = {
-    top: extraData?.adImage6 || "/images/hero4.png",
-    bottom: extraData?.adImage7 || "/images/hero5.png",
+    top: {
+      image: extraData?.adImage6 || "/images/hero4.png",
+      link: extraData?.link1 || "#"
+    },
+    bottom: {
+      image: extraData?.adImage7 || "/images/hero5.png",
+      link: extraData?.link2 || "#"
+    },
   };
 
   return (

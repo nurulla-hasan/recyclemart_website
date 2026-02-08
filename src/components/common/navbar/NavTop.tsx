@@ -16,21 +16,20 @@ import { useUser } from '@/context/UserContext';
 import { logOut } from '@/services/Auth';
 import { usePathname, useRouter } from 'next/navigation';
 import { protectedRoutes } from '@/constants';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
-export default function NavTop({ promos = [] }: { promos?: any[] }) {
+export default function NavTop({ extraData }: { extraData?: any }) {
   const t = useTranslations('NavTop');
-  const locale = useLocale();
   
-  const promoMessages = promos.length > 0 
-    ? promos.map(p => locale === 'bn' ? p.messageBn || p.messageEn : p.messageEn)
+  const promoMessages = extraData?.heading && extraData.heading.length > 0
+    ? extraData.heading
     : [
-        t('promo1'),
-        t('promo2'),
-        t('promo3'),
-        t('promo4'),
-      ];
+          t('promo1'),
+          t('promo2'),
+          t('promo3'),
+          t('promo4'),
+        ];
   
   const [promoIndex, setPromoIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
