@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     }, 
   },
   reactCompiler: true,
-  images: {
+  images: { 
     remotePatterns: [
       {
         protocol: 'https', 
