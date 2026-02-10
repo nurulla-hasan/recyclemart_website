@@ -131,13 +131,13 @@ export default function NavTop({ extraData }: { extraData?: any }) {
         >
           <Moon
             className={`absolute h-5 w-5 transition-all ${
-              mounted && theme === 'dark' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+              mounted && theme === 'dark' ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
             }`}
             aria-hidden="true"
           />
           <Sun
             className={`h-5 w-5 transition-all ${
-              mounted && theme === 'dark' ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
+              mounted && theme === 'dark' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
             }`}
             aria-hidden="true"
           />
@@ -220,16 +220,16 @@ export default function NavTop({ extraData }: { extraData?: any }) {
             <Moon
               className={`absolute h-5 w-5 transition-all ${
                 mounted && theme === 'dark'
-                  ? 'scale-100 opacity-100'
-                  : 'scale-0 opacity-0'
+                  ? 'scale-0 opacity-0'
+                  : 'scale-100 opacity-100'
               }`}
               aria-hidden="true"
             />
             <Sun
               className={`h-5 w-5 transition-all ${
                 mounted && theme === 'dark'
-                  ? 'scale-0 opacity-0'
-                  : 'scale-100 opacity-100'
+                  ? 'scale-100 opacity-100'
+                  : 'scale-0 opacity-0'
               }`}
               aria-hidden="true"
             />
