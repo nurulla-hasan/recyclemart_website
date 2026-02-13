@@ -55,18 +55,20 @@ const Footer = () => {
   const contactDetails = [
     {
       icon: MapPin,
-      label: "House 105, Road 12, Banani",
-      description: "Dhaka 1213, Bangladesh",
+      label: "Dhaka Vasantek",
+      description: "Dhaka, Bangladesh",
     },
     {
       icon: Phone,
-      label: "+880 1302-000000",
+      label: "+8801869-271616",
       description: t("supportHours"),
+      href: "tel:+8801869271616",
     },
     {
       icon: Mail,
-      label: "support@allpricebd.com",
+      label: "info@recyclemart.com.bd",
       description: t("replyWithin"),
+      href: "/contact",
     },
   ];
 
@@ -111,13 +113,24 @@ const Footer = () => {
               {t("contactUs")}
             </h3>
             <div className="space-y-4">
-              {contactDetails.map(({ icon: Icon, label, description }) => (
+              {contactDetails.map(({ icon: Icon, label, description, href }) => (
                 <div key={label} className="flex items-start gap-3 group">
                   <div className="mt-1 rounded-full bg-primary/5 p-1.5 text-primary transition-colors group-hover:bg-primary/10">
                     <Icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <p className="font-medium text-foreground transition-colors group-hover:text-primary">{label}</p>
+                    {href ? (
+                      <Link
+                        href={href}
+                        className="font-medium text-foreground transition-colors group-hover:text-primary"
+                      >
+                        {label}
+                      </Link>
+                    ) : (
+                      <p className="font-medium text-foreground transition-colors group-hover:text-primary">
+                        {label}
+                      </p>
+                    )}
                     <p className="text-xs text-muted-foreground">{description}</p>
                   </div>
                 </div>
