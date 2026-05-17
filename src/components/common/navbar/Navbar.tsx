@@ -8,7 +8,7 @@ const Navbar = ({ categories, extraData }: { categories: Category[], extraData?:
     <nav className="sticky top-0 z-50 w-full bg-primary dark:bg-teal-950">
       <NavTop extraData={extraData} />
       <div className="shadow-md">
-        <NavMiddle categories={categories} />
+        <NavMiddle categories={categories} logo={extraData?.websiteLogo} />
       </div>
     </nav>
   );

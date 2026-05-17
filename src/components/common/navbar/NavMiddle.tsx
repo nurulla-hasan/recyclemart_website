@@ -33,7 +33,7 @@ import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { logOut } from '@/services/Auth';
 import { protectedRoutes } from '@/constants';
 
-const NavMiddle = ({ categories }: { categories: Category[] }) => {
+const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string | null }) => {
   const { user, setIsLoading, setUser } = useUser();
   const { isBuyer } = useUserRole();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -66,7 +66,7 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/logo.png"
+            src={logo || "/logo.png"}
             alt="Recycle Mart"
             width={100}
             height={20}
@@ -197,7 +197,7 @@ const NavMiddle = ({ categories }: { categories: Category[] }) => {
                 <SheetTitle className="flex items-center justify-between">
                   <Link href="/" className="inline-flex">
                     <Image
-                      src="/logo.png"
+                      src={logo || "/logo.png"}
                       alt="logo"
                       width={100}
                       height={25}
