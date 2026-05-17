@@ -99,6 +99,7 @@ export default function Messages({ thread, endRef }: Props) {
                           src={m.image}
                           alt="attachment"
                           fill
+                          sizes="256px"
                           className="object-cover"
                           unoptimized
                         />
@@ -152,6 +153,7 @@ export default function Messages({ thread, endRef }: Props) {
                 src={previewSrc}
                 alt="attachment"
                 fill
+                sizes="(min-width: 768px) 768px, 95vw"
                 className="object-contain"
                 unoptimized
               />

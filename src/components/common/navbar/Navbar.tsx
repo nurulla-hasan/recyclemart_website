@@ -5,7 +5,7 @@ import { Category } from '@/types/category.type';
 
 const Navbar = ({ categories, extraData }: { categories: Category[], extraData?: any }) => {
   return (
-    <nav className="sticky top-0 z-50 w-full bg-primary dark:bg-teal-950">
+    <nav className="sticky top-0 z-50 w-full bg-orange-400 dark:bg-orange-700">
       <NavTop extraData={extraData} />
       <div className="shadow-md">
         <NavMiddle categories={categories} logo={extraData?.websiteLogo} />

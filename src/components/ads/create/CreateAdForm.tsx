@@ -198,7 +198,7 @@ export default function CreateAdForm({ categories }: { categories: Category[] })
                                 <FormLabel className={`flex flex-col items-center justify-center p-4 border rounded-xl cursor-pointer transition-all hover:bg-accent/50 ${field.value === cat._id ? "border-primary bg-primary/5 ring-1 ring-primary" : "border-border"}`}>
                                   {cat.icon && (
                                     <div className="relative w-14 h-14 mb-2">
-                                      <Image src={cat.icon} alt={cat.name} fill className="object-contain dark:invert rounded-lg p-1" />
+                                      <Image src={cat.icon} alt={cat.name} fill sizes="56px" className="object-contain dark:invert rounded-lg p-1" />
                                     </div>
                                   )}
                                   <span className="text-xs uppercase font-bold text-center leading-tight">
@@ -383,7 +383,7 @@ export default function CreateAdForm({ categories }: { categories: Category[] })
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                       {imagePreviews.map((preview, index) => (
                         <div key={index} className="relative aspect-square rounded-xl overflow-hidden border group">
-                          <Image src={preview} alt={`Preview ${index}`} fill className="object-cover" />
+                          <Image src={preview} alt={`Preview ${index}`} fill sizes="(min-width: 768px) 128px, 45vw" className="object-cover" />
                           <button
                             type="button"
                             onClick={() => removeImage(index)}

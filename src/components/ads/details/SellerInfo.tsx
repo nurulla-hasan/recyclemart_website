@@ -33,6 +33,7 @@ export default function SellerInfo({ seller, location }: SellerInfoProps) {
                 src={seller.image}
                 alt={seller.name}
                 fill
+                sizes="56px"
                 className="object-cover"
               />
             ) : (

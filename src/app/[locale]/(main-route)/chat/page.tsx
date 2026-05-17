@@ -691,6 +691,7 @@ function ChatContent() {
                 src={previewUrl}
                 alt="preview"
                 fill
+                sizes="(min-width: 640px) 448px, 90vw"
                 className="object-cover"
               />
             </div>

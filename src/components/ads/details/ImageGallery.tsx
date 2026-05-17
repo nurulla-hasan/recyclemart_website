@@ -31,6 +31,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
           src={images[currentIndex]}
           alt={`${title} - Image ${currentIndex + 1}`}
           fill
+          sizes="(min-width: 1024px) 66vw, 100vw"
           // unoptimized
           className="object-cover"
           priority
@@ -76,6 +77,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                 src={image}
                 alt={`${title} - Thumbnail ${index + 1}`}
                 fill
+                sizes="80px"
                 className="object-cover"
               />
             </button>

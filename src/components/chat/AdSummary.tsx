@@ -29,6 +29,7 @@ export default function AdSummary({ ad }: Props) {
             src={image}
             alt={title ?? 'Ad image'}
             fill
+            sizes="320px"
             className="object-cover"
             loading="eager"
             priority

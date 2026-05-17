@@ -71,12 +71,8 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             width={100}
             height={20}
             unoptimized
-            className="h-auto w-9 md:w-14"
+            className="h-auto w-20 md:w-50"
           />
-          <span className="hidden md:block text-xl font-normal tracking-wide text-white font-(family-name:--font-righteous)">
-            <span className="text-white">Recycle</span>
-            <span className="text-[#2ecc71] ml-1">Mart</span>
-          </span>
         </Link>
 
         {/* Desktop Primary Actions - Centered */}
@@ -89,7 +85,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                 <span>{t('categories')}</span>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-200 border-white/20 bg-primary/95 dark:bg-teal-950 p-6 text-white rounded-3xl backdrop-blur-md z-50">
+            <PopoverContent align="start" className="w-200 border-white/20 bg-orange-400/95 p-6 text-white rounded-3xl backdrop-blur-md z-50 dark:bg-orange-700/95">
               <ScrollArea className="h-fit max-h-[70vh]">
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((category) => (
@@ -101,7 +97,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                     >
                       {category.icon && (
                         <div className="relative w-10 h-10 mb-2 transition-transform group-hover:scale-110">
-                          <Image src={category.icon} alt={category.name} fill className="object-contain invert" />
+                          <Image src={category.icon} alt={category.name} fill sizes="40px" className="object-contain invert" />
                         </div>
                       )}
                       <span className="text-xs font-bold uppercase tracking-wider">
@@ -191,7 +187,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-75 border-l border-white/10 bg-primary/95 p-0 text-white backdrop-blur-xl"
+              className="w-75 border-l border-white/10 bg-orange-400/95 p-0 text-white backdrop-blur-xl dark:bg-orange-700/95"
             >
               <SheetHeader className="px-5 py-4 border-b border-white/10 bg-white/5">
                 <SheetTitle className="flex items-center justify-between">
@@ -238,7 +234,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                           >
                              {category.icon && (
                               <div className="relative w-5 h-5 transition-transform group-hover:scale-110">
-                                <Image src={category.icon} alt={category.name} fill className="object-contain invert opacity-70 group-hover:opacity-100" />
+                                <Image src={category.icon} alt={category.name} fill sizes="20px" className="object-contain invert opacity-70 group-hover:opacity-100" />
                               </div>
                             )}
                             <span className="text-[11px] font-medium text-white/80 group-hover:text-white">{category.name}</span>

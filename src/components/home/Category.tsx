@@ -61,6 +61,7 @@ const Category = async () => {
                           src={category.icon} 
                           alt={category.name} 
                           fill 
+                          sizes="40px"
                           className="object-contain dark:invert"
                         />
                       </div>

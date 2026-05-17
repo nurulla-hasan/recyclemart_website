@@ -68,6 +68,7 @@ const HeroCarousel = ({ carouselImages, sideAds }: HeroCarouselProps) => {
                     src={slide.imageSrc}
                     alt={`Hero slide ${slide.id}`}
                     fill
+                    sizes="(min-width: 1024px) 75vw, 100vw"
                     className="object-cover transition-transform duration-700"
                     priority={slide.id === 1}
                     unoptimized
@@ -93,6 +94,7 @@ const HeroCarousel = ({ carouselImages, sideAds }: HeroCarouselProps) => {
             src={sideAds.top.image}
             alt="Featured Ad"
             fill
+            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             unoptimized
           />
@@ -108,6 +110,7 @@ const HeroCarousel = ({ carouselImages, sideAds }: HeroCarouselProps) => {
             src={sideAds.bottom.image}
             alt="Property Ad"
             fill
+            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             unoptimized
           />

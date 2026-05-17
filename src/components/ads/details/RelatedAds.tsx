@@ -53,6 +53,7 @@ export default function RelatedAds({ ads }: RelatedAdsProps) {
                       src={ad.images[0]}
                       alt={ad.title}
                       fill
+                      sizes="(min-width: 1024px) 20vw, (min-width: 768px) 33vw, 90vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {ad.isFeatured && (
