@@ -44,22 +44,6 @@ const registerSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.role === 'VENDOR') {
-      if (!(data.storeImage instanceof File)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ['storeImage'],
-          message: 'Store image is required.',
-        });
-      }
-
-      if (!(data.tradeLicence instanceof File)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ['tradeLicence'],
-          message: 'Trade licence image is required.',
-        });
-      }
-
       if (!data.storeName) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -73,14 +57,6 @@ const registerSchema = z
           code: z.ZodIssueCode.custom,
           path: ['storeLocation'],
           message: 'Store location is required.',
-        });
-      }
-
-      if (!data.tradeLicenseNumber) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ['tradeLicenseNumber'],
-          message: 'Trade license number is required.',
         });
       }
     }
@@ -133,7 +109,9 @@ const RegisterForm = () => {
             role: 'VENDOR',
             storeName: data.storeName,
             storeLocation: data.storeLocation,
-            tradeLicenseNumber: data.tradeLicenseNumber,
+            ...(data.tradeLicenseNumber?.trim() && {
+              tradeLicenseNumber: data.tradeLicenseNumber.trim(),
+            }),
           }
         : { ...basePayload, role: 'BUYER' };
 
@@ -432,7 +410,7 @@ const RegisterForm = () => {
                           field: { onChange, onBlur, name, ref },
                         }) => (
                           <FormItem>
-                            <FormLabel>Other Document</FormLabel>
+                            <FormLabel>Other Document (optional)</FormLabel>
                             <FormControl>
                               <div className="relative">
                                 {storeImagePreview ? (
@@ -518,7 +496,7 @@ const RegisterForm = () => {
                           field: { onChange, onBlur, name, ref },
                         }) => (
                           <FormItem>
-                            <FormLabel>Trade licence</FormLabel>
+                            <FormLabel>Trade licence (optional)</FormLabel>
                             <FormControl>
                               <div className="relative">
                                 {tradeLicencePreview ? (
@@ -636,7 +614,7 @@ const RegisterForm = () => {
                         name="tradeLicenseNumber"
                         render={({ field }) => (
                           <FormItem className="md:col-span-2">
-                            <FormLabel>Trade license number </FormLabel>
+                            <FormLabel>Trade license number (optional)</FormLabel>
                             <FormControl>
                               <Input
                                 // type="number"
