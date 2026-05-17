@@ -1,0 +1,202 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { jwtDecode } from "jwt-decode";
+import { revalidateTag, updateTag } from "next/cache";
+import { cookies } from "next/headers";
+
+type ServerFetchOptions = Omit<RequestInit, "body"> & {
+  body?: unknown;
+  isPublic?: boolean;
+  persistCookies?: boolean;
+  revalidate?: number | false;
+  tags?: string[];
+  invalidateMode?: "updateTag" | "revalidateTag";
+  updateTag?: string | string[];
+  next?: NextFetchRequestConfig;
+  responseType?: "json" | "text";
+};
+
+export type ApiError = Error & {
+  status: number;
+  data: unknown;
+};
+
+const isTokenExpired = (token: string): boolean => {
+  try {
+    const decoded: { exp: number } = jwtDecode(token);
+    return decoded.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+};
+
+const getValidAccessToken = async (baseUrl: string): Promise<string | null> => {
+  const cookieStore = await cookies();
+  let accessToken = cookieStore.get("accessToken")?.value;
+
+  if (accessToken && !isTokenExpired(accessToken)) {
+    return accessToken;
+  }
+
+  const refreshToken = cookieStore.get("refreshToken")?.value;
+  if (!refreshToken) {
+    return null;
+  }
+
+  const res = await fetch(`${baseUrl}/user/access-token`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+    },
+  });
+
+  if (!res.ok) {
+    return null;
+  }
+
+  const result = await res.json().catch(() => null);
+  accessToken = result?.data?.accessToken;
+
+  if (!accessToken) {
+    return null;
+  }
+
+  try {
+    cookieStore.set("accessToken", accessToken);
+  } catch {
+    // Some server contexts do not allow writing cookies.
+  }
+
+  return accessToken;
+};
+
+export const serverFetch = async <T = any>(
+  endpoint: string,
+  options: ServerFetchOptions = {},
+): Promise<T> => {
+  const {
+    isPublic = false,
+    body: rawBody,
+    headers,
+    method = "GET",
+    revalidate = method.toUpperCase() === "GET" && isPublic ? 3600 : 0,
+    updateTag: tagsToInvalidate,
+    invalidateMode = "updateTag",
+    tags,
+    next,
+    persistCookies = false,
+    responseType = "json",
+    ...rest
+  } = options;
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_API;
+  if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_API is not defined");
+
+  const defaultHeaders: Record<string, string> = {};
+
+  if (!isPublic) {
+    const accessToken = await getValidAccessToken(baseUrl);
+
+    if (accessToken) {
+      defaultHeaders.Authorization = `Bearer ${accessToken}`;
+    } else {
+      return {
+        success: false,
+        message: "Authorization token is required",
+        status: 401,
+      } as T;
+    }
+  }
+
+  let body = rawBody;
+  if (body && typeof body === "object" && !(body instanceof FormData)) {
+    body = JSON.stringify(body);
+    defaultHeaders["Content-Type"] = "application/json";
+  }
+
+  try {
+    const fetchNext =
+      rest.cache === "no-store"
+        ? next
+        : {
+            revalidate,
+            tags,
+            ...next,
+          };
+
+    const res = await fetch(`${baseUrl}${endpoint}`, {
+      ...rest,
+      method,
+      ...(body ? { body: body as BodyInit } : {}),
+      headers: { ...defaultHeaders, ...headers },
+      ...(fetchNext ? { next: fetchNext } : {}),
+    });
+
+    if (res.ok && tagsToInvalidate) {
+      const tagList = Array.isArray(tagsToInvalidate)
+        ? tagsToInvalidate
+        : [tagsToInvalidate];
+
+      tagList.forEach((tag) => {
+        try {
+          if (invalidateMode === "updateTag") {
+            updateTag(tag);
+          } else {
+            revalidateTag(tag, "max");
+          }
+        } catch {
+          revalidateTag(tag, "max");
+        }
+      });
+    }
+
+    const setCookieHeader = res.headers.get("set-cookie");
+    if (persistCookies && setCookieHeader) {
+      const cookieStore = await cookies();
+      const cookiesArray = setCookieHeader.split(/,(?=[^;]+=[^;]+)/);
+
+      cookiesArray.forEach((cookieString) => {
+        if (!cookieString.includes("=")) return;
+
+        const parts = cookieString.split(";")[0].split("=");
+        const name = parts[0].trim();
+        const value = parts.slice(1).join("=");
+
+        if (name === "accessToken" || name === "refreshToken") {
+          try {
+            cookieStore.set(name, value, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              path: "/",
+            });
+          } catch {
+            // Some server contexts do not allow writing cookies.
+          }
+        }
+      });
+    }
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => null);
+      const error = new Error(errorData?.message || `HTTP ${res.status}`) as ApiError;
+      error.status = res.status;
+      error.data = errorData;
+      throw error;
+    }
+
+    if (res.status === 204 || res.headers.get("content-length") === "0") {
+      return null as T;
+    }
+
+    return responseType === "text"
+      ? ((await res.text()) as T)
+      : ((await res.json()) as T);
+  } catch (error: unknown) {
+    const apiError = error as ApiError;
+    if (apiError?.status !== 401) {
+      // eslint-disable-next-line no-console
+      console.error("[serverFetch] Error:", apiError);
+    }
+    throw error;
+  }
+};

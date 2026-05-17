@@ -1,8 +1,7 @@
 "use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getValidAccessTokenForServerActions } from "@/lib/getValidAccessToken";
-import { updateTag } from "next/cache";
+import { serverFetch } from "@/lib/fetcher";
 import { AdResponse, AdsResponse } from "@/types/ad.type";
 
 /**
@@ -12,13 +11,12 @@ import { AdResponse, AdsResponse } from "@/types/ad.type";
 export const fetchAllAds = async (query: Record<string, any> = {}): Promise<AdsResponse> => {
   const params = new URLSearchParams(query);
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad?${params.toString()}`, {
+    return await serverFetch(`/ad?${params.toString()}`, {
       method: "GET",
-      cache: "no-store",
+      isPublic: true,
+      revalidate: 0,
+      tags: ["ads"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, data: [], message: error.message || "Failed to fetch ads" };
   }
@@ -30,13 +28,11 @@ export const fetchAllAds = async (query: Record<string, any> = {}): Promise<AdsR
  */
 export const fetchAdById = async (adId: string): Promise<AdResponse> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/${adId}`, {
+    return await serverFetch(`/ad/${adId}`, {
       method: "GET",
-      next: { tags: [`ad-${adId}`] },
+      isPublic: true,
+      tags: [`ad-${adId}`],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, data: null as any, message: error.message || "Failed to fetch ad details" };
   }
@@ -47,20 +43,13 @@ export const fetchAdById = async (adId: string): Promise<AdResponse> => {
  * Endpoint: GET /ad/my
  */
 export const fetchMyAds = async (query: Record<string, any> = {}): Promise<AdsResponse> => {
-  const accessToken = await getValidAccessTokenForServerActions();
   const params = new URLSearchParams(query);
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/my?${params.toString()}`, {
+    return await serverFetch(`/ad/my?${params.toString()}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: { tags: ["my-ads"], revalidate: 300 },
+      tags: ["my-ads"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, data: [], message: error.message || "Failed to fetch my ads" };
   }
@@ -71,23 +60,12 @@ export const fetchMyAds = async (query: Record<string, any> = {}): Promise<AdsRe
  * Endpoint: POST /ad (multipart/form-data)
  */
 export const createAd = async (formData: FormData): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad`, {
+    return await serverFetch("/ad", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
       body: formData,
+      updateTag: ["my-ads", "ads"],
     });
-
-    const result = await res.json();
-    if (result.success) {
-      updateTag("my-ads");
-      updateTag("ads");
-    }
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to create ad" };
   }
@@ -98,24 +76,12 @@ export const createAd = async (formData: FormData): Promise<any> => {
  * Endpoint: PATCH /ad/{adId}
  */
 export const updateAd = async (adId: string, data: any): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/${adId}`, {
+    return await serverFetch(`/ad/${adId}`, {
       method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      body: data,
+      updateTag: ["my-ads", "ads", `ad-${adId}`],
     });
-
-    const result = await res.json();
-    if (result.success) {
-      updateTag("my-ads");
-      updateTag("ads");
-    }
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to update ad" };
   }
@@ -126,22 +92,11 @@ export const updateAd = async (adId: string, data: any): Promise<any> => {
  * Endpoint: DELETE /ad/{adId}
  */
 export const deleteAd = async (adId: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/${adId}`, {
+    return await serverFetch(`/ad/${adId}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      updateTag: ["my-ads", "ads", `ad-${adId}`],
     });
-
-    const result = await res.json();
-    if (result.success) {
-      updateTag("my-ads");
-      updateTag("ads");
-    }
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to delete ad" };
   }
@@ -152,24 +107,12 @@ export const deleteAd = async (adId: string): Promise<any> => {
  * Endpoint: POST /ad/{adId}/boost
  */
 export const boostAd = async (adId: string, data: { packageId: string; days: number }): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/${adId}/boost`, {
+    return await serverFetch(`/ad/${adId}/boost`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      body: data,
+      updateTag: ["my-ads", "ads", `ad-${adId}`],
     });
-
-    const result = await res.json();
-    if (result.success) {
-      updateTag("my-ads");
-      updateTag("ads");
-    }
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to boost ad" };
   }
@@ -180,20 +123,11 @@ export const boostAd = async (adId: string, data: { packageId: string; days: num
  * Endpoint: POST /ad/{adId}/report
  */
 export const reportAd = async (adId: string, data: { reason: string; details?: string }): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/${adId}/report`, {
+    return await serverFetch(`/ad/${adId}/report`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      body: data,
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to report ad" };
   }
@@ -205,12 +139,10 @@ export const reportAd = async (adId: string, data: { reason: string; details?: s
  */
 export const trackAdView = async (adId: string): Promise<any> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/${adId}/view`, {
+    return await serverFetch(`/ad/${adId}/view`, {
       method: "POST",
+      isPublic: true,
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to track ad view" };
   }
@@ -223,13 +155,11 @@ export const trackAdView = async (adId: string): Promise<any> => {
 export const fetchLatestAds = async (query: Record<string, any> = {}): Promise<AdsResponse> => {
   const params = new URLSearchParams(query);
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/latest?${params.toString()}`, {
+    return await serverFetch(`/ad/latest?${params.toString()}`, {
       method: "GET",
-      next: { tags: ["ads"], revalidate: 300 },
+      isPublic: true,
+      tags: ["ads"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, data: [], message: error.message || "Failed to fetch latest ads" };
   }
@@ -242,13 +172,11 @@ export const fetchLatestAds = async (query: Record<string, any> = {}): Promise<A
 export const fetchTopAds = async (query: Record<string, any> = {}): Promise<AdsResponse> => {
    const params = new URLSearchParams(query);
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/top?${params.toString()}`, {
+    return await serverFetch(`/ad/top?${params.toString()}`, {
       method: "GET",
-      next: { tags: ["ads"], revalidate: 300 },
+      isPublic: true,
+      tags: ["ads"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, data: [], message: error.message || "Failed to fetch top ads" };
   }
@@ -261,13 +189,11 @@ export const fetchTopAds = async (query: Record<string, any> = {}): Promise<AdsR
 export const fetchFeaturedAds = async (query: Record<string, any> = {}): Promise<AdsResponse> => {
   const params = new URLSearchParams(query);
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/ad/featured?${params.toString()}`, {
+    return await serverFetch(`/ad/featured?${params.toString()}`, {
       method: "GET",
-      next: { tags: ["ads"], revalidate: 300 },
+      isPublic: true,
+      tags: ["ads"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, data: [], message: error.message || "Failed to fetch featured ads" };
   }

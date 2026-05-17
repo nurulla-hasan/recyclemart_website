@@ -1,8 +1,7 @@
 "use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getValidAccessTokenForServerActions } from "@/lib/getValidAccessToken";
-import { updateTag } from "next/cache";
+import { serverFetch } from "@/lib/fetcher";
 
 /**
  * 1. List Lotteries
@@ -13,16 +12,11 @@ export const fetchLotteries = async (
 ): Promise<any> => {
   const params = new URLSearchParams(query);
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/lottery?${params.toString()}`,
-      {
-        method: "GET",
-        next: { tags: ["lotteries"], revalidate: 300 },
-      },
-    );
-
-    const result = await res.json();
-    return result;
+    return await serverFetch(`/lottery?${params.toString()}`, {
+      method: "GET",
+      isPublic: true,
+      tags: ["lotteries"],
+    });
   } catch (error: any) {
     return {
       success: false,
@@ -37,21 +31,11 @@ export const fetchLotteries = async (
  * Endpoint: GET /lottery/my/summary
  */
 export const fetchLotterySummary = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/lottery/my/summary`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        next: { tags: ["lottery-summary"] },
-      },
-    );
-
-    const result = await res.json();
-    return result;
+    return await serverFetch("/lottery/my/summary", {
+      method: "GET",
+      tags: ["lottery-summary"],
+    });
   } catch (error: any) {
     return {
       success: false,
@@ -66,21 +50,11 @@ export const fetchLotterySummary = async (): Promise<any> => {
  * Endpoint: GET /lottery/my/upcoming
  */
 export const fetchUpcomingLotteries = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/lottery/my/upcoming`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        next: { tags: ["upcoming-lotteries"] },
-      },
-    );
-
-    const result = await res.json();
-    return result;
+    return await serverFetch("/lottery/my/upcoming", {
+      method: "GET",
+      tags: ["upcoming-lotteries"],
+    });
   } catch (error: any) {
     return {
       success: false,
@@ -98,22 +72,12 @@ export const joinLottery = async (
   lotteryId: string,
   quantity: number = 1,
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/lottery/${lotteryId}/join`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ quantity }),
-      },
-    );
-
-    const result = await res.json();
-    return result;
+    return await serverFetch(`/lottery/${lotteryId}/join`, {
+      method: "POST",
+      body: { quantity },
+      updateTag: ["lotteries", "lottery-summary", "upcoming-lotteries"],
+    });
   } catch (error: any) {
     return {
       success: false,
@@ -127,22 +91,12 @@ export const joinLottery = async (
  * Endpoint: GET /lottery/payment/verify?tran_id={tran_id}
  */
 export const verifyLotteryPayment = async (tran_id: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/lottery/payment/verify?tran_id=${tran_id}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
-    const result = await res.json();
-    updateTag("lotteries");
-    updateTag("lottery-summary");
-    updateTag("lottery-tokens");
-    return result;
+    return await serverFetch(`/lottery/payment/verify?tran_id=${tran_id}`, {
+      method: "GET",
+      cache: "no-store",
+      updateTag: ["lotteries", "lottery-summary", "lottery-tokens"],
+    });
   } catch (error: any) {
     return {
       success: false,
@@ -156,21 +110,11 @@ export const verifyLotteryPayment = async (tran_id: string): Promise<any> => {
  * Endpoint: GET /lottery/{lotteryId}/my-tokens
  */
 export const fetchMyLotteryTokens = async (lotteryId: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/lottery/${lotteryId}/my-tokens`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        next: { tags: ["lottery-tokens", `lottery-tokens-${lotteryId}`] },
-      },
-    );
-
-    const result = await res.json();
-    return result;
+    return await serverFetch(`/lottery/${lotteryId}/my-tokens`, {
+      method: "GET",
+      tags: ["lottery-tokens", `lottery-tokens-${lotteryId}`],
+    });
   } catch (error: any) {
     return {
       success: false,

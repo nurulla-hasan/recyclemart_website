@@ -1,29 +1,20 @@
 "use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getValidAccessTokenForServerActions } from "@/lib/getValidAccessToken";
-import { updateTag } from "next/cache";
+import { serverFetch } from "@/lib/fetcher";
 
 /**
  * 1. List My Favourites
  * Endpoint: GET /favourite/my
  */
 export const fetchMyFavorites = async (page = 1, limit = 10): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/favourite/my?page=${page}&limit=${limit}`, {
+    return await serverFetch(`/favourite/my?page=${page}&limit=${limit}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: { tags: ["favourites"], revalidate: 300 },
+      tags: ["favourites"],
     });
-
-    const result = await res.json()
-    return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error.message || "Failed to fetch favourites" };
   }
 };
 
@@ -32,23 +23,13 @@ export const fetchMyFavorites = async (page = 1, limit = 10): Promise<any> => {
  * Endpoint: POST /favourite/{adId}
  */
 export const addFavorite = async (adId: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/favourite/${adId}`, {
+    return await serverFetch(`/favourite/${adId}`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      updateTag: "favourites",
     });
-
-    const result = await res.json();
-    if (result.success) {
-      updateTag("favourites");
-    }
-    return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error.message || "Failed to add favourite" };
   }
 };
 
@@ -57,22 +38,12 @@ export const addFavorite = async (adId: string): Promise<any> => {
  * Endpoint: DELETE /favourite/{adId}
  */
 export const removeFavorite = async (adId: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/favourite/${adId}`, {
+    return await serverFetch(`/favourite/${adId}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      updateTag: "favourites",
     });
-
-    const result = await res.json();
-    if (result.success) {
-      updateTag("favourites");
-    }
-    return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error.message || "Failed to remove favourite" };
   }
 };

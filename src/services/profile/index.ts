@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { getValidAccessTokenForServerActions } from "@/lib/getValidAccessToken";
+import { serverFetch } from "@/lib/fetcher";
 import { revalidatePath } from "next/cache";
 
 /**
@@ -10,12 +10,11 @@ import { revalidatePath } from "next/cache";
  */
 export const fetchAllPlans = async (): Promise<any> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/plans`, {
+    return await serverFetch("/subscription/plans", {
       method: "GET",
+      isPublic: true,
+      tags: ["subscription-plans"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to fetch plans" };
   }
@@ -26,18 +25,11 @@ export const fetchAllPlans = async (): Promise<any> => {
  * Endpoint: GET /subscription/my
  */
 export const fetchMySubscription = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/my`, {
+    return await serverFetch("/subscription/my", {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      tags: ["my-subscription"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to fetch subscription" };
   }
@@ -49,19 +41,12 @@ export const fetchMySubscription = async (): Promise<any> => {
  * Body: { planId: string }
  */
 export const changeSubscription = async (planId: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/change`, {
+    const result = await serverFetch("/subscription/change", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ planId }),
+      body: { planId },
+      updateTag: "my-subscription",
     });
-
-    const result = await res.json();
     if (result.success) {
       revalidatePath("/profile/subscription");
     }
@@ -76,17 +61,11 @@ export const changeSubscription = async (planId: string): Promise<any> => {
  * Endpoint: POST /subscription/cancel
  */
 export const cancelSubscription = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/cancel`, {
+    const result = await serverFetch("/subscription/cancel", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      updateTag: "my-subscription",
     });
-
-    const result = await res.json();
     if (result.success) {
       revalidatePath("/profile/subscription");
     }
@@ -101,18 +80,11 @@ export const cancelSubscription = async (): Promise<any> => {
  * Endpoint: GET /subscription/invoice/my
  */
 export const fetchMyInvoices = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/invoice/my`, {
+    return await serverFetch("/subscription/invoice/my", {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      tags: ["my-invoices"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to fetch invoices" };
   }
@@ -127,19 +99,12 @@ export const updatePaymentMethod = async (data: {
   paymentMethod: string;
   accountNumber: string;
 }): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/payment-method`, {
+    const result = await serverFetch("/subscription/payment-method", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      body: data,
+      updateTag: "my-subscription",
     });
-
-    const result = await res.json();
     if (result.success) {
       revalidatePath("/profile/subscription");
     }
@@ -154,18 +119,11 @@ export const updatePaymentMethod = async (data: {
  * Endpoint: GET /subscription/wallet
  */
 export const fetchWalletBalance = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/wallet`, {
+    return await serverFetch("/subscription/wallet", {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      tags: ["wallet"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return { success: false, message: error.message || "Failed to fetch wallet balance" };
   }
@@ -177,19 +135,12 @@ export const fetchWalletBalance = async (): Promise<any> => {
  * Body: { amount: number }
  */
 export const topupWallet = async (amount: number): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/wallet/topup`, {
+    const result = await serverFetch("/subscription/wallet/topup", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount }),
+      body: { amount },
+      updateTag: ["wallet", "my-subscription"],
     });
-
-    const result = await res.json();
     if (result.success) {
       revalidatePath("/profile/subscription");
     }
@@ -204,17 +155,12 @@ export const topupWallet = async (amount: number): Promise<any> => {
  * Endpoint: GET /subscription/verify?tran_id=...
  */
 export const verifySubscriptionPayment = async (tran_id: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/subscription/verify?tran_id=${tran_id}`, {
+    const result = await serverFetch(`/subscription/verify?tran_id=${tran_id}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      cache: "no-store",
+      updateTag: ["wallet", "my-subscription", "my-invoices"],
     });
-
-    const result = await res.json();
     if (result.success) {
       revalidatePath("/profile/subscription");
     }

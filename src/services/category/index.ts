@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { serverFetch } from "@/lib/fetcher";
 import { Category } from "@/types/category.type";
 
 export const fetchAllCategories = async (): Promise<{
@@ -9,13 +10,11 @@ export const fetchAllCategories = async (): Promise<{
   message?: string;
 }> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/category`, {
+    return await serverFetch("/category", {
       method: "GET",
-      next: { tags: ["categories"] },
+      isPublic: true,
+      tags: ["categories"],
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return {
       success: false,

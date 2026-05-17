@@ -2,20 +2,16 @@
 
 "use server";
 
+import { serverFetch } from "@/lib/fetcher";
 import { FieldValues } from "react-hook-form";
 
 export const createContact = async (contactData: FieldValues): Promise<any> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/contact`, {
+    return await serverFetch("/contact", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(contactData),
+      isPublic: true,
+      body: contactData,
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return {
       success: false,

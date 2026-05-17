@@ -3,19 +3,17 @@
 
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
-import { getValidAccessTokenForServerActions } from '@/lib/getValidAccessToken';
+import { serverFetch } from '@/lib/fetcher';
 import { FieldValues } from 'react-hook-form';
 
 // registerUser
 export const signUpUser = async (userData: FormData) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/signup`, {
+    return await serverFetch('/user/signup', {
       method: 'POST',
       body: userData,
+      isPublic: true,
     });
-
-    const result = await res.json();
-    return result;
   } catch (error: any) {
     return Error(error);
   }
@@ -24,19 +22,11 @@ export const signUpUser = async (userData: FormData) => {
 // sendSignupOtpAgain
 export const sendSignupOtpAgain = async (userEmail: string) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/send-signup-otp-again`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userEmail }),
-      }
-    );
-
-    const result = await res.json();
-    return result;
+    return await serverFetch('/user/send-signup-otp-again', {
+      method: 'POST',
+      body: { userEmail },
+      isPublic: true,
+    });
   } catch (error: any) {
     return Error(error);
   }
@@ -45,18 +35,11 @@ export const sendSignupOtpAgain = async (userEmail: string) => {
 // verifySignUpByOTP
 export const verifySignUpByOTP = async (userEmail: string, otp: string) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/verify-signup-otp`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userEmail, otp }),
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/verify-signup-otp', {
+      method: 'POST',
+      body: { userEmail, otp },
+      isPublic: true,
+    });
 
     if (result?.success) {
       (await cookies()).set('accessToken', result?.data?.accessToken);
@@ -72,15 +55,11 @@ export const verifySignUpByOTP = async (userEmail: string, otp: string) => {
 // signInUser
 export const signInUser = async (userData: FieldValues): Promise<any> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/signin`, {
+    const result = await serverFetch('/user/signin', {
       method: 'POST',
-      body: JSON.stringify(userData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      body: userData,
+      isPublic: true,
     });
-
-    const result = await res.json();
 
     if (result?.success) {
       (await cookies()).set('accessToken', result?.data?.accessToken);
@@ -95,21 +74,12 @@ export const signInUser = async (userData: FieldValues): Promise<any> => {
 
 // updateProfilePhoto
 export const updateProfilePhoto = async (data: FormData): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/update-profile-photo`,
-      {
-        method: 'PUT',
-        body: data,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/update-profile-photo', {
+      method: 'PUT',
+      body: data,
+      updateTag: 'user-profile',
+    });
     if (result?.success) {
       (await cookies()).set('accessToken', result?.data?.accessToken);
     }
@@ -125,22 +95,12 @@ export const changePassword = async (data: {
   oldPassword: string;
   newPassword: string;
 }): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/change-password`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify(data),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/change-password', {
+      method: 'PATCH',
+      body: data,
+      updateTag: 'user-profile',
+    });
 
     if (result?.success) {
       (await cookies()).set('accessToken', result?.data?.accessToken);
@@ -156,18 +116,11 @@ export const changePassword = async (data: {
 // forgotPassword
 export const forgotPassword = async (email: string): Promise<any> => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/forgot-password`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ email }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/forgot-password', {
+      method: 'POST',
+      body: { email },
+      isPublic: true,
+    });
 
     if (result?.success) {
       (await cookies()).set('forgotPassToken', result?.data?.token);
@@ -185,19 +138,11 @@ export const sendForgotPasswordOtpAgain = async (): Promise<any> => {
   const token = cookieStore.get('forgotPassToken')?.value;
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/send-forgot-password-otp-again`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ token }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
-    return result;
+    return await serverFetch('/user/send-forgot-password-otp-again', {
+      method: 'POST',
+      body: { token },
+      isPublic: true,
+    });
   } catch (error: any) {
     return Error(error);
   }
@@ -209,18 +154,11 @@ export const verifyOtpForForgotPassword = async (otp: string): Promise<any> => {
   const token = cookieStore.get('forgotPassToken')?.value;
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/verify-forgot-password-otp`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ token, otp }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/verify-forgot-password-otp', {
+      method: 'POST',
+      body: { token, otp },
+      isPublic: true,
+    });
 
     if (result?.success) {
       cookieStore.set('resetPasswordToken', result?.data?.resetPasswordToken);
@@ -238,18 +176,11 @@ export const setNewPassword = async (newPassword: string): Promise<any> => {
   const resetPasswordToken = cookieStore.get('resetPasswordToken')?.value;
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/reset-password`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ resetPasswordToken, newPassword }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/reset-password', {
+      method: 'POST',
+      body: { resetPasswordToken, newPassword },
+      isPublic: true,
+    });
 
     if (result?.success) {
       cookieStore.delete('forgotPassToken');
@@ -264,22 +195,11 @@ export const setNewPassword = async (newPassword: string): Promise<any> => {
 
 // fetchMyProfile
 export const fetchMyProfile = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/profile`,
-      { 
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    const result = await res.json();
-
-    return result;
+    return await serverFetch('/user/profile', {
+      method: 'GET',
+      tags: ['user-profile'],
+    });
   } catch (error: any) {
     return Error(error);
   }
@@ -307,22 +227,12 @@ export const getNewAccessToken = async (refreshToken: string): Promise<any> => {
 
 // deactiveAccount
 export const deactiveAccount = async (userData: FieldValues): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/deactive-account`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify(userData),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/deactive-account', {
+      method: 'PATCH',
+      body: userData,
+      updateTag: 'user-profile',
+    });
     if (result?.success) {
       const cookieStore = await cookies();
       cookieStore.set('accessToken', result?.data?.accessToken);
@@ -336,22 +246,12 @@ export const deactiveAccount = async (userData: FieldValues): Promise<any> => {
 
 // updateUserData
 export const updateUserData = async (userData: FieldValues): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerActions();
-
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/update-user-data`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify(userData),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
+    const result = await serverFetch('/user/update-user-data', {
+      method: 'PATCH',
+      body: userData,
+      updateTag: 'user-profile',
+    });
     if (result?.success) {
       const cookieStore = await cookies();
       cookieStore.set('accessToken', result?.data?.accessToken);
