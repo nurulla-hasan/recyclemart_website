@@ -78,6 +78,14 @@ type MessagePayload = {
 
 const SOCKET_NAMESPACE = '/chat';
 
+const getSocketBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_SOCKET_API) {
+    return process.env.NEXT_PUBLIC_SOCKET_API;
+  }
+
+  return process.env.NEXT_PUBLIC_BASE_API?.replace(/\/api\/v\d+\/?$/, '');
+};
+
 const ensureDate = (value?: string | Date | null) => {
   if (!value) return null;
   const date = typeof value === 'string' ? new Date(value) : value;
@@ -190,7 +198,11 @@ async function ensureSocket(): Promise<Socket | null> {
     return null;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SOCKET_API;
+  const baseUrl = getSocketBaseUrl();
+  if (!baseUrl) {
+    ErrorToast('Socket API URL is not configured');
+    return null;
+  }
 
   socketInstance = io(`${baseUrl}${SOCKET_NAMESPACE}`, {
     transports: ['websocket'],
