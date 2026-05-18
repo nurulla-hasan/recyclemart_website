@@ -17,40 +17,58 @@ const righteous = Righteous({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://recyclemart.com.bd"),
   title: {
-    default: "Recycle Mart - Buy & Sell Everything in Bangladesh",
+    default: "Recycle Mart - Buy & Sell Used Goods in Bangladesh",
     template: "%s | Recycle Mart",
   },
   description:
-    "Recycle Mart is Bangladesh's most trusted online marketplace. Buy and sell used electronics, vehicles, property, home appliances, and more. Safe, fast, and easy local trading.",
+    "Recycle Mart is Bangladesh's premium online marketplace for buying and selling second-hand goods. Easily buy and sell used mobile phones, laptops, bikes, cars, furniture, and electronics locally at the best prices.",
   keywords: [
     "Recycle Mart",
-    "Online Marketplace",
-    "Buy and Sell",
-    "Bangladesh",
-    "Used Electronics",
-    "Second hand cars",
-    "Property for sale",
+    "Buy and Sell Used Goods",
+    "Second hand mobile",
+    "Used laptop in Dhaka",
+    "Purana jinish kena becha",
+    "Second hand bike",
+    "Used cars Bangladesh",
+    "Old furniture buy sell",
+    "Used electronics market",
+    "Bangladesh online classifieds",
     "Dhaka",
     "Chittagong",
     "Sylhet",
   ],
   authors: [{ name: "SmartEdge Technologies" }],
   creator: "SmartEdge Technologies",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://recyclemart.com.bd",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: " https://recyclemart.com.bd ",
-    title: "Recycle Mart - Buy & Sell Everything in Bangladesh",
+    url: "https://recyclemart.com.bd",
+    title: "Recycle Mart - Buy & Sell Used Goods in Bangladesh",
     description:
-      "Join millions of users on Recycle Mart to buy and sell used goods, find jobs, or rent properties in Bangladesh.",
+      "Find great deals on used electronics, second-hand cars, bikes, and furniture on Recycle Mart. Safe and fast local buying and selling in Bangladesh.",
     siteName: "Recycle Mart",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Recycle Mart - Buy & Sell Everything in Bangladesh",
+    title: "Recycle Mart - Buy & Sell Used Goods in Bangladesh",
     description:
-      "Bangladesh's trusted marketplace for buying and selling everything.",
+      "Bangladesh's trusted marketplace for buying and selling second-hand goods at great prices.",
     creator: "@recyclemartbd",
   },
 };
