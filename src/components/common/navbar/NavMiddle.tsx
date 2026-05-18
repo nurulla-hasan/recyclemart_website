@@ -134,21 +134,19 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
 
         {/* Desktop Utility Links */}
         <div className="hidden lg:flex items-center gap-2 text-sm">
-          {user && (
-            <Link href="/chat">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-md bg-primary-foreground/5 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/15 w-9 h-9"
-                title={t('inbox')}
-              >
-                <MessageCircle className="h-5 w-5" />
-              </Button>
-            </Link>
-          )}
+          <Link href={user ? "/chat" : "/auth/login?redirectPath=/chat"}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-md bg-primary-foreground/5 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/15 w-9 h-9"
+              title={t('inbox')}
+            >
+              <MessageCircle className="h-5 w-5" />
+            </Button>
+          </Link>
 
-          {user && !isBuyer && (
-            <Link href="/ads/create">
+          {!isBuyer && (
+            <Link href={user ? "/ads/create" : "/auth/login?redirectPath=/ads/create"}>
               <Button
                 size="sm"
                 className="h-9 flex items-center gap-2 rounded-md bg-linear-to-r from-pink-400 to-orange-500 px-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-sm shadow-orange-500/20"
@@ -163,16 +161,14 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
         {/* Mobile & Tablet View */}
         <div className="flex items-center gap-1.5 lg:hidden">
           {/* Favorites Button */}
-          {user && (
-            <Link href="/profile/favourites">
-              <Button
-                size="icon"
-                className="flex items-center justify-center rounded-md bg-primary-foreground/5 border border-primary-foreground/20 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9"
-              >
-                <Heart className="h-4 w-4" />
-              </Button>
-            </Link>
-          )}
+          <Link href={user ? "/profile/favourites" : "/auth/login?redirectPath=/profile/favourites"}>
+            <Button
+              size="icon"
+              className="flex items-center justify-center rounded-md bg-primary-foreground/5 border border-primary-foreground/20 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9"
+            >
+              <Heart className="h-4 w-4" />
+            </Button>
+          </Link>
 
           {/* Main Menu (Mobile) */}
           <Sheet>

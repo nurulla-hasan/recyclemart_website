@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://recyclemart.bd",
+    url: " https://recyclemart.com.bd ",
     title: "Recycle Mart - Buy & Sell Everything in Bangladesh",
     description:
       "Join millions of users on Recycle Mart to buy and sell used goods, find jobs, or rent properties in Bangladesh.",

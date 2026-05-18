@@ -19,9 +19,7 @@ export default async function MainLayout({
   return (
     <>
       <Navbar categories={categories} extraData={extraData} />
-      <div className="min-h-screen flex flex-col grow">
-        {children}
-      </div>
+      {children}
       <Footer />
     </>
   );

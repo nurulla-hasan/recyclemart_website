@@ -29,10 +29,8 @@ export default async function LocaleLayout({
       <NextTopLoader color="#2ecc71" showSpinner={false} />
       <Toaster
         richColors
-        //   position="top-center"
         toastOptions={{
           style: {
-            // background: "#2ecc71",
             border: "none",
           },
         }}

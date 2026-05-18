@@ -185,7 +185,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="border-border bg-background text-foreground"
+              className="z-10000"
             >
               {user ? (
                 <>
