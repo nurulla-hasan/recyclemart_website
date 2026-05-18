@@ -124,7 +124,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
         <Button
           variant="ghost"
           size="icon"
-          className="group relative rounded-full h-7 w-7 text-primary-foreground data-[state=active]:bg-primary-foreground/0"
+          className="group relative rounded-md h-7 w-7 text-primary-foreground data-[state=active]:bg-primary-foreground/0"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           aria-label={mounted ? (theme === 'dark' ? t('switchToLight') : t('switchToDark')) : t('toggleTheme')}
           suppressHydrationWarning
@@ -212,7 +212,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
           <Button
             variant="ghost"
             size="icon"
-            className="group relative rounded-full h-8 w-8 text-primary-foreground data-[state=active]:bg-primary-foreground/0 hover:bg-primary-foreground/0 "
+            className="group relative rounded-md h-8 w-8 text-primary-foreground data-[state=active]:bg-primary-foreground/0 hover:bg-primary-foreground/0 "
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             aria-label={mounted ? (theme === 'dark' ? t('switchToLight') : t('switchToDark')) : t('toggleTheme')}
             suppressHydrationWarning

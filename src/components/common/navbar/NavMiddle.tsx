@@ -80,12 +80,12 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
           {/* Categories Dropdown */}
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
-              <Button className="h-9 flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 shrink-0">
+              <Button className="h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 shrink-0">
                 <MenuIcon className="h-4 w-4" />
                 <span>{t('categories')}</span>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-200 border-primary-foreground/20 bg-primary p-6 text-primary-foreground rounded-3xl backdrop-blur-md z-50">
+            <PopoverContent align="start" className="w-200 border-primary-foreground/20 bg-primary p-6 text-primary-foreground rounded-lg backdrop-blur-md z-10000">
               <ScrollArea className="h-fit max-h-[70vh]">
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((category) => (
@@ -93,7 +93,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       key={category._id}
                       href={`/ads?category=${category.slug}`}
                       onClick={() => setIsPopoverOpen(false)}
-                      className="group flex flex-col items-center justify-center p-4 rounded-2xl border border-primary-foreground/10 bg-primary-foreground/5 transition hover:border-primary-foreground/30 hover:bg-primary-foreground/10 text-center"
+                      className="group flex flex-col items-center justify-center p-4 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 transition hover:border-primary-foreground/30 hover:bg-primary-foreground/10 text-center"
                     >
                       {category.icon && (
                         <div className="relative w-10 h-10 mb-2 transition-transform group-hover:scale-110">
@@ -112,7 +112,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
 
           <Link
             href="/ads"
-            className="group h-9 flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
+            className="group h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
           >
             <ListTree className="h-4 w-4 text-primary-foreground/80" />
             <span>{t('browseListings')}</span>
@@ -121,7 +121,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
           <Button
             onClick={handleLanguageChange}
             disabled={isPending}
-            className="h-9 flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
+            className="h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
           >
             {isPending ? (
               <Loader2 className="h-4 w-4 animate-spin text-primary-foreground/80" />
@@ -139,7 +139,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-full bg-primary-foreground/5 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/15 w-9 h-9"
+                className="rounded-md bg-primary-foreground/5 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/15 w-9 h-9"
                 title={t('inbox')}
               >
                 <MessageCircle className="h-5 w-5" />
@@ -151,7 +151,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <Link href="/ads/create">
               <Button
                 size="sm"
-                className="h-9 flex items-center gap-2 rounded-full bg-linear-to-r from-pink-400 to-orange-500 px-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-lg shadow-orange-500/20"
+                className="h-9 flex items-center gap-2 rounded-md bg-linear-to-r from-pink-400 to-orange-500 px-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-sm shadow-orange-500/20"
               >
                 <PlusCircle className="h-4 w-4" />
                 {t('postFreeAd')}
@@ -167,7 +167,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <Link href="/profile/favourites">
               <Button
                 size="icon"
-                className="flex items-center justify-center rounded-full bg-primary-foreground/5 border border-primary-foreground/20 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9"
+                className="flex items-center justify-center rounded-md bg-primary-foreground/5 border border-primary-foreground/20 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9"
               >
                 <Heart className="h-4 w-4" />
               </Button>
@@ -179,7 +179,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <SheetTrigger asChild>
               <Button
                 size="icon"
-                className="flex items-center justify-center rounded-full bg-primary-foreground/5 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9 border border-primary-foreground/20"
+                className="flex items-center justify-center rounded-md bg-primary-foreground/5 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9 border border-primary-foreground/20"
               >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
@@ -212,9 +212,9 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                     </p>
                     <Link
                       href="/ads"
-                      className="group flex items-center gap-3 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 px-4 py-2.5 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
+                      className="group flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 py-2.5 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
                     >
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-colors">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-colors">
                         <ListTree className="h-4 w-4 text-primary-foreground" />
                       </div>
                       <span>{t('browseListings')}</span>
@@ -230,7 +230,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                           <Link
                             key={category._id}
                             href={`/ads?category=${category.slug}`}
-                            className="group flex flex-col items-center gap-2 p-2.5 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 transition hover:bg-primary-foreground/10 text-center"
+                            className="group flex flex-col items-center gap-2 p-2.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 transition hover:bg-primary-foreground/10 text-center"
                           >
                              {category.icon && (
                               <div className="relative w-5 h-5 transition-transform group-hover:scale-110">
@@ -255,9 +255,9 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                     <Button
                       onClick={handleLanguageChange}
                       disabled={isPending}
-                      className="w-full h-11 justify-start flex items-center gap-3 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
+                      className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
                     >
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary-foreground/10">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary-foreground/10">
                         {isPending ? (
                           <Loader2 className="h-3.5 w-3.5 animate-spin text-primary-foreground" />
                         ) : (
@@ -271,7 +271,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       {user && (
                         <Link
                           href="/chat"
-                          className="flex flex-col items-center gap-1.5 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10"
+                          className="flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10"
                         >
                           <MessageCircle className="h-4 w-4 text-primary-foreground/80" />
                           <span className="text-[11px] font-medium">{t('inbox')}</span>
@@ -279,7 +279,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       )}
                       <Link
                         href={user ? '/profile' : '/auth/login'}
-                        className={`flex flex-col items-center gap-1.5 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10 ${!user ? 'col-span-2' : ''}`}
+                        className={`flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10 ${!user ? 'col-span-2' : ''}`}
                       >
                         <User className="h-4 w-4 text-primary-foreground/80" />
                         <span className="text-[11px] font-medium">{user ? t('profile') : t('signIn')}</span>
@@ -290,9 +290,9 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       <Button
                         onClick={handleLogout}
                         variant="ghost"
-                        className="w-full h-11 justify-start flex items-center gap-3 rounded-xl border border-red-600/20 bg-red-600/10 px-4 text-sm font-medium text-red-700 dark:text-red-600 transition hover:bg-red-600/20"
+                        className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-red-600/20 bg-red-600/10 px-4 text-sm font-medium text-red-700 dark:text-red-600 transition hover:bg-red-600/20"
                       >
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-600/10">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-red-600/10">
                           <LogOut className="h-3.5 w-3.5" />
                         </div>
                         <span>{t('logout')}</span>
@@ -305,7 +305,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                 {!isBuyer && (
                   <div className="px-5 py-5 mt-auto">
                     <Link href="/ads/create">
-                      <Button className="w-full h-12 gap-3 rounded-xl bg-linear-to-r from-pink-500 via-orange-500 to-yellow-500 text-sm font-bold text-white shadow-lg hover:brightness-110 transition-all active:scale-[0.98]">
+                      <Button className="w-full h-12 gap-3 rounded-md bg-linear-to-r from-pink-500 via-orange-500 to-yellow-500 text-sm font-bold text-white shadow-sm hover:brightness-110 transition-all active:scale-[0.98]">
                         <PlusCircle className="h-5 w-5" />
                         {t('postFreeAd')}
                       </Button>

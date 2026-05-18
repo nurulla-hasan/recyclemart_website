@@ -49,21 +49,21 @@ export const LocationSelector = ({ value, onSelect, className, placeholder }: Lo
                 <Button 
                   variant="outline" 
                   className={cn(
-                    "h-10 rounded-full border-border/40 bg-background pl-4 pr-8 text-sm font-normal text-muted-foreground min-w-48 lg:w-56 justify-start relative group hover:border-primary/40 transition-all shadow-sm",
+                    "h-10 rounded-md border-border/40 bg-background pl-4 pr-8 text-sm font-normal text-muted-foreground min-w-48 lg:w-56 justify-start relative group hover:border-primary/40 transition-all shadow-sm",
                     className
                   )}
                 >
-                    <MapPin className="shrink-0 transition-transform group-hover:scale-110" />
-                    <span className="truncate flex-1 text-left text-foreground/80">
+                    <MapPin className="shrink-0 transition-transform group-hover:scale-110 group-hover:text-inherit" />
+                    <span className="truncate flex-1 text-left text-foreground/80 group-hover:text-inherit">
                       {selectedLocation ? formatName(selectedLocation) : (placeholder || t("selectLocation"))}
                     </span>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-40 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-40 group-hover:opacity-100 transition-opacity group-hover:text-inherit">
                        <ChevronRight className={cn("h-3 w-3 rotate-90 transition-transform duration-200", isOpen && "-rotate-90")} />
                     </div>
                 </Button>
             </PopoverTrigger>
             <PopoverContent 
-              className="w-120 p-0 overflow-hidden rounded-3xl shadow-2xl border-border/40 bg-background/95 backdrop-blur-sm" 
+              className="w-120 p-0 overflow-hidden rounded-lg shadow-xl border-border bg-background/95 backdrop-blur-sm" 
               align="start"
               sideOffset={8}
             >
@@ -80,10 +80,10 @@ export const LocationSelector = ({ value, onSelect, className, placeholder }: Lo
                                         key={loc.division}
                                         onMouseEnter={() => setHoveredDivision(loc)}
                                         className={cn(
-                                            "flex w-full items-center justify-between px-3 py-2.5 text-sm rounded-xl transition-all duration-200",
+                                            "flex w-full items-center justify-between px-3 py-2.5 text-sm rounded-md transition-all duration-200",
                                             hoveredDivision.division === loc.division 
-                                              ? "bg-primary text-primary-foreground shadow-md translate-x-1" 
-                                              : "text-muted-foreground hover:bg-primary/5 hover:text-foreground"
+                                              ? "bg-primary text-primary-foreground shadow-sm translate-x-1 font-semibold" 
+                                              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                                         )}
                                     >
                                         <span className="font-medium">{formatName(loc.division)}</span>
@@ -100,7 +100,7 @@ export const LocationSelector = ({ value, onSelect, className, placeholder }: Lo
                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.1em]">
                              {t("districtsIn", { division: formatName(hoveredDivision.division) })}
                            </p>
-                           <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold">{hoveredDivision.districts.length}</span>
+                           <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-md font-bold">{hoveredDivision.districts.length}</span>
                         </div>
                         <ScrollArea className="h-[calc(100%-40px)]">
                             <div className="px-3 grid grid-cols-1 gap-0.5">
@@ -109,15 +109,15 @@ export const LocationSelector = ({ value, onSelect, className, placeholder }: Lo
                                         key={district}
                                         onClick={() => handleSelect(district)}
                                         className={cn(
-                                            "flex w-full items-center px-4 py-2.5 text-sm rounded-xl transition-all duration-200 text-left",
+                                            "flex w-full items-center px-4 py-2.5 text-sm rounded-md transition-all duration-200 text-left",
                                             selectedLocation === district 
-                                              ? "bg-primary/10 text-primary font-bold shadow-inner" 
-                                              : "text-foreground/70 hover:bg-primary/5 hover:text-primary hover:translate-x-1"
+                                              ? "bg-primary text-primary-foreground font-semibold shadow-sm translate-x-1" 
+                                              : "text-foreground/70 hover:bg-accent hover:text-accent-foreground hover:translate-x-1"
                                         )}
                                     >
                                         <div className={cn(
-                                          "w-1.5 h-1.5 rounded-full mr-3 transition-all",
-                                          selectedLocation === district ? "bg-primary scale-125" : "bg-muted-foreground/30"
+                                          "w-1.5 h-1.5 rounded-full mr-3 transition-all shrink-0",
+                                          selectedLocation === district ? "bg-primary-foreground scale-125" : "bg-muted-foreground/30"
                                         )} />
                                         {formatName(district)}
                                     </button>

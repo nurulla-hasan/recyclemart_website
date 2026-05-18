@@ -1,13 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ListTree, Grid3X3, List, Search, SlidersHorizontal, Globe } from 'lucide-react';
 import { AdListCard } from '@/components/ads/AdListCard';
 import { AdGridCard } from '@/components/ads/AdGridCard';
 import Filters from '@/components/ads/filters';
-
 import { LocationSelector } from '@/components/ads/LocationSelector';
 import { Category } from '@/types/category.type';
 import { Ad, AdMeta } from '@/types/ad.type';
@@ -34,15 +32,15 @@ export default function AllAdsExplorer({
   const currentView = getFilter('view') || 'list';
 
   return (
-    <section className="py-4 md:py-8">
+    <section>
       <Tabs 
         value={currentView} 
         onValueChange={(val) => updateFilter('view', val)} 
-        className="w-full"
+        className="w-full space-y-4"
       >
-        {/* Heading Section */}
-        <div className="mb-6 space-y-2">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+        {/* Header Section */}
+        <div className="space-y-1.5 pb-2">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             {t('title')}
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -50,74 +48,63 @@ export default function AllAdsExplorer({
           </p>
         </div>
 
-        {/* Controls Section (Search, Location, Filter, View) */}
-        <div className="flex flex-col gap-4 mb-8">
-          
-          {/* Top Row: Search (Full width on mobile, flexible on desktop) */}
-          <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center">
-            
-            {/* Search Box */}
-            <div className="relative flex-1 order-1 lg:order-2">
-              <Input
-                placeholder={t('searchPlaceholder')}
-                defaultValue={getFilter('searchTerm')}
-                onChange={(e) => updateFilter('searchTerm', e.target.value, 500)}
-                className="h-12 md:h-10 rounded-full border-border/60 bg-background pl-5 pr-12 text-sm"
-              />
-              <Button
-                size="icon"
-                className="absolute right-1 top-1 h-10 w-10 md:h-8 md:w-8 rounded-full bg-primary text-primary-foreground"
-              >
-                <Search className="h-4 w-4" />
-              </Button>
+        {/* Action Controls Bar (Card Style) */}
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 rounded-lg bg-card p-4 border border-border/40 shadow-xs">
+          {/* Left Group: Location Selector & Mobile Filter Sheet */}
+          <div className="flex items-center gap-2.5 w-full md:w-auto">
+            <div className="flex-1 md:w-64 md:flex-initial">
+              <LocationSelector className="w-full h-10 shadow-none border-border/60" />
             </div>
+            <div className="lg:hidden">
+              <Filters showAsSheet={true} categories={categories} />
+            </div>
+          </div>
 
-            {/* Location & Filter Group for Mobile */}
-            <div className="flex items-center gap-2 order-2 lg:order-1">
-              <div className="flex-1 lg:w-62.5">
-                <LocationSelector className="h-12 md:h-10 w-full" />
-              </div>
-              <div className="lg:hidden">
-                 <Filters showAsSheet={true} categories={categories} />
-              </div>
-            </div>
+          {/* Center Group: Search Input */}
+          <div className="relative flex-1 w-full md:max-w-md">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder={t('searchPlaceholder')}
+              defaultValue={getFilter('searchTerm')}
+              onChange={(e) => updateFilter('searchTerm', e.target.value, 500)}
+              className="h-10 pl-9 pr-4 rounded-md bg-background border-border/60 w-full shadow-none text-sm"
+            />
+          </div>
 
-            {/* View Toggle (Desktop will stay right, mobile will stack below) */}
-            <div className="order-3">
-              <TabsList className="grid w-full grid-cols-2 lg:w-50 rounded-full h-12 md:h-10">
-                <TabsTrigger value="list" className="rounded-full">
-                  <List className="h-4 w-4 mr-2" />
-                  {t('listView')}
-                </TabsTrigger>
-                <TabsTrigger value="grid" className="rounded-full">
-                  <Grid3X3 className="h-4 w-4 mr-2" />
-                  {t('gridView')}
-                </TabsTrigger>
-              </TabsList>
-            </div>
+          {/* Right Group: View Toggle */}
+          <div className="flex items-center justify-end">
+            <TabsList className="grid grid-cols-2 w-full md:w-40 h-10 p-1 rounded-lg bg-muted">
+              <TabsTrigger value="list" className="rounded-md text-xs sm:text-sm">
+                <List className="h-4 w-4 mr-1.5" />
+                {t('listView')}
+              </TabsTrigger>
+              <TabsTrigger value="grid" className="rounded-md text-xs sm:text-sm">
+                <Grid3X3 className="h-4 w-4 mr-1.5" />
+                {t('gridView')}
+              </TabsTrigger>
+            </TabsList>
           </div>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
-          {/* Sidebar Filter (Desktop Only) */}
-          <div className="hidden lg:block">
-            <div className="sticky top-24">
-               <div className="flex items-center gap-2 mb-4">
-                 <SlidersHorizontal className="h-4 w-4 text-primary" />
-                 <h2 className="font-bold text-lg">{t('filters')}</h2>
-               </div>
-               <Filters categories={categories} />
+        {/* Content Area */}
+        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start">
+          {/* Sidebar Filters (Desktop Only) */}
+          <div className="hidden lg:block sticky top-32">
+            <div className="flex items-center gap-2 mb-4 px-1">
+              <SlidersHorizontal className="h-4 w-4 text-primary" />
+              <h2 className="font-bold text-lg text-foreground">{t('filters')}</h2>
             </div>
+            <Filters categories={categories} />
           </div>
 
-          {/* Ads Content Area */}
-          <div className="min-h-125">
-            <TabsContent value="list" className="mt-0 space-y-6">
+          {/* Ads Listings */}
+          <div className="min-h-[500px]">
+            <TabsContent value="list" className="mt-0 space-y-4">
               {listings.length === 0 ? (
                 <NoAdsComponent />
               ) : (
                 <>
-                  <div className="grid gap-4 grid-cols-1">
+                  <div className="flex flex-col gap-4">
                     {listings.map(listing => (
                       <AdListCard 
                         key={listing.id} 
@@ -127,9 +114,8 @@ export default function AllAdsExplorer({
                     ))}
                   </div>
 
-                  {/* Pagination for List View */}
                   {meta && meta.totalPage > 1 && (
-                    <div className="mt-8 flex justify-center">
+                    <div className="mt-8 flex justify-center pt-4">
                       <CustomPagination
                         currentPage={meta.page}
                         totalPages={meta.totalPage}
@@ -140,13 +126,12 @@ export default function AllAdsExplorer({
               )}
             </TabsContent>
 
-            {/* Grid View */}
-            <TabsContent value="grid" className="mt-0 space-y-6">
+            <TabsContent value="grid" className="mt-0 space-y-4">
               {listings.length === 0 ? (
                 <NoAdsComponent />
               ) : (
                 <>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {listings.map(listing => (
                       <AdGridCard 
                         key={listing.id} 
@@ -156,9 +141,8 @@ export default function AllAdsExplorer({
                     ))}
                   </div>
 
-                  {/* Pagination for Grid View */}
                   {meta && meta.totalPage > 1 && (
-                    <div className="mt-8 flex justify-center">
+                    <div className="mt-8 flex justify-center pt-4">
                       <CustomPagination
                         currentPage={meta.page}
                         totalPages={meta.totalPage}
@@ -173,7 +157,7 @@ export default function AllAdsExplorer({
       </Tabs>
 
       {/* Trust Badges */}
-      <section className="grid gap-8 rounded-3xl border border-border/30 bg-background/50 p-6 md:p-10 text-sm text-muted-foreground md:grid-cols-3 mt-12">
+      <section className="grid gap-8 rounded-xl border border-border/30 bg-background/50 p-6 md:p-10 text-sm text-muted-foreground md:grid-cols-3 mt-12">
         <div className="flex flex-col items-center text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
             <Globe className="h-6 w-6" />
