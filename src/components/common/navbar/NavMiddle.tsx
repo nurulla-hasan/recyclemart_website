@@ -71,7 +71,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             width={100}
             height={20}
             unoptimized
-            className="h-auto w-20 md:w-50"
+            className="h-auto w-8 md:w-16"
           />
         </Link>
 
@@ -80,12 +80,12 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
           {/* Categories Dropdown */}
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
-              <Button className="h-9 flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 text-sm font-medium text-white transition hover:bg-white/20 shrink-0">
+              <Button className="h-9 flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 shrink-0">
                 <MenuIcon className="h-4 w-4" />
                 <span>{t('categories')}</span>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-200 border-white/20 bg-orange-400/95 p-6 text-white rounded-3xl backdrop-blur-md z-50 dark:bg-orange-700/95">
+            <PopoverContent align="start" className="w-200 border-primary-foreground/20 bg-primary p-6 text-primary-foreground rounded-3xl backdrop-blur-md z-50">
               <ScrollArea className="h-fit max-h-[70vh]">
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((category) => (
@@ -93,11 +93,11 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       key={category._id}
                       href={`/ads?category=${category.slug}`}
                       onClick={() => setIsPopoverOpen(false)}
-                      className="group flex flex-col items-center justify-center p-4 rounded-2xl border border-white/10 bg-white/10 transition hover:border-white/30 hover:bg-white/15 text-center"
+                      className="group flex flex-col items-center justify-center p-4 rounded-2xl border border-primary-foreground/10 bg-primary-foreground/5 transition hover:border-primary-foreground/30 hover:bg-primary-foreground/10 text-center"
                     >
                       {category.icon && (
                         <div className="relative w-10 h-10 mb-2 transition-transform group-hover:scale-110">
-                          <Image src={category.icon} alt={category.name} fill sizes="40px" className="object-contain invert" />
+                          <Image src={category.icon} alt={category.name} fill sizes="40px" className="object-contain brightness-0 opacity-80 group-hover:opacity-100" />
                         </div>
                       )}
                       <span className="text-xs font-bold uppercase tracking-wider">
@@ -112,21 +112,21 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
 
           <Link
             href="/ads"
-            className="group h-9 flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 text-sm font-medium text-white transition hover:bg-white/20"
+            className="group h-9 flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
           >
-            <ListTree className="h-4 w-4 text-white/80" />
+            <ListTree className="h-4 w-4 text-primary-foreground/80" />
             <span>{t('browseListings')}</span>
           </Link>
 
           <Button
             onClick={handleLanguageChange}
             disabled={isPending}
-            className="h-9 flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 text-sm font-medium text-white transition hover:bg-white/20 disabled:opacity-70"
+            className="h-9 flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
           >
             {isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin text-white/80" />
+              <Loader2 className="h-4 w-4 animate-spin text-primary-foreground/80" />
             ) : (
-              <Globe className="h-4 w-4 text-white/80" />
+              <Globe className="h-4 w-4 text-primary-foreground/80" />
             )}
             <span>{locale === 'en' ? 'বাংলা' : 'English'}</span>
           </Button>
@@ -139,7 +139,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-full bg-white/10 text-white hover:bg-white/20 w-9 h-9"
+                className="rounded-full bg-primary-foreground/5 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/15 w-9 h-9"
                 title={t('inbox')}
               >
                 <MessageCircle className="h-5 w-5" />
@@ -167,7 +167,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <Link href="/profile/favourites">
               <Button
                 size="icon"
-                className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-2 text-sm font-semibold text-white shadow transition hover:bg-white/30 w-9 h-9"
+                className="flex items-center justify-center rounded-full bg-primary-foreground/5 border border-primary-foreground/20 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9"
               >
                 <Heart className="h-4 w-4" />
               </Button>
@@ -179,7 +179,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <SheetTrigger asChild>
               <Button
                 size="icon"
-                className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-2 text-sm font-semibold text-white shadow transition hover:bg-white/30 w-9 h-9 border border-white/10"
+                className="flex items-center justify-center rounded-full bg-primary-foreground/5 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9 border border-primary-foreground/20"
               >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
@@ -187,9 +187,9 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-75 border-l border-white/10 bg-orange-400/95 p-0 text-white backdrop-blur-xl dark:bg-orange-700/95"
+              className="w-75 border-l border-primary-foreground/10 bg-primary p-0 text-primary-foreground backdrop-blur-xl"
             >
-              <SheetHeader className="px-5 py-4 border-b border-white/10 bg-white/5">
+              <SheetHeader className="px-5 py-4 border-b border-primary-foreground/10 bg-primary-foreground/5">
                 <SheetTitle className="flex items-center justify-between">
                   <Link href="/" className="inline-flex">
                     <Image
@@ -207,22 +207,22 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                 <div className="flex flex-col gap-6 px-5 pb-6 pt-4">
                   {/* Explore Section */}
                   <div className="space-y-3">
-                    <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-white/60 px-1">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-primary-foreground/60 px-1">
                       {t('explore')}
                     </p>
                     <Link
                       href="/ads"
-                      className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium transition hover:bg-white/10"
+                      className="group flex items-center gap-3 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 px-4 py-2.5 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
                     >
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 group-hover:bg-white/20 transition-colors">
-                        <ListTree className="h-4 w-4 text-white" />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-colors">
+                        <ListTree className="h-4 w-4 text-primary-foreground" />
                       </div>
                       <span>{t('browseListings')}</span>
                     </Link>
 
                     {/* Categories Grid */}
                     <div className="space-y-3 mt-5">
-                       <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-white/60 px-1">
+                       <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-primary-foreground/60 px-1">
                         {t('categories')}
                       </p>
                       <div className="grid grid-cols-2 gap-2">
@@ -230,18 +230,18 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                           <Link
                             key={category._id}
                             href={`/ads?category=${category.slug}`}
-                            className="group flex flex-col items-center gap-2 p-2.5 rounded-xl border border-white/5 bg-white/5 transition hover:bg-white/10 text-center"
+                            className="group flex flex-col items-center gap-2 p-2.5 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 transition hover:bg-primary-foreground/10 text-center"
                           >
                              {category.icon && (
                               <div className="relative w-5 h-5 transition-transform group-hover:scale-110">
-                                <Image src={category.icon} alt={category.name} fill sizes="20px" className="object-contain invert opacity-70 group-hover:opacity-100" />
+                                <Image src={category.icon} alt={category.name} fill sizes="20px" className="object-contain brightness-0 opacity-70 group-hover:opacity-100" />
                               </div>
                             )}
-                            <span className="text-[11px] font-medium text-white/80 group-hover:text-white">{category.name}</span>
+                            <span className="text-[11px] font-medium text-primary-foreground/80 group-hover:text-primary-foreground">{category.name}</span>
                           </Link>
                         ))}
                       </div>
-                      <Link href="/ads" className="block text-center text-[11px] font-medium text-white/50 hover:text-white transition-colors py-0.5">
+                      <Link href="/ads" className="block text-center text-[11px] font-medium text-primary-foreground/60 hover:text-primary-foreground transition-colors py-0.5">
                         {t('viewAllCategories')} →
                       </Link>
                     </div>
@@ -249,19 +249,19 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
 
                   {/* Settings & Account */}
                   <div className="space-y-3">
-                     <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-white/60 px-1">
+                     <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-primary-foreground/60 px-1">
                       {t('settings')}
                     </p>
                     <Button
                       onClick={handleLanguageChange}
                       disabled={isPending}
-                      className="w-full h-11 justify-start flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 text-sm font-medium text-white transition hover:bg-white/10 disabled:opacity-70"
+                      className="w-full h-11 justify-start flex items-center gap-3 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
                     >
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary-foreground/10">
                         {isPending ? (
-                          <Loader2 className="h-3.5 w-3.5 animate-spin text-white" />
+                          <Loader2 className="h-3.5 w-3.5 animate-spin text-primary-foreground" />
                         ) : (
-                          <Globe className="h-3.5 w-3.5 text-white" />
+                          <Globe className="h-3.5 w-3.5 text-primary-foreground" />
                         )}
                       </div>
                       <span>{locale === 'en' ? 'বাংলা' : 'English'}</span>
@@ -271,17 +271,17 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       {user && (
                         <Link
                           href="/chat"
-                          className="flex flex-col items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 p-2.5 text-sm transition hover:bg-white/10"
+                          className="flex flex-col items-center gap-1.5 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10"
                         >
-                          <MessageCircle className="h-4 w-4 text-white/70" />
+                          <MessageCircle className="h-4 w-4 text-primary-foreground/80" />
                           <span className="text-[11px] font-medium">{t('inbox')}</span>
                         </Link>
                       )}
                       <Link
                         href={user ? '/profile' : '/auth/login'}
-                        className={`flex flex-col items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 p-2.5 text-sm transition hover:bg-white/10 ${!user ? 'col-span-2' : ''}`}
+                        className={`flex flex-col items-center gap-1.5 rounded-xl border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10 ${!user ? 'col-span-2' : ''}`}
                       >
-                        <User className="h-4 w-4 text-white/70" />
+                        <User className="h-4 w-4 text-primary-foreground/80" />
                         <span className="text-[11px] font-medium">{user ? t('profile') : t('signIn')}</span>
                       </Link>
                     </div>
@@ -290,9 +290,9 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       <Button
                         onClick={handleLogout}
                         variant="ghost"
-                        className="w-full h-11 justify-start flex items-center gap-3 rounded-xl border border-red-500/10 bg-red-500/5 px-4 text-sm font-medium text-red-400 transition hover:bg-red-500/10 hover:text-red-300"
+                        className="w-full h-11 justify-start flex items-center gap-3 rounded-xl border border-red-600/20 bg-red-600/10 px-4 text-sm font-medium text-red-700 dark:text-red-600 transition hover:bg-red-600/20"
                       >
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-500/10">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-600/10">
                           <LogOut className="h-3.5 w-3.5" />
                         </div>
                         <span>{t('logout')}</span>
