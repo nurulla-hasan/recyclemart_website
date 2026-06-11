@@ -71,7 +71,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             width={100}
             height={20}
             unoptimized
-            className="h-auto w-8 md:w-16"
+            className="h-10 md:h-12 w-auto"
           />
         </Link>
 
