@@ -84,7 +84,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
       className="border-b border-primary-foreground/15 overflow-hidden transition-all duration-200 ease-in-out max-h-12 opacity-100 visible"
     >
       {/* Mobile Top Row */}
-      <div className="flex md:hidden h-10 items-center justify-end px-5 text-sm text-primary-foreground gap-2">
+      <div className="flex md:hidden h-10 items-center justify-end px-5 text-sm gap-2">
         {/* <Link href="/lottery">
           <Button
             variant="ghost"
@@ -99,7 +99,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
             <Button
               variant="ghost"
               size="sm"
-              className="text-xs text-primary-foreground hover:text-primary-foreground/80"
+              className="text-xs"
             >
               {t('myAccount')}
               <ChevronDown />
@@ -134,7 +134,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
         <Button
           variant="ghost"
           size="icon"
-          className="group relative rounded-md h-7 w-7 text-primary-foreground data-[state=active]:bg-primary-foreground/0"
+          className="group relative rounded-md h-7 w-7 data-[state=active]:bg-primary-foreground/0"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           aria-label={mounted ? (theme === 'dark' ? t('switchToLight') : t('switchToDark')) : t('toggleTheme')}
           suppressHydrationWarning
@@ -153,7 +153,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
           />
         </Button>
       </div>
-      <div className="custom-width mx-auto hidden md:flex h-9 items-center justify-between px-5 text-sm text-primary-foreground">
+      <div className="custom-width mx-auto hidden md:flex h-9 items-center justify-between px-5 text-sm">
         <div className="relative h-full min-w-0 flex-1 overflow-hidden">
           <span
             className={`absolute inset-0 flex items-center uppercase ${transitionClass} ${
@@ -171,7 +171,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
           </span>
         </div>
 
-        <div className="flex h-5 items-center space-x-4 text-sm text-primary-foreground">
+        <div className="flex h-5 items-center space-x-4 text-sm">
           {/* <Link href="/lottery">
             <Button
               variant="ghost"
@@ -188,7 +188,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="tracking-widest text-xs text-primary-foreground! hover:bg-primary-foreground/10"
+                className="tracking-widest text-xs hover:bg-primary-foreground/10"
               >
                 {t('myAccount')}
               </Button>
@@ -221,7 +221,7 @@ export default function NavTop({ extraData }: { extraData?: any }) {
           <Button
             variant="ghost"
             size="icon"
-            className="group relative rounded-md h-8 w-8 text-primary-foreground data-[state=active]:bg-primary-foreground/0 hover:bg-primary-foreground/0 "
+            className="group relative rounded-md h-8 w-8 data-[state=active]:bg-primary-foreground/0 hover:bg-primary-foreground/0"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             aria-label={mounted ? (theme === 'dark' ? t('switchToLight') : t('switchToDark')) : t('toggleTheme')}
             suppressHydrationWarning

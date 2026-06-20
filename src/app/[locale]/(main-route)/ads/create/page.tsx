@@ -18,11 +18,11 @@ export default async function AdCreatePage() {
 
   return (
     <PageLayout paddingSize="small" className="screen-height">
-      <div className="mb-2 text-center pt-8">
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+      <div className="mb-2 text-center pt-4 md:pt-8">
+        <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight lg:text-5xl">
           {t("heroTitle")}
         </h1>
-        <p className="text-muted-foreground mt-4 text-lg">
+        <p className="text-muted-foreground mt-2 md:mt-4 text-sm md:text-lg">
           {t("heroSubtitle")}
         </p>
       </div>

@@ -16,7 +16,7 @@ export default function TopAds({ ads }: TopAdsProps) {
       <div className="custom-width mx-auto px-4">
         <div className="mb-6 flex items-end justify-between">
           <h2 className="text-2xl font-semibold">{t("topTitle")}</h2>
-          <Link href="/ads" className="text-primary hover:underline">
+          <Link href="/ads" className="hover:underline">
             {t("seeAll")}
           </Link>
         </div>

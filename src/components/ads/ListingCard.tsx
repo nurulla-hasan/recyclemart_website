@@ -48,7 +48,7 @@ const ListingCard = ({
         <div className="line-clamp-2 font-medium group-hover:text-primary transition-colors min-h-10">
           {title}
         </div>
-        <div className="mt-1 text-sm font-semibold text-primary">{formattedPrice}</div>
+        <div className="mt-1 text-sm font-semibold text-muted-foreground">{formattedPrice}</div>
         <div className="mt-2 flex items-center justify-between gap-1 text-[10px] text-muted-foreground">
           <div className="flex items-center gap-1">
             <MapPin className="h-3 w-3" />

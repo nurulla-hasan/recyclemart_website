@@ -154,7 +154,6 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
         </AccordionItem>
       </Accordion>
 
-
       {/* Applied Chips */}
       {(selectedCategory || selectedCondition) && (
         <div className="flex flex-wrap gap-2 mt-4">
@@ -189,7 +188,7 @@ const Filters = ({ categories = [], showAsSheet = false }: FiltersProps) => {
     return (
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="lg" className="lg:hidden h-12 rounded-full">
+          <Button variant="outline" size="lg" className="lg:hidden h-10">
             <SlidersHorizontal className="h-4 w-4 mr-2" />
             Filters
           </Button>

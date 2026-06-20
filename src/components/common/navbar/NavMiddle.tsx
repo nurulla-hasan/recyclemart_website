@@ -81,12 +81,12 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
           {/* Categories Dropdown */}
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
-              <Button className="h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 shrink-0">
+              <Button className="h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium transition hover:bg-primary-foreground/10 shrink-0">
                 <MenuIcon className="h-4 w-4" />
                 <span>{t('categories')}</span>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-200 border-primary-foreground/20 bg-primary p-6 text-primary-foreground rounded-lg backdrop-blur-md z-10000">
+            <PopoverContent align="start" className="w-200 border-primary-foreground/20 bg-primary p-6 rounded-lg backdrop-blur-md z-10000">
               <ScrollArea className="h-fit max-h-[70vh]">
                 <div className="grid grid-cols-4 gap-4">
                   {categories.map((category) => (
@@ -115,19 +115,19 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             href="/ads"
             className="group h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
           >
-            <ListTree className="h-4 w-4 text-primary-foreground/80" />
+            <ListTree className="h-4 w-4 opacity-80" />
             <span>{t('browseListings')}</span>
           </Link>
 
           <Button
             onClick={handleLanguageChange}
             disabled={isPending}
-            className="h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
+            className="h-9 flex items-center gap-2 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 text-sm font-medium transition hover:bg-primary-foreground/10 disabled:opacity-70"
           >
             {isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin text-primary-foreground/80" />
+              <Loader2 className="h-4 w-4 animate-spin opacity-80" />
             ) : (
-              <Globe className="h-4 w-4 text-primary-foreground/80" />
+              <Globe className="h-4 w-4 opacity-80" />
             )}
             <span>{locale === 'en' ? 'বাংলা' : 'English'}</span>
           </Button>
@@ -139,7 +139,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-md bg-primary-foreground/5 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/15 w-9 h-9"
+              className="rounded-md bg-primary-foreground/5 border border-primary-foreground/20 hover:bg-primary-foreground/15 w-9 h-9"
               title={t('inbox')}
             >
               <MessageCircle className="h-5 w-5" />
@@ -150,7 +150,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <Link href={user ? "/ads/create" : "/auth/login?redirectPath=/ads/create"}>
               <Button
                 size="sm"
-                className="h-9 flex items-center gap-2 rounded-md bg-linear-to-r from-pink-400 to-orange-500 px-5 text-sm font-bold text-white hover:from-pink-300 hover:to-orange-400 shadow-sm shadow-orange-500/20"
+                className="h-9 flex items-center gap-2 rounded-md bg-linear-to-r from-pink-400 to-orange-500 px-5 text-sm font-bold hover:from-pink-300 hover:to-orange-400 shadow-sm shadow-orange-500/20"
               >
                 <PlusCircle className="h-4 w-4" />
                 {t('postFreeAd')}
@@ -165,7 +165,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
           <Link href={user ? "/profile/favourites" : "/auth/login?redirectPath=/profile/favourites"}>
             <Button
               size="icon"
-              className="flex items-center justify-center rounded-md bg-primary-foreground/5 border border-primary-foreground/20 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9"
+              className="flex items-center justify-center rounded-md bg-primary-foreground/5 border border-primary-foreground/20 px-3 py-2 text-sm font-semibold shadow transition hover:bg-primary-foreground/15 w-9 h-9"
             >
               <Heart className="h-4 w-4" />
             </Button>
@@ -176,7 +176,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             <SheetTrigger asChild>
               <Button
                 size="icon"
-                className="flex items-center justify-center rounded-md bg-primary-foreground/5 px-3 py-2 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary-foreground/15 w-9 h-9 border border-primary-foreground/20"
+                className="flex items-center justify-center rounded-md bg-primary-foreground/5 px-3 py-2 text-sm font-semibold shadow transition hover:bg-primary-foreground/15 w-9 h-9 border border-primary-foreground/20"
               >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
@@ -184,7 +184,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-75 border-l border-primary-foreground/10 bg-primary p-0 text-primary-foreground backdrop-blur-xl"
+              className="w-75 border-l border-primary-foreground/10 bg-primary p-0 backdrop-blur-xl"
             >
               <SheetHeader className="px-5 py-4 border-b border-primary-foreground/10 bg-primary-foreground/5">
                 <SheetTitle className="flex items-center justify-between">
@@ -204,23 +204,23 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                 <div className="flex flex-col gap-6 px-5 pb-6 pt-4">
                   {/* Explore Section */}
                   <div className="space-y-3">
-                    <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-primary-foreground/60 px-1">
+                    <p className="text-[10px] font-medium uppercase tracking-[0.15em] opacity-60 px-1">
                       {t('explore')}
                     </p>
                     <Link
                       href="/ads"
                       onClick={() => setIsSheetOpen(false)}
-                      className="group flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 py-2.5 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
+                      className="group flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 py-2.5 text-sm font-medium transition hover:bg-primary-foreground/10"
                     >
                       <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-colors">
-                        <ListTree className="h-4 w-4 text-primary-foreground" />
+                        <ListTree className="h-4 w-4" />
                       </div>
                       <span>{t('browseListings')}</span>
                     </Link>
 
                     {/* Categories Grid */}
                     <div className="space-y-3 mt-5">
-                       <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-primary-foreground/60 px-1">
+                       <p className="text-[10px] font-medium uppercase tracking-[0.15em] opacity-60 px-1">
                         {t('categories')}
                       </p>
                       <div className="grid grid-cols-2 gap-2">
@@ -236,11 +236,11 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                                 <Image src={category.icon} alt={category.name} fill sizes="20px" className="object-contain brightness-0 opacity-70 group-hover:opacity-100" />
                               </div>
                             )}
-                            <span className="text-[11px] font-medium text-primary-foreground/80 group-hover:text-primary-foreground">{category.name}</span>
+                            <span className="text-[11px] font-medium opacity-80 group-hover:opacity-100">{category.name}</span>
                           </Link>
                         ))}
                       </div>
-                      <Link href="/ads" onClick={() => setIsSheetOpen(false)} className="block text-center text-[11px] font-medium text-primary-foreground/60 hover:text-primary-foreground transition-colors py-0.5">
+                      <Link href="/ads" onClick={() => setIsSheetOpen(false)} className="block text-center text-[11px] font-medium opacity-60 hover:opacity-100 transition-colors py-0.5">
                         {t('viewAllCategories')} →
                       </Link>
                     </div>
@@ -248,7 +248,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
 
                   {/* Settings & Account */}
                   <div className="space-y-3">
-                     <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-primary-foreground/60 px-1">
+                     <p className="text-[10px] font-medium uppercase tracking-[0.15em] opacity-60 px-1">
                       {t('settings')}
                     </p>
                     <Button
@@ -257,13 +257,13 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                         setIsSheetOpen(false);
                       }}
                       disabled={isPending}
-                      className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
+                      className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 text-sm font-medium transition hover:bg-primary-foreground/10 disabled:opacity-70"
                     >
                       <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary-foreground/10">
                         {isPending ? (
-                          <Loader2 className="h-3.5 w-3.5 animate-spin text-primary-foreground" />
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
                         ) : (
-                          <Globe className="h-3.5 w-3.5 text-primary-foreground" />
+                          <Globe className="h-3.5 w-3.5" />
                         )}
                       </div>
                       <span>{locale === 'en' ? 'বাংলা' : 'English'}</span>
@@ -274,18 +274,18 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                         <Link
                           href="/chat"
                           onClick={() => setIsSheetOpen(false)}
-                          className="flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10"
+                          className="flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm transition hover:bg-primary-foreground/10"
                         >
-                          <MessageCircle className="h-4 w-4 text-primary-foreground/80" />
+                          <MessageCircle className="h-4 w-4 opacity-80" />
                           <span className="text-[11px] font-medium">{t('inbox')}</span>
                         </Link>
                       )}
                       <Link
                         href={user ? '/profile' : '/auth/login'}
                         onClick={() => setIsSheetOpen(false)}
-                        className={`flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10 ${!user ? 'col-span-2' : ''}`}
+                        className={`flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm transition hover:bg-primary-foreground/10 ${!user ? 'col-span-2' : ''}`}
                       >
-                        <User className="h-4 w-4 text-primary-foreground/80" />
+                        <User className="h-4 w-4 opacity-80" />
                         <span className="text-[11px] font-medium">{user ? t('profile') : t('signIn')}</span>
                       </Link>
                     </div>
@@ -297,7 +297,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                           setIsSheetOpen(false);
                         }}
                         variant="ghost"
-                        className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-red-600/20 bg-red-600/10 px-4 text-sm font-medium text-red-700 dark:text-red-600 transition hover:bg-red-600/20"
+                        className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-red-600/20 bg-red-600/10 px-4 text-sm font-medium transition hover:bg-red-600/20"
                       >
                         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-red-600/10">
                           <LogOut className="h-3.5 w-3.5" />
@@ -312,7 +312,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                 {!isBuyer && (
                   <div className="px-5 py-5 mt-auto">
                     <Link href="/ads/create" onClick={() => setIsSheetOpen(false)}>
-                      <Button className="w-full h-12 gap-3 rounded-md bg-linear-to-r from-pink-500 via-orange-500 to-yellow-500 text-sm font-bold text-white shadow-sm hover:brightness-110 transition-all active:scale-[0.98]">
+                      <Button className="w-full h-12 gap-3 rounded-md bg-linear-to-r from-pink-500 via-orange-500 to-yellow-500 text-sm font-bold shadow-sm hover:brightness-110 transition-all active:scale-[0.98]">
                         <PlusCircle className="h-5 w-5" />
                         {t('postFreeAd')}
                       </Button>

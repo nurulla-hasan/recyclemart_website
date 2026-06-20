@@ -145,39 +145,45 @@ export default function CreateAdForm({ categories }: { categories: Category[] })
         : ["price", "location", "description"];
     
     const isValid = await form.trigger(fieldsToValidate);
-    if (isValid) setStep(step + 1);
+    if (isValid) {
+      setStep(step + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
-  const prevStep = () => setStep(step - 1);
+  const prevStep = () => {
+    setStep(step - 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-4 font-outfit">
+    <div className="max-w-3xl mx-auto py-6 font-outfit">
       {/* Progress */}
-      <div className="flex items-center justify-between mb-10 relative">
+      <div className="flex items-center justify-between mb-6 md:mb-10 relative">
         <div className="absolute top-1/2 left-0 w-full h-0.5 bg-border -z-10 -translate-y-1/2"></div>
         {[1, 2, 3].map((s) => (
           <div 
             key={s}
-            className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 ${
+            className={`flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full border-2 text-sm md:text-base transition-all duration-300 ${
               step >= s ? "bg-primary border-primary text-primary-foreground" : "bg-background border-border text-muted-foreground"
             }`}
           >
-            {step > s ? <CheckCircle2 className="w-6 h-6" /> : s}
+            {step > s ? <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6" /> : s}
           </div>
         ))}
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {step === 1 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-              <div className="space-y-2">
-                <h2 className="text-2xl font-bold tracking-tight">{t("step1Title")}</h2>
-                <p className="text-muted-foreground text-sm">{t("step1Desc")}</p>
+              <div className="space-y-1 md:space-y-2">
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight">{t("step1Title")}</h2>
+                <p className="text-muted-foreground text-xs md:text-sm">{t("step1Desc")}</p>
               </div>
 
               <Card className="rounded-2xl shadow-sm border-border/40">
-                <CardContent className="p-6 space-y-6">
+                <CardContent className="space-y-6">
                   <FormField
                     control={form.control}
                     name="categoryId"
@@ -268,13 +274,13 @@ export default function CreateAdForm({ categories }: { categories: Category[] })
 
           {step === 2 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-              <div className="space-y-2">
-                <h2 className="text-2xl font-bold tracking-tight">{t("step2Title")}</h2>
-                <p className="text-muted-foreground text-sm">{t("step2Desc")}</p>
+              <div className="space-y-1 md:space-y-2">
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight">{t("step2Title")}</h2>
+                <p className="text-muted-foreground text-xs md:text-sm">{t("step2Desc")}</p>
               </div>
 
               <Card className="rounded-2xl shadow-sm border-border/40">
-                <CardContent className="p-6 space-y-6">
+                <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
@@ -371,13 +377,13 @@ export default function CreateAdForm({ categories }: { categories: Category[] })
 
           {step === 3 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-              <div className="space-y-2">
-                <h2 className="text-2xl font-bold tracking-tight">{t("step3Title")}</h2>
-                <p className="text-muted-foreground text-sm">{t("step3Desc")}</p>
+              <div className="space-y-1 md:space-y-2">
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight">{t("step3Title")}</h2>
+                <p className="text-muted-foreground text-xs md:text-sm">{t("step3Desc")}</p>
               </div>
 
               <Card className="rounded-2xl shadow-sm border-border/40">
-                <CardContent className="p-6 space-y-8">
+                <CardContent className="space-y-8">
                   <div className="space-y-4">
                     <FormLabel className="text-base font-semibold">{t("photosLabel")}</FormLabel>
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">

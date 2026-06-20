@@ -88,11 +88,11 @@ const LoginForm = ({ redirectPath }: { redirectPath: string }) => {
   };
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-linear-to-br from-background via-primary/5 to-background">
+    <div className="relative w-full overflow-hidden bg-linear-to-br from-background via-primary/5 to-background">
       <div className="pointer-events-none absolute -left-32 top-24 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-105 w-105 translate-x-1/3 translate-y-1/3 rounded-full bg-secondary/20 blur-[140px]" />
 
-      <PageLayout className="relative z-10 flex min-h-screen items-center py-20">
+      <PageLayout className="relative z-10 flex items-center p-4">
         <div className="grid w-full items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="hidden sm:flex w-full flex-col items-center gap-6 rounded-4xl border border-primary/20 bg-primary/5 p-4 text-center shadow-inner lg:items-start lg:text-left">
             <div className="relative w-full max-w-135 rounded-4xl p-6">
@@ -170,7 +170,7 @@ const LoginForm = ({ redirectPath }: { redirectPath: string }) => {
                           </FormLabel>
                           <Link
                             href="/auth/forgot-password"
-                            className="ml-auto text-xs font-medium text-primary transition hover:underline"
+                            className="ml-auto text-xs font-medium transition hover:underline"
                           >
                             Forgot password?
                           </Link>
@@ -218,7 +218,7 @@ const LoginForm = ({ redirectPath }: { redirectPath: string }) => {
                 Don&apos;t have an account?{' '}
                 <Link
                   href="/auth/register"
-                  className="font-semibold text-primary hover:underline"
+                  className="font-semibold hover:underline"
                 >
                   Create one now
                 </Link>

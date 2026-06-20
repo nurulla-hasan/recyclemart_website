@@ -18,7 +18,7 @@ export default async function AuthLayout({
   return (
     <>
       <Navbar categories={categories} extraData={extraData} />
-      <main className="min-h-[calc(100vh-112px)]">{children}</main>
+      <main className="min-h-[calc(100vh-104px)]">{children}</main>
     </>
   );
 }

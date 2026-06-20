@@ -156,12 +156,12 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="relative flex flex-col justify-center items-center h-screen bg-linear-to-br from-background via-secondary/10 to-background overflow-hidden">
+    <div className="relative flex flex-col justify-center items-center bg-linear-to-br from-background via-secondary/10 to-background overflow-hidden">
       <div className="pointer-events-none absolute bottom-24 left-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
       <div className="pointer-events-none absolute top-24 right-1/3 h-80 w-80 translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" />
 
-      <div className="relative w-full max-w-3xl p-4 sm:p-6 lg:p-8">
-        <Card className="relative w-full max-h-[95vh] overflow-hidden">
+      <div className="relative w-full max-w-3xl p-4">
+        <Card className="relative w-full overflow-hidden">
           <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-primary/5 opacity-60" />
           <CardContent className="relative z-10 p-3 sm:p-6 h-full overflow-y-auto">
             <div className="flex items-center justify-between gap-4">
@@ -179,7 +179,7 @@ const RegisterForm = () => {
             </div>
 
             <div className="mt-3 space-y-1.5 text-center sm:mt-6 sm:space-y-3">
-              <Badge className="bg-primary/10 px-4 py-1 font-semibold uppercase tracking-[0.35em] text-primary">
+              <Badge className="bg-white/10 px-4 py-1 font-semibold uppercase tracking-[0.35em]">
                 Join Recycle Mart
               </Badge>
               <h2 className="text-xl font-semibold text-foreground sm:text-2xl md:text-3xl">
@@ -643,7 +643,7 @@ const RegisterForm = () => {
               Already have an account?{' '}
               <Link
                 href="/auth/login"
-                className="font-semibold text-primary hover:underline"
+                className="font-semibold hover:underline"
               >
                 Sign in
               </Link>

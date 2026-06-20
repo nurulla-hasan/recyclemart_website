@@ -72,7 +72,7 @@ export default function RelatedAds({ ads }: RelatedAdsProps) {
                       <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-1">
                         {ad.title}
                       </h3>
-                      <p className="text-lg font-bold text-primary">
+                      <p className="text-lg font-bold">
                         ৳ {ad.price.toLocaleString()}
                       </p>
                       <div className="flex items-center gap-3 text-sm text-muted-foreground">

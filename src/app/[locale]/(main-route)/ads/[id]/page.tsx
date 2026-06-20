@@ -141,7 +141,7 @@ export default async function AdDetailsPage({ params }: Props) {
                 {/* Price */}
                 <div className="flex items-baseline justify-between">
                   <div className="flex items-baseline gap-3">
-                    <span className="text-3xl font-bold text-primary">
+                    <span className="text-3xl font-bold">
                       ৳ {ad.price.toLocaleString()}
                     </span>
                     {ad.negotiable && (

@@ -80,7 +80,7 @@ export default function SellerInfo({ seller, location }: SellerInfoProps) {
 
         {/* Action Button (Optional, can be added if needed) */}
         <div className="pt-2">
-           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/5 text-primary border border-primary/20">
+           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/5 border border-primary/20">
              {t("verifiedUser")}
            </span>
         </div>
