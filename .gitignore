@@ -11,6 +11,7 @@
 !.yarn/versions
 package-lock.json
 pnpm-lock.yaml
+pnpm-workspace.yaml
 bun.lock
 yarn.lock
 

@@ -15,7 +15,7 @@ export const signUpUser = async (userData: FormData) => {
       isPublic: true,
     });
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -28,7 +28,7 @@ export const sendSignupOtpAgain = async (userEmail: string) => {
       isPublic: true,
     });
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -48,7 +48,7 @@ export const verifySignUpByOTP = async (userEmail: string, otp: string) => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -68,7 +68,7 @@ export const signInUser = async (userData: FieldValues): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -86,7 +86,7 @@ export const updateProfilePhoto = async (data: FormData): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -109,7 +109,7 @@ export const changePassword = async (data: {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -128,7 +128,7 @@ export const forgotPassword = async (email: string): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -144,7 +144,7 @@ export const sendForgotPasswordOtpAgain = async (): Promise<any> => {
       isPublic: true,
     });
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -166,7 +166,7 @@ export const verifyOtpForForgotPassword = async (otp: string): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -189,7 +189,7 @@ export const setNewPassword = async (newPassword: string): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -201,7 +201,7 @@ export const fetchMyProfile = async (): Promise<any> => {
       tags: ['user-profile'],
     });
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -221,7 +221,7 @@ export const getNewAccessToken = async (refreshToken: string): Promise<any> => {
     const result = await res.json();
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -240,7 +240,7 @@ export const deactiveAccount = async (userData: FieldValues): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 
@@ -259,7 +259,7 @@ export const updateUserData = async (userData: FieldValues): Promise<any> => {
 
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error?.message || "Something went wrong" };
   }
 };
 

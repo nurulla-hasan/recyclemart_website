@@ -109,15 +109,25 @@ export default function NavTop({ extraData }: { extraData?: any }) {
             align="end"
             className="border-border bg-background text-foreground"
           >
-            <DropdownMenuItem asChild>
-              <Link href="/profile">{t('profile')}</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/auth/login">{t('signIn')}</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/auth/register">{t('register')}</Link>
-            </DropdownMenuItem>
+            {user ? (
+              <>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">{t('profile')}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <div onClick={handleLogout} className="text-red-500 hover:text-red-400 cursor-pointer">{t('logout')}</div>
+                </DropdownMenuItem>
+              </>
+            ) : (
+              <>
+                <DropdownMenuItem asChild>
+                  <Link href="/auth/login">{t('signIn')}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/auth/register">{t('register')}</Link>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -185,7 +195,6 @@ export default function NavTop({ extraData }: { extraData?: any }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
-              className="z-10000"
             >
               {user ? (
                 <>

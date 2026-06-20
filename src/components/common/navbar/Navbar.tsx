@@ -44,8 +44,8 @@ const Navbar = ({ categories, extraData }: { categories: Category[], extraData?:
   }, []);
 
   return (
-    <header className="h-26 z-9999">
-      <nav className="fixed top-0 left-0 right-0 z-9999 w-full bg-primary/70 backdrop-blur-xl text-primary-foreground transition-colors shadow-md">
+    <header className="h-26 z-40">
+      <nav className="fixed top-0 left-0 right-0 z-40 w-full bg-primary backdrop-blur-xl text-primary-foreground transition-colors shadow-md">
         <div 
           className={`grid transition-[grid-template-rows,opacity] duration-500 ease-in-out ${
             showNavTop ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
