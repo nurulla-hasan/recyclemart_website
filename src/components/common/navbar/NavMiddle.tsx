@@ -37,6 +37,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
   const { user, setIsLoading, setUser } = useUser();
   const { isBuyer } = useUserRole();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const t = useTranslations('Navbar');
@@ -171,7 +172,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
           </Link>
 
           {/* Main Menu (Mobile) */}
-          <Sheet>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button
                 size="icon"
@@ -187,7 +188,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
             >
               <SheetHeader className="px-5 py-4 border-b border-primary-foreground/10 bg-primary-foreground/5">
                 <SheetTitle className="flex items-center justify-between">
-                  <Link href="/" className="inline-flex">
+                  <Link href="/" onClick={() => setIsSheetOpen(false)} className="inline-flex">
                     <Image
                       src={logo || "/logo.png"}
                       alt="logo"
@@ -208,6 +209,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                     </p>
                     <Link
                       href="/ads"
+                      onClick={() => setIsSheetOpen(false)}
                       className="group flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 py-2.5 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10"
                     >
                       <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-colors">
@@ -226,6 +228,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                           <Link
                             key={category._id}
                             href={`/ads?category=${category.slug}`}
+                            onClick={() => setIsSheetOpen(false)}
                             className="group flex flex-col items-center gap-2 p-2.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 transition hover:bg-primary-foreground/10 text-center"
                           >
                              {category.icon && (
@@ -237,7 +240,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                           </Link>
                         ))}
                       </div>
-                      <Link href="/ads" className="block text-center text-[11px] font-medium text-primary-foreground/60 hover:text-primary-foreground transition-colors py-0.5">
+                      <Link href="/ads" onClick={() => setIsSheetOpen(false)} className="block text-center text-[11px] font-medium text-primary-foreground/60 hover:text-primary-foreground transition-colors py-0.5">
                         {t('viewAllCategories')} →
                       </Link>
                     </div>
@@ -249,7 +252,10 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       {t('settings')}
                     </p>
                     <Button
-                      onClick={handleLanguageChange}
+                      onClick={() => {
+                        handleLanguageChange();
+                        setIsSheetOpen(false);
+                      }}
                       disabled={isPending}
                       className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-foreground/10 disabled:opacity-70"
                     >
@@ -267,6 +273,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       {user && (
                         <Link
                           href="/chat"
+                          onClick={() => setIsSheetOpen(false)}
                           className="flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10"
                         >
                           <MessageCircle className="h-4 w-4 text-primary-foreground/80" />
@@ -275,6 +282,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                       )}
                       <Link
                         href={user ? '/profile' : '/auth/login'}
+                        onClick={() => setIsSheetOpen(false)}
                         className={`flex flex-col items-center gap-1.5 rounded-md border border-primary-foreground/10 bg-primary-foreground/5 p-2.5 text-sm text-primary-foreground transition hover:bg-primary-foreground/10 ${!user ? 'col-span-2' : ''}`}
                       >
                         <User className="h-4 w-4 text-primary-foreground/80" />
@@ -284,7 +292,10 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
 
                     {user && (
                       <Button
-                        onClick={handleLogout}
+                        onClick={() => {
+                          handleLogout();
+                          setIsSheetOpen(false);
+                        }}
                         variant="ghost"
                         className="w-full h-11 justify-start flex items-center gap-3 rounded-md border border-red-600/20 bg-red-600/10 px-4 text-sm font-medium text-red-700 dark:text-red-600 transition hover:bg-red-600/20"
                       >
@@ -300,7 +311,7 @@ const NavMiddle = ({ categories, logo }: { categories: Category[]; logo?: string
                 {/* Bottom Action */}
                 {!isBuyer && (
                   <div className="px-5 py-5 mt-auto">
-                    <Link href="/ads/create">
+                    <Link href="/ads/create" onClick={() => setIsSheetOpen(false)}>
                       <Button className="w-full h-12 gap-3 rounded-md bg-linear-to-r from-pink-500 via-orange-500 to-yellow-500 text-sm font-bold text-white shadow-sm hover:brightness-110 transition-all active:scale-[0.98]">
                         <PlusCircle className="h-5 w-5" />
                         {t('postFreeAd')}
