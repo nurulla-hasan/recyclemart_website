@@ -176,7 +176,7 @@ const RegisterForm = () => {
             </div>
 
             <div className="mt-3 space-y-1.5 text-center sm:mt-6 sm:space-y-3">
-              <Badge className="bg-white/10 px-4 py-1 font-semibold uppercase tracking-[0.35em]">
+              <Badge variant={"outline"} className="px-4 py-1 font-semibold uppercase tracking-[0.35em]">
                 Join Recycle Mart
               </Badge>
               <h2 className="text-xl font-semibold text-foreground sm:text-2xl md:text-3xl">

@@ -33,7 +33,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
           // unoptimized
-          className="object-cover"
+          className="object-contain"
           priority
         />
 
