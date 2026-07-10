@@ -109,8 +109,8 @@ export default function CreateAdForm({ categories }: { categories: Category[] })
   };
 
   async function onSubmit(values: FormValues) {
-    if (images.length === 0) {
-      toast.error(t("imageError"));
+    if (images.length < 3) {
+      toast.error(t("minImagesError"));
       return;
     }
 

@@ -1,6 +1,9 @@
 export const protectedRoutes = [
   '/profile',
-  '/profile/:page',
+  '/chat',
+  '/ads/create',
+  '/success',
+  '/lottery',
   '/my-orders',
   '/checkout',
 ];
